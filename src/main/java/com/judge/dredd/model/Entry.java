@@ -21,8 +21,4 @@ public class Entry {
 	private String entryDescription;
 	
 	private String userName;
-	
-	private int displayType;
-	
-	private String entry;
 }

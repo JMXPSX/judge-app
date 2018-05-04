@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.judge.dredd.service.LoginService;
+import com.judge.dredd.service.UserService;
 
 @CrossOrigin
 @RestController
@@ -18,10 +18,10 @@ import com.judge.dredd.service.LoginService;
 public class LoginController {
 	
 	@Inject
-	LoginService loginService;
+	UserService userService;
 
-	@RequestMapping(value = "/login/{user},{pass}", method = RequestMethod.GET)
-	public ResponseEntity<?> login (@PathVariable String user, @PathVariable String pass){
-		return new ResponseEntity<>(loginService.login(user, pass), HttpStatus.OK);
+	@RequestMapping(value = "/login/{username},{password}", method = RequestMethod.GET)
+	public ResponseEntity<?> login (@PathVariable String username, @PathVariable String password){
+		return new ResponseEntity<>(userService.login(username, password), HttpStatus.OK);
 	}
 }

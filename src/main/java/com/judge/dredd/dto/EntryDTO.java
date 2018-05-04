@@ -1,6 +1,6 @@
 package com.judge.dredd.dto;
 
-public class EntryDTO {
+public class EntryDTO extends TokenDTO{
 
 	private int entryId;
 	private String entryTitle;

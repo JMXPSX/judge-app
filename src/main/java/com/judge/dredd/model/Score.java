@@ -23,7 +23,9 @@ public class Score {
 	private int entryId;
 	
 	//the judge
-	private int userId;
+	private int judgeId;
+	
+	private int criteriaId;
 	
 	private int score;
 	

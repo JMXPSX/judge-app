@@ -1,5 +1,6 @@
 package com.judge.dredd.dto;
 
-public class ScoreDTO {
+public class ScoreDTO extends TokenDTO{
 
+	private int scoreId;
 }
