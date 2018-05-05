@@ -1,38 +1,45 @@
 package com.judge.dredd.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.judge.dredd.dto.EventDTO;
+import com.judge.dredd.dto.EntryDTO;
+import com.judge.dredd.service.EntryService;
 
 @CrossOrigin
 @RestController
-@RequestMapping({"/dredd/entry/api"})
+@RequestMapping({"/dredd/api"})
 public class EntryController {
 
-	@RequestMapping(value = "/addorupdateentry", method = RequestMethod.POST)
-	public ResponseEntity<?> addorUpdateEntry (@RequestBody EventDTO eventDTO){
-		return new ResponseEntity<>("return pojo", HttpStatus.OK);
+	@Autowired
+	private EntryService entryService;
+	
+	@PostMapping(value = "/entries")
+	public ResponseEntity<?> addorUpdateEntry (@RequestBody EntryDTO entryDTO){
+		return new ResponseEntity<>(entryService.save(entryDTO), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/getentry/{entryId}", method = RequestMethod.GET)
+	@GetMapping(value = "/entries/{entryId}")
 	public ResponseEntity<?> getEntry (@PathVariable int entryId){
-		return new ResponseEntity<>("return pojo", HttpStatus.OK);
+		return new ResponseEntity<>(entryService.getOne(entryId), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/getallentires/{eventId}", method = RequestMethod.GET)
+	@GetMapping(value = "/entries/event/{eventId}")
 	public ResponseEntity<?> getAllEntriesByEventId (int eventId){
+		//TODO
 		return new ResponseEntity<>("return pojo", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/getallentires", method = RequestMethod.GET)
+	@GetMapping(value = "/entries")
 	public ResponseEntity<?> getAllEntriesd (){
-		return new ResponseEntity<>("return pojo", HttpStatus.OK);
+		return new ResponseEntity<>(entryService.getAll(), HttpStatus.OK);
 	}
 }

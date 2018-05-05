@@ -1,8 +1,12 @@
 package com.judge.dredd.service;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-@Service
-public class CriteriaService {
+import com.judge.dredd.dto.CriteriaDTO;
 
+public interface CriteriaService {
+	CriteriaDTO getOne(long id);
+	CriteriaDTO save(CriteriaDTO criteriaDTO);
+	void delete(long id);
+	List<CriteriaDTO> getAll();
 }

@@ -21,4 +21,38 @@ public class Entry {
 	private String entryDescription;
 	
 	private String userName;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getEntryName() {
+		return entryName;
+	}
+
+	public void setEntryName(String entryName) {
+		this.entryName = entryName;
+	}
+
+	public String getEntryDescription() {
+		return entryDescription;
+	}
+
+	public void setEntryDescription(String entryDescription) {
+		this.entryDescription = entryDescription;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	
 }

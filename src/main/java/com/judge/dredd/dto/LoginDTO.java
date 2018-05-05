@@ -5,8 +5,6 @@ public class LoginDTO extends TokenDTO{
 	private long userId;
 	
 	private String message;
-
-	
 	
 	public long getUserId() {
 		return userId;

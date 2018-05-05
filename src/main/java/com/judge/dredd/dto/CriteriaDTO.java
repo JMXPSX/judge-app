@@ -1,12 +1,11 @@
 package com.judge.dredd.dto;
 
-public class CriteriaDTO extends TokenDTO{
+public class CriteriaDTO{
 
 	private String name;
 	private String description;
-	private int min;
-	private int max;
-	
+	private int minValue;
+	private int maxValue;
 	public String getName() {
 		return name;
 	}
@@ -19,16 +18,18 @@ public class CriteriaDTO extends TokenDTO{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getMin() {
-		return min;
+	public int getMinValue() {
+		return minValue;
 	}
-	public void setMin(int min) {
-		this.min = min;
+	public void setMinValue(int minValue) {
+		this.minValue = minValue;
 	}
-	public int getMax() {
-		return max;
+	public int getMaxValue() {
+		return maxValue;
 	}
-	public void setMax(int max) {
-		this.max = max;
+	public void setMaxValue(int maxValue) {
+		this.maxValue = maxValue;
 	}
+	
+	
 }

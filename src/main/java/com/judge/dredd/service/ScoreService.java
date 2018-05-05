@@ -1,16 +1,16 @@
 package com.judge.dredd.service;
 
-public class ScoreService {
+import java.util.List;
 
-	public void finalizeScore(){
-		
-	}
-	
-	public void setScore(){
-		
-	}
-	
-	public void updateScore(){
-		
-	}
+import com.judge.dredd.dto.ScoreDTO;
+
+public interface ScoreService {
+
+	ScoreDTO getOne(long id);
+	ScoreDTO save(ScoreDTO scoreDTO);
+	void delete(long id);
+	List<ScoreDTO> getAll();
+	void finalizeScore();
+	void setScore();
+	void updateScore();
 }

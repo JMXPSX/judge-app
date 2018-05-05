@@ -1,32 +1,49 @@
 package com.judge.dredd.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.judge.dredd.dto.ScoreDTO;
+import com.judge.dredd.service.ScoreService;
 
 @CrossOrigin
 @RestController
-@RequestMapping({"/dredd/score/api"})
+@RequestMapping({"/dredd/api"})
 public class ScoreController {
 
-	@RequestMapping(value = "/addorupdatescore/{entryId}", method = RequestMethod.POST)
-	public ResponseEntity<?> addorUpdateScore (@PathVariable int entryId, @RequestBody ScoreDTO ScoreDTO){
-		return new ResponseEntity<>("return pojo", HttpStatus.OK);
+	@Autowired
+	private ScoreService scoreService;
+	
+	@PostMapping(value = "/scores")
+	public ResponseEntity<?> addScore (@PathVariable int entryId, @RequestBody ScoreDTO scoreDTO){
+		return new ResponseEntity<>(scoreService.save(scoreDTO), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/finalizescore/{entryId}", method = RequestMethod.POST)
-	public ResponseEntity<?> addorUpdateScore (@PathVariable int entryId){
-		return new ResponseEntity<>("return pojo", HttpStatus.OK);
+	@PutMapping(value = "/scores")
+	public ResponseEntity<?> updateScore (@PathVariable int entryId, @RequestBody ScoreDTO scoreDTO){
+		return new ResponseEntity<>(scoreService.save(scoreDTO), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/getScoreSummner/{username},{entryId}", method = RequestMethod.GET)
+	@GetMapping(value = "/scores/{scoreId}")
+	public ResponseEntity<?> getOne (@PathVariable int scoreId){
+		return new ResponseEntity<>(scoreService.getOne(scoreId), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/scores")
+	public ResponseEntity<?> getScores (){
+		return new ResponseEntity<>(scoreService.getAll(), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/scores/summary/{eventId}")
 	public ResponseEntity<?> getScoreSummary (@PathVariable String username, @PathVariable int entryId){
 		return new ResponseEntity<>("return pojo", HttpStatus.OK);
 	}
