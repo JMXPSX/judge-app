@@ -8,11 +8,12 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.judge.dredd.dto.LoginDTO;
-import com.judge.dredd.model.User;
+import com.judge.dredd.model.SystemUser;
 import com.judge.dredd.repository.UserRepository;
 
-@Service
-public class UserService {
+//converted to spring jwt
+//@Service
+public class UserServiceOld {
 	
 	@Inject
 	UserRepository userRepository;
@@ -20,15 +21,15 @@ public class UserService {
 	public LoginDTO login(String username, String password){
 		LoginDTO loginDTO = new LoginDTO();
 		
-		User user = userRepository.findByUsernameAndPassword(username, password);
+		SystemUser user = userRepository.findByUsernameAndPassword(username, password);
 		//int rows affected = update user set token = tempToken, set expiry =sysdate+24hrs where user=user and pass=pass
 		
 		if(null != user){
 			Date now = new Date();
 			String token = String.valueOf(now.getTime());
 			Date expiry = addHours(now, 24);
-			user.setToken(token);
-			user.setTokenExpiry(expiry);
+//			user.setToken(token);
+//			user.setTokenExpiry(expiry);
 			userRepository.save(user);
 			loginDTO.setUserId(user.getId());
 			loginDTO.setToken(token);

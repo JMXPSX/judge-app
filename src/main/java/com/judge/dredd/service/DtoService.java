@@ -4,10 +4,12 @@ import com.judge.dredd.dto.CriteriaDTO;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EventDetailDTO;
 import com.judge.dredd.dto.ScoreDTO;
+import com.judge.dredd.dto.UserDTO;
 import com.judge.dredd.model.Criteria;
 import com.judge.dredd.model.Entry;
 import com.judge.dredd.model.EventDetail;
 import com.judge.dredd.model.Score;
+import com.judge.dredd.model.SystemUser;
 
 public interface DtoService {
 
@@ -26,5 +28,8 @@ public interface DtoService {
    public Score convertToModel(ScoreDTO eventDetailDTO);
 
    public ScoreDTO convertToDTO(Score score);
+   
+   public SystemUser convertToModel(UserDTO userDTO);
 
+   public UserDTO convertToDTO(SystemUser systemUser);
 }

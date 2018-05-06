@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.judge.dredd.service.UserService;
+import com.judge.dredd.service.UserServiceOld;
 
-@CrossOrigin
-@RestController
-@RequestMapping({"/dredd/api"})
+//converted to spring jwt
+//@CrossOrigin
+//@RestController
+//@RequestMapping({"/dredd/api"})
 public class LoginController {
 	
 	@Inject
-	UserService userService;
+	UserServiceOld userService;
 
 	@RequestMapping(value = "/login/{username},{password}", method = RequestMethod.GET)
 	public ResponseEntity<?> login (@PathVariable String username, @PathVariable String password){

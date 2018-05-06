@@ -1,10 +1,11 @@
 package com.judge.dredd.dto;
 
-public class UserDTO extends TokenDTO{
+public class UserDTO{
 
 	private String userName;
 	private String password;
-	private String type;
+	private int type;
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -17,12 +18,11 @@ public class UserDTO extends TokenDTO{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getType() {
+	public int getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public void setType(int type) {
 		this.type = type;
 	}
-	
 	
 }

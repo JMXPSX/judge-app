@@ -7,10 +7,12 @@ import com.judge.dredd.dto.CriteriaDTO;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EventDetailDTO;
 import com.judge.dredd.dto.ScoreDTO;
+import com.judge.dredd.dto.UserDTO;
 import com.judge.dredd.model.Criteria;
 import com.judge.dredd.model.Entry;
 import com.judge.dredd.model.EventDetail;
 import com.judge.dredd.model.Score;
+import com.judge.dredd.model.SystemUser;
 import com.judge.dredd.service.DtoService;
 
 @Service
@@ -56,6 +58,16 @@ public class DtoServiceImpl implements DtoService {
 	@Override
 	public ScoreDTO convertToDTO(Score score) {
 		return this.modelMapper.map(score, ScoreDTO.class);
+	}
+
+	@Override
+	public SystemUser convertToModel(UserDTO userDTO) {
+		return this.modelMapper.map(userDTO, SystemUser.class);
+	}
+
+	@Override
+	public UserDTO convertToDTO(SystemUser systemUser) {
+		return this.modelMapper.map(systemUser, UserDTO.class);
 	}
 
 

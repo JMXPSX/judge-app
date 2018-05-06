@@ -1,7 +1,5 @@
 package com.judge.dredd.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="user")
-public class User {
+public class SystemUser {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,10 +21,6 @@ public class User {
 	private String password;
 	
 	private int userType;
-	
-	private String token;
-	
-	private Date tokenExpiry;
 
 	public Long getId() {
 		return id;
@@ -59,23 +53,5 @@ public class User {
 	public void setUserType(int userType) {
 		this.userType = userType;
 	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public Date getTokenExpiry() {
-		return tokenExpiry;
-	}
-
-	public void setTokenExpiry(Date tokenExpiry) {
-		this.tokenExpiry = tokenExpiry;
-	}
-	
-	
 	
 }
