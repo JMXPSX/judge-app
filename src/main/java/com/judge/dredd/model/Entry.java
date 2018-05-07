@@ -13,21 +13,21 @@ public class Entry {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	private Long id;
+	@Column(name = "entry_id")
+	private Long entryId;
 	
 	private String entryName;
 	
 	private String entryDescription;
 	
 	private String userName;
-
-	public Long getId() {
-		return id;
+	
+	public Long getEntryId() {
+		return entryId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setEntryId(Long entryId) {
+		this.entryId = entryId;
 	}
 
 	public String getEntryName() {

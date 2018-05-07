@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,11 +15,11 @@ public class Score {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	private Long id;
+	@Column(name = "score_id")
+	private Long scoreId;
 	
 	//the event
-	private int eventId;
+	private int eventDetailId;
 	
 	// the entry
 	private int entryId;
@@ -34,21 +36,35 @@ public class Score {
 	
 	// judge finalized
 	private boolean isFinal;
+	
+//	@OneToOne
+//	@JoinColumn(name="entryId")
+//	private Entry entry;
+	
+//	@OneToOne
+//	@JoinColumn(name = "eventDetailId")
+//	private EventDetail eventDetail;
+	
+	//@OneToOne
+	//@JoinColumn(name = "criteriaId")
+	//private Criteria criteria;
 
-	public Long getId() {
-		return id;
+	public Long getScoreId() {
+		return scoreId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setScoreId(Long scoreId) {
+		this.scoreId = scoreId;
 	}
 
-	public int getEventId() {
-		return eventId;
+	
+
+	public int getEventDetailId() {
+		return eventDetailId;
 	}
 
-	public void setEventId(int eventId) {
-		this.eventId = eventId;
+	public void setEventDetailId(int eventDetailId) {
+		this.eventDetailId = eventDetailId;
 	}
 
 	public int getEntryId() {
@@ -98,6 +114,31 @@ public class Score {
 	public void setFinal(boolean isFinal) {
 		this.isFinal = isFinal;
 	}
+
+//	public EventDetail getEventDetail() {
+//		return eventDetail;
+//	}
+//
+//	public void setEventDetail(EventDetail eventDetail) {
+//		this.eventDetail = eventDetail;
+//	}
+
+	//public Criteria getCriteria() {
+	//	return criteria;
+	//}
+
+	//public void setCriteria(Criteria criteria) {
+	//	this.criteria = criteria;
+	//}
+
+//	public Entry getEntry() {
+//		return entry;
+//	}
+//
+//	public void setEntry(Entry entry) {
+//		this.entry = entry;
+//	}
+
 	
 	
 }

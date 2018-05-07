@@ -74,4 +74,24 @@ public class ScoreServiceImpl implements ScoreService {
 
 	}
 
+	@Override
+	public List<ScoreDTO> getScoresByEventIdAndJudgeId(int eventId, int judgeId) {
+		List<ScoreDTO> scoreDTOs = new ArrayList<>();
+		
+		List<Score> scores = scoreRepository.findScoreByEventIdAndJudgeId(eventId, judgeId);
+		scores.forEach(score -> scoreDTOs.add(new ScoreDTO().toDTO(score)));
+		
+		return scoreDTOs;
+	}
+
+	@Override
+	public List<ScoreDTO> getFinalizedScoresByEventId(int eventId) {
+		List<ScoreDTO> scoreDTOs = new ArrayList<>();
+		
+		List<Score> scores = scoreRepository.findFinalScoreByEventId(eventId);
+		scores.forEach(score -> scoreDTOs.add(new ScoreDTO().toDTO(score)));
+		
+		return scoreDTOs;
+	}
+
 }

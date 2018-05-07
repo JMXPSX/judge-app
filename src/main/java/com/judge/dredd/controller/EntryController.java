@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.service.EntryService;
+import com.judge.dredd.service.ScoreService;
 
 @CrossOrigin
 @RestController
@@ -32,14 +33,14 @@ public class EntryController {
 		return new ResponseEntity<>(entryService.getOne(entryId), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/entries/event/{eventId}")
-	public ResponseEntity<?> getAllEntriesByEventId (int eventId){
+	@GetMapping(value = "/entries/event/{eventId}/{judgeId")
+	public ResponseEntity<?> getAllEntriesByEventIdAndJudgeId (int eventId, int judgeId){
 		//TODO
-		return new ResponseEntity<>("return pojo", HttpStatus.OK);
+		return new ResponseEntity<>("to be completed", HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/entries")
-	public ResponseEntity<?> getAllEntriesd (){
+	public ResponseEntity<?> getAllEntries (){
 		return new ResponseEntity<>(entryService.getAll(), HttpStatus.OK);
 	}
 }

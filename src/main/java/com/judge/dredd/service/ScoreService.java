@@ -13,4 +13,7 @@ public interface ScoreService {
 	void finalizeScore();
 	void setScore();
 	void updateScore();
+	
+	public List<ScoreDTO> getScoresByEventIdAndJudgeId(int eventId, int judgeId);
+	public List<ScoreDTO> getFinalizedScoresByEventId(int eventId);
 }

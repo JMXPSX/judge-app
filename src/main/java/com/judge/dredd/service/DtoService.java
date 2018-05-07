@@ -1,5 +1,7 @@
 package com.judge.dredd.service;
 
+import java.util.Optional;
+
 import com.judge.dredd.dto.CriteriaDTO;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EventDetailDTO;

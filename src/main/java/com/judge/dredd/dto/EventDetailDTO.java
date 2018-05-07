@@ -9,6 +9,8 @@ public class EventDetailDTO {
 	
 	private String eventName;
 	
+	private String eventDescription;
+	
 	private Date startDate;
 	
 	private Date endDate;
@@ -44,6 +46,15 @@ public class EventDetailDTO {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+
+	public String getEventDescription() {
+		return eventDescription;
+	}
+
+	public void setEventDescription(String eventDescription) {
+		this.eventDescription = eventDescription;
+	}
+	
 	
 	
 }

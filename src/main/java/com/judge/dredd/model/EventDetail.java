@@ -15,8 +15,8 @@ public class EventDetail {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	private Long id;
+	@Column(name = "event_detail_id")
+	private Long eventDetalId;
 	
 	private String eventName;
 	
@@ -24,12 +24,13 @@ public class EventDetail {
 	
 	private Date endDate;
 
-	public Long getId() {
-		return id;
+	
+	public Long getEventDetalId() {
+		return eventDetalId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setEventDetalId(Long eventDetalId) {
+		this.eventDetalId = eventDetalId;
 	}
 
 	public String getEventName() {
@@ -55,6 +56,8 @@ public class EventDetail {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+
+	
 	
 	
 }

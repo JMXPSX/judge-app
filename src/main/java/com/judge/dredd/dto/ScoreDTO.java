@@ -1,8 +1,10 @@
 package com.judge.dredd.dto;
 
+import com.judge.dredd.model.Score;
+
 public class ScoreDTO extends TokenDTO{
 
-	private int scoreId;
+	private Long scoreId;
 	
 	//the event
 	private int eventId;
@@ -23,11 +25,11 @@ public class ScoreDTO extends TokenDTO{
 	// judge finalized
 	private boolean isFinal;
 
-	public int getScoreId() {
+	public Long getScoreId() {
 		return scoreId;
 	}
 
-	public void setScoreId(int scoreId) {
+	public void setScoreId(Long scoreId) {
 		this.scoreId = scoreId;
 	}
 
@@ -87,5 +89,17 @@ public class ScoreDTO extends TokenDTO{
 		this.isFinal = isFinal;
 	}
 	
+	public ScoreDTO toDTO(Score s){
+		ScoreDTO dto = new ScoreDTO();
+		dto.setScoreId(s.getScoreId());
+		dto.setEventId(s.getEntryId());
+		dto.setEntryId(s.getEntryId());
+		dto.setJudgeId(s.getJudgeId());
+		dto.setCriteriaId(s.getCriteriaId());
+		dto.setScore(s.getScore());
+		dto.setDone(s.isDone());
+		dto.setFinal(s.isFinal());
+		return dto;
+	}
 	
 }

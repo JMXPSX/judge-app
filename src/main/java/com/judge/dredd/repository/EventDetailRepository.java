@@ -1,5 +1,9 @@
 package com.judge.dredd.repository;
 
-public interface EventDetailRepository {
+import org.springframework.data.repository.CrudRepository;
+
+import com.judge.dredd.model.EventDetail;
+
+public interface EventDetailRepository extends CrudRepository<EventDetail, Long> {
 
 }
