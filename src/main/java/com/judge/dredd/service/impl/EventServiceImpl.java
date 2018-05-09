@@ -15,11 +15,13 @@ import com.judge.dredd.dto.EntryCriteriaDTO;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EventDetailDTO;
 import com.judge.dredd.dto.ScoreDTO;
+import com.judge.dredd.model.Notes;
 import com.judge.dredd.service.CriteriaService;
 import com.judge.dredd.service.EntryCriteriaService;
 import com.judge.dredd.service.EntryService;
 import com.judge.dredd.service.EventDetailService;
 import com.judge.dredd.service.EventService;
+import com.judge.dredd.service.NotesService;
 import com.judge.dredd.service.ScoreService;
 
 @Service
@@ -39,6 +41,9 @@ public class EventServiceImpl implements EventService{
 	
 	@Autowired
 	private CriteriaService criteriaService;
+	
+	@Autowired
+	private NotesService notesService;
 	
 	@Override
 	public DisplayEventDTO getAllForDisplay(long eventId, long judgeId) {
@@ -62,6 +67,14 @@ public class EventServiceImpl implements EventService{
 			de.setEntryDescription(e.getEntryDescription());
 			de.setEntryOwner(e.getOwner());
 			de.setCriteria(new ArrayList<>());
+			
+			Notes n = notesService.findByEntryIdAndJudgeId(e.getEntryId(), judgeId);
+			if(null != n){
+				de.setNoteId(n.getNoteId());
+				de.setNote(n.getNote());
+			}
+			
+			
 			boolean DONE = true;
 			for(EntryCriteriaDTO ecDTO : entryCriteriaService.getAllEntriesByEntryId(e.getEntryId())){
 				

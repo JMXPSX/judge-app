@@ -10,6 +10,8 @@ public class DisplayEntriesDTO {
 	private String entryOwner;
 	private boolean isDone;
 	private List<DisplayCriteriaDTO> criteria;
+	private long noteId;
+	private String note;
 	
 	public long getEntryId() {
 		return entryId;
@@ -46,6 +48,18 @@ public class DisplayEntriesDTO {
 	}
 	public void setCriteria(List<DisplayCriteriaDTO> criteria) {
 		this.criteria = criteria;
+	}
+	public long getNoteId() {
+		return noteId;
+	}
+	public void setNoteId(long noteId) {
+		this.noteId = noteId;
+	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
 	}
 	
 	
