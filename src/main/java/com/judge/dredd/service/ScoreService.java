@@ -10,10 +10,10 @@ public interface ScoreService {
 	ScoreDTO save(ScoreDTO scoreDTO);
 	void delete(long id);
 	List<ScoreDTO> getAll();
-	void finalizeScore();
+	String finalizeScore(long eventId, long judgeId);
 	void setScore();
-	void updateScore();
+	String updateScore(ScoreDTO scoreDTO);
 	
-	public List<ScoreDTO> getScoresByEventIdAndJudgeId(int eventId, int judgeId);
-	public List<ScoreDTO> getFinalizedScoresByEventId(int eventId);
+	public List<ScoreDTO> getScoresByEventIdAndJudgeId(long eventId, long judgeId);
+	public List<ScoreDTO> getFinalizedScoresByEventId(long eventId);
 }

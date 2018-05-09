@@ -22,6 +22,16 @@ public class Entry {
 	
 	private String userName;
 	
+	private long eventId;
+		
+	public long getEventId() {
+		return eventId;
+	}
+
+	public void setEventId(long eventId) {
+		this.eventId = eventId;
+	}
+
 	public Long getEntryId() {
 		return entryId;
 	}

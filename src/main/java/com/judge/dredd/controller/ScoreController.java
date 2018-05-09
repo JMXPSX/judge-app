@@ -29,8 +29,8 @@ public class ScoreController {
 	}
 	
 	@PutMapping(value = "/scores")
-	public ResponseEntity<?> updateScore (@PathVariable int entryId, @RequestBody ScoreDTO scoreDTO){
-		return new ResponseEntity<>(scoreService.save(scoreDTO), HttpStatus.OK);
+	public ResponseEntity<?> updateScore (@RequestBody ScoreDTO scoreDTO){
+		return new ResponseEntity<>(scoreService.updateScore(scoreDTO), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/scores/{scoreId}")
@@ -47,4 +47,10 @@ public class ScoreController {
 	public ResponseEntity<?> getScoreSummary (@PathVariable String username, @PathVariable int entryId){
 		return new ResponseEntity<>("return pojo", HttpStatus.OK);
 	}
+	
+	@PostMapping(value = "/scores/finalize/{eventid}/{judgeId}")
+	public ResponseEntity<?> finalizeScore (@PathVariable long eventid, @PathVariable long judgeId){
+		return new ResponseEntity<>(scoreService.finalizeScore(eventid, judgeId), HttpStatus.OK);
+	}
+	
 }

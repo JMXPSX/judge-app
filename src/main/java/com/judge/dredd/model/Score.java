@@ -19,17 +19,17 @@ public class Score {
 	private Long scoreId;
 	
 	//the event
-	private int eventDetailId;
+	private long eventDetailId;
 	
 	// the entry
-	private int entryId;
+	private long entryId;
 	
 	//the judge
-	private int judgeId;
+	private long judgeId;
 	
-	private int criteriaId;
+	private long criteriaId;
 	
-	private int score;
+	private long score;
 	
 	// done scoring
 	private boolean isDone;
@@ -59,43 +59,43 @@ public class Score {
 
 	
 
-	public int getEventDetailId() {
+	public long getEventDetailId() {
 		return eventDetailId;
 	}
 
-	public void setEventDetailId(int eventDetailId) {
+	public void setEventDetailId(long eventDetailId) {
 		this.eventDetailId = eventDetailId;
 	}
 
-	public int getEntryId() {
+	public long getEntryId() {
 		return entryId;
 	}
 
-	public void setEntryId(int entryId) {
+	public void setEntryId(long entryId) {
 		this.entryId = entryId;
 	}
 
-	public int getJudgeId() {
+	public long getJudgeId() {
 		return judgeId;
 	}
 
-	public void setJudgeId(int judgeId) {
+	public void setJudgeId(long judgeId) {
 		this.judgeId = judgeId;
 	}
 
-	public int getCriteriaId() {
+	public long getCriteriaId() {
 		return criteriaId;
 	}
 
-	public void setCriteriaId(int criteriaId) {
+	public void setCriteriaId(long criteriaId) {
 		this.criteriaId = criteriaId;
 	}
 
-	public int getScore() {
+	public long getScore() {
 		return score;
 	}
 
-	public void setScore(int score) {
+	public void setScore(long score) {
 		this.score = score;
 	}
 

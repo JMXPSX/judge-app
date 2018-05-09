@@ -57,9 +57,24 @@ public class ScoreServiceImpl implements ScoreService {
 	}
 
 	@Override
-	public void finalizeScore() {
-		// TODO Auto-generated method stub
-
+	public String finalizeScore(long eventId, long judgeId) {
+		String message = "message: ";
+		
+		//get all scores
+		List<Score> scores = scoreRepository.findScoreByEventIdAndJudgeId(eventId, judgeId);
+		// all scores should have done flag = true
+		if(scores.size() == scores.stream().filter(s -> s.isDone() == true).count()){
+			// finalize each one
+			scores.forEach(s -> {
+				s.setFinal(true);
+				scoreRepository.save(s);
+				});
+			message += " done";
+		}else{
+			message += " some items are not yet done";
+		}
+		
+		return message;
 	}
 
 	@Override
@@ -69,13 +84,21 @@ public class ScoreServiceImpl implements ScoreService {
 	}
 
 	@Override
-	public void updateScore() {
-		// TODO Auto-generated method stub
+	public String updateScore(ScoreDTO scoreDTO) {
+		String message = "message: success";
+		
+		Score score = scoreRepository.findById(scoreDTO.getScoreId()).get();
+		
+		score.setScore(scoreDTO.getScore());
+		score.setDone(scoreDTO.isDone());
+		scoreRepository.save(score);
+		
+		return message;
 
 	}
 
 	@Override
-	public List<ScoreDTO> getScoresByEventIdAndJudgeId(int eventId, int judgeId) {
+	public List<ScoreDTO> getScoresByEventIdAndJudgeId(long eventId, long judgeId) {
 		List<ScoreDTO> scoreDTOs = new ArrayList<>();
 		
 		List<Score> scores = scoreRepository.findScoreByEventIdAndJudgeId(eventId, judgeId);
@@ -85,7 +108,7 @@ public class ScoreServiceImpl implements ScoreService {
 	}
 
 	@Override
-	public List<ScoreDTO> getFinalizedScoresByEventId(int eventId) {
+	public List<ScoreDTO> getFinalizedScoresByEventId(long eventId) {
 		List<ScoreDTO> scoreDTOs = new ArrayList<>();
 		
 		List<Score> scores = scoreRepository.findFinalScoreByEventId(eventId);

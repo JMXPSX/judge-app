@@ -59,4 +59,16 @@ public class EntryServiceImpl implements EntryService {
 		return objDTo;
 	}
 
+	@Override
+	public List<EntryDTO> getAllEntriesByEventId(long eventId) {
+		List<Entry> obj = Lists.newArrayList(entryRepository.findAllByEventId(eventId));
+		List<EntryDTO> objDTo = new ArrayList<>();
+
+		obj.forEach(i -> {
+			objDTo.add(dtoService.convertToDTO(i));
+		});
+
+		return objDTo;
+	}
+
 }

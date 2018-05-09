@@ -1,5 +1,7 @@
 package com.judge.dredd.dto;
 
+import java.util.List;
+
 public class EntryDTO extends TokenDTO{
 
 	private Long entryId;
@@ -8,8 +10,7 @@ public class EntryDTO extends TokenDTO{
 	private String entryDescription;
 	private String owner;
 	
-	private Long eventId;
-	
+	private Long eventId;	
 	
 	
 	public Long getEntryId() {

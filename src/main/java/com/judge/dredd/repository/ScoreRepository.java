@@ -10,8 +10,10 @@ import com.judge.dredd.model.Score;
 public interface ScoreRepository extends CrudRepository<Score, Long>{
 
 	@Query(value = "select s.* from score s where s.eventId = ?1 and s.judgeId = ?2", nativeQuery = true)
-	public List<Score> findScoreByEventIdAndJudgeId(int eventId, int judgeId);
+	public List<Score> findScoreByEventIdAndJudgeId(long eventId, long judgeId);
 	
 	@Query(value = "select s.* from score s where s.eventId = ?1 and s.isFinal = true", nativeQuery = true)
-	public List<Score> findFinalScoreByEventId(int eventId);
+	public List<Score> findFinalScoreByEventId(long eventId);
+	
+	
 }

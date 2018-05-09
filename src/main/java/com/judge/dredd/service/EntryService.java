@@ -9,4 +9,6 @@ public interface EntryService {
 	EntryDTO save(EntryDTO entryDTO);
 	void delete(long id);
 	List<EntryDTO> getAll();
+	
+	public List<EntryDTO> getAllEntriesByEventId(long eventId);
 }

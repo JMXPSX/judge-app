@@ -2,22 +2,22 @@ package com.judge.dredd.dto;
 
 import com.judge.dredd.model.Score;
 
-public class ScoreDTO extends TokenDTO{
+public class ScoreDTO {
 
 	private Long scoreId;
 	
 	//the event
-	private int eventId;
+	private long eventId;
 	
 	// the entry
-	private int entryId;
+	private long entryId;
 	
 	//the judge
-	private int judgeId;
+	private long judgeId;
 	
-	private int criteriaId;
+	private long criteriaId;
 	
-	private int score;
+	private long score;
 	
 	// done scoring
 	private boolean isDone;
@@ -33,43 +33,43 @@ public class ScoreDTO extends TokenDTO{
 		this.scoreId = scoreId;
 	}
 
-	public int getEventId() {
+	public long getEventId() {
 		return eventId;
 	}
 
-	public void setEventId(int eventId) {
+	public void setEventId(long eventId) {
 		this.eventId = eventId;
 	}
 
-	public int getEntryId() {
+	public long getEntryId() {
 		return entryId;
 	}
 
-	public void setEntryId(int entryId) {
+	public void setEntryId(long entryId) {
 		this.entryId = entryId;
 	}
 
-	public int getJudgeId() {
+	public long getJudgeId() {
 		return judgeId;
 	}
 
-	public void setJudgeId(int judgeId) {
+	public void setJudgeId(long judgeId) {
 		this.judgeId = judgeId;
 	}
 
-	public int getCriteriaId() {
+	public long getCriteriaId() {
 		return criteriaId;
 	}
 
-	public void setCriteriaId(int criteriaId) {
+	public void setCriteriaId(long criteriaId) {
 		this.criteriaId = criteriaId;
 	}
 
-	public int getScore() {
+	public long getScore() {
 		return score;
 	}
 
-	public void setScore(int score) {
+	public void setScore(long score) {
 		this.score = score;
 	}
 
