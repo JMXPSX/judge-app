@@ -2,21 +2,29 @@ package com.judge.dredd.dto;
 
 public class CriteriaDTO{
 
-	private String name;
-	private String description;
+	private long criteriaId;
+	
+	private String criteriaName;
+	private String criteriaDescription;
 	private int minValue;
 	private int maxValue;
-	public String getName() {
-		return name;
+	public long getCriteriaId() {
+		return criteriaId;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setCriteriaId(long criteriaId) {
+		this.criteriaId = criteriaId;
 	}
-	public String getDescription() {
-		return description;
+	public String getCriteriaName() {
+		return criteriaName;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setCriteriaName(String criteriaName) {
+		this.criteriaName = criteriaName;
+	}
+	public String getCriteriaDescription() {
+		return criteriaDescription;
+	}
+	public void setCriteriaDescription(String criteriaDescription) {
+		this.criteriaDescription = criteriaDescription;
 	}
 	public int getMinValue() {
 		return minValue;
@@ -30,5 +38,6 @@ public class CriteriaDTO{
 	public void setMaxValue(int maxValue) {
 		this.maxValue = maxValue;
 	}
+	
 	
 }

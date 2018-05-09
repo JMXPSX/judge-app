@@ -16,7 +16,7 @@ public class EventController {
 	private EventService eventService;
 		
 	
-	@GetMapping("/dredd/api/mainevent/{id}/{judgeId}")
+	@GetMapping("/dredd/api/mainevent/{eventId}/{judgeId}")
 	public ResponseEntity<?> getDisplayData (@PathVariable long eventId, @PathVariable long judgeId){
 		return new ResponseEntity<>(eventService.getAllForDisplay(eventId, judgeId), HttpStatus.OK);
 	}

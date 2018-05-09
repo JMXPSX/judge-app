@@ -9,7 +9,7 @@ public class DisplayEntriesDTO {
 	private String entryDescription;
 	private String entryOwner;
 	private boolean isDone;
-	private List<DisplayCategoryDTO> categories;
+	private List<DisplayCriteriaDTO> criteria;
 	
 	public long getEntryId() {
 		return entryId;
@@ -41,11 +41,11 @@ public class DisplayEntriesDTO {
 	public void setDone(boolean isDone) {
 		this.isDone = isDone;
 	}
-	public List<DisplayCategoryDTO> getCategories() {
-		return categories;
+	public List<DisplayCriteriaDTO> getCriteria() {
+		return criteria;
 	}
-	public void setCategories(List<DisplayCategoryDTO> categories) {
-		this.categories = categories;
+	public void setCriteria(List<DisplayCriteriaDTO> criteria) {
+		this.criteria = criteria;
 	}
 	
 	

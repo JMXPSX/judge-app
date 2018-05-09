@@ -1,24 +1,23 @@
 package com.judge.dredd.display.dto;
 
-public class DisplayCategoryDTO {
+public class DisplayCriteriaDTO {
 
-	private long categoryId;
-	private String categoryName;
+	private long criteriaId;
+	private String criteriaName;
 	private int minValue;
 	private int maxValue;
 	private DisplayScoreDTO score;
-	
-	public long getCategoryId() {
-		return categoryId;
+	public long getCriteriaId() {
+		return criteriaId;
 	}
-	public void setCategoryId(long categoryId) {
-		this.categoryId = categoryId;
+	public void setCriteriaId(long criteriaId) {
+		this.criteriaId = criteriaId;
 	}
-	public String getCategoryName() {
-		return categoryName;
+	public String getCriteriaName() {
+		return criteriaName;
 	}
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
+	public void setCriteriaName(String criteriaName) {
+		this.criteriaName = criteriaName;
 	}
 	public int getMinValue() {
 		return minValue;
@@ -38,6 +37,7 @@ public class DisplayCategoryDTO {
 	public void setScore(DisplayScoreDTO score) {
 		this.score = score;
 	}
+	
 	
 	
 }

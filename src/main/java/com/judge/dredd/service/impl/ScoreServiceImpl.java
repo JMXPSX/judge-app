@@ -117,4 +117,31 @@ public class ScoreServiceImpl implements ScoreService {
 		return scoreDTOs;
 	}
 
+	@Override
+	public ScoreDTO getScoresByEventIdAndEntryIdAndJudgeIdAndCriteriaId(long eventId, long entryId, long judgeId, long criteriaId) {
+		
+		System.out.println("select s.* from dredd.score s where s.event_detail_id = "+eventId+" and s.entry_id = "+entryId+" and s.judge_id = "+judgeId+" and s.criteria_id = "+criteriaId);
+		
+		Score score = scoreRepository.findScoreByEventIdAndEntryIdAndJudgeIdAndCriteriaId(eventId, entryId, judgeId, criteriaId);
+		
+		if(null != score){
+			return dtoService.convertToDTO(score);
+		}else{
+			return null;
+		}
+		
+		
+	}
+	
+	@Override
+	public ScoreDTO getScoresByEventIdAndEntryIdAndJudgeId(long eventId, long entryId, long judgeId) {
+		
+		System.out.println("select s.* from dredd.score s where s.event_detail_id = "+eventId+" and s.entry_id = "+entryId+" and s.judge_id = "+judgeId);
+		
+		Score score = scoreRepository.findScoreByEventIdAndEntryIdAndJudgeId(eventId, entryId, judgeId);
+		
+		
+		return dtoService.convertToDTO(score);
+	}
+
 }

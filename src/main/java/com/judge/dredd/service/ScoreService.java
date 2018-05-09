@@ -14,6 +14,8 @@ public interface ScoreService {
 	void setScore();
 	String updateScore(ScoreDTO scoreDTO);
 	
+	public ScoreDTO getScoresByEventIdAndEntryIdAndJudgeIdAndCriteriaId(long eventId, long entryId, long judgeId, long criteriaId);
+	public ScoreDTO getScoresByEventIdAndEntryIdAndJudgeId(long eventId, long entryId, long judgeId);
 	public List<ScoreDTO> getScoresByEventIdAndJudgeId(long eventId, long judgeId);
 	public List<ScoreDTO> getFinalizedScoresByEventId(long eventId);
 }

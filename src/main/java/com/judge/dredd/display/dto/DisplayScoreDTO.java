@@ -2,26 +2,25 @@ package com.judge.dredd.display.dto;
 
 public class DisplayScoreDTO {
 
-	private int scoreId;
-	private int score;
-	private int judgeId;
-	
-	public int getScoreId() {
+	private long scoreId;
+	private long score;
+	private long judgeId;
+	public long getScoreId() {
 		return scoreId;
 	}
-	public void setScoreId(int scoreId) {
+	public void setScoreId(long scoreId) {
 		this.scoreId = scoreId;
 	}
-	public int getScore() {
+	public long getScore() {
 		return score;
 	}
-	public void setScore(int score) {
+	public void setScore(long score) {
 		this.score = score;
 	}
-	public int getJudgeId() {
+	public long getJudgeId() {
 		return judgeId;
 	}
-	public void setJudgeId(int judgeId) {
+	public void setJudgeId(long judgeId) {
 		this.judgeId = judgeId;
 	}
 	
