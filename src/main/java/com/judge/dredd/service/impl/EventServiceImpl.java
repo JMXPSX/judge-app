@@ -63,7 +63,7 @@ public class EventServiceImpl implements EventService{
 		for(EntryDTO e :entries){
 			DisplayEntriesDTO de = new DisplayEntriesDTO();
 			de.setEntryId(e.getEntryId());
-			de.setEntryName(e.getEntryTitle());
+			de.setEntryName(e.getEntryName());
 			de.setEntryDescription(e.getEntryDescription());
 			de.setEntryOwner(e.getOwner());
 			de.setCriteria(new ArrayList<>());

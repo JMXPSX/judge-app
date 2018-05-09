@@ -6,7 +6,7 @@ public class EntryDTO extends TokenDTO{
 
 	private Long entryId;
 	
-	private String entryTitle;
+	private String entryName;
 	private String entryDescription;
 	private String owner;
 	
@@ -25,11 +25,11 @@ public class EntryDTO extends TokenDTO{
 	public void setEventId(Long eventId) {
 		this.eventId = eventId;
 	}
-	public String getEntryTitle() {
-		return entryTitle;
+	public String getEntryName() {
+		return entryName;
 	}
-	public void setEntryTitle(String entryTitle) {
-		this.entryTitle = entryTitle;
+	public void setEntryName(String entryName) {
+		this.entryName = entryName;
 	}
 	public String getEntryDescription() {
 		return entryDescription;
