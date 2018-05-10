@@ -15,7 +15,7 @@ public class LoginController {
 	@Autowired
 	SystemUserService systemUserService;
 
-	@GetMapping("/login/{username},{password}")
+	@GetMapping("/dredd/api/login/{username},{password}")
 	public ResponseEntity<?> login (@PathVariable String username, @PathVariable String password){
 		return new ResponseEntity<>(systemUserService.login(username, password), HttpStatus.OK);
 	}

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
+import com.judge.dredd.display.dto.DisplayEventDTO;
 import com.judge.dredd.dto.ScoreDTO;
 import com.judge.dredd.model.Score;
 import com.judge.dredd.repository.ScoreRepository;
@@ -63,16 +64,16 @@ public class ScoreServiceImpl implements ScoreService {
 		//get all scores
 		List<Score> scores = scoreRepository.findScoreByEventIdAndJudgeId(eventId, judgeId);
 		// all scores should have done flag = true
-		if(scores.size() == scores.stream().filter(s -> s.isDone() == true).count()){
+//		if(scores.size() == scores.stream().filter(s -> s.isDone() == true).count()){
 			// finalize each one
 			scores.forEach(s -> {
 				s.setFinal(true);
 				scoreRepository.save(s);
 				});
 			message += " done";
-		}else{
-			message += " some items are not yet done";
-		}
+//		}else{
+//			message += " some items are not yet done";
+//		}
 		
 		return message;
 	}
@@ -135,13 +136,19 @@ public class ScoreServiceImpl implements ScoreService {
 	
 	@Override
 	public ScoreDTO getScoresByEventIdAndEntryIdAndJudgeId(long eventId, long entryId, long judgeId) {
-		
-		System.out.println("select s.* from dredd.score s where s.event_detail_id = "+eventId+" and s.entry_id = "+entryId+" and s.judge_id = "+judgeId);
-		
-		Score score = scoreRepository.findScoreByEventIdAndEntryIdAndJudgeId(eventId, entryId, judgeId);
-		
-		
-		return dtoService.convertToDTO(score);
+//		System.out.println("select s.* from dredd.score s where s.event_detail_id = "+eventId+" and s.entry_id = "+entryId+" and s.judge_id = "+judgeId);
+		List<Score> scores = scoreRepository.findScoreByEventIdAndEntryIdAndJudgeId(eventId, entryId, judgeId);
+		return null;//dtoService.convertToDTO(score);
 	}
 
+	@Override
+	public String setDone(long eventId, long entryId, long judgeId) {
+		List<Score> scores = scoreRepository.findScoreByEventIdAndEntryIdAndJudgeId(eventId, entryId, judgeId);
+		scores.forEach(s ->{
+			s.setDone(true);
+			scoreRepository.save(s);
+		});
+		return "message: done";
+	}
+	
 }

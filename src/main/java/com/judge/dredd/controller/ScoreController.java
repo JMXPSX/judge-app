@@ -33,6 +33,11 @@ public class ScoreController {
 		return new ResponseEntity<>(scoreService.updateScore(scoreDTO), HttpStatus.OK);
 	}
 	
+	@PostMapping(value = "/scores/done/{eventId}/{entryId}/{judgeId}")
+	public ResponseEntity<?> setDone (@PathVariable long eventId, @PathVariable long entryId, @PathVariable long judgeId){
+		return new ResponseEntity<>(scoreService.setDone(eventId, entryId, judgeId), HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/scores/{scoreId}")
 	public ResponseEntity<?> getOne (@PathVariable int scoreId){
 		return new ResponseEntity<>(scoreService.getOne(scoreId), HttpStatus.OK);
@@ -43,10 +48,7 @@ public class ScoreController {
 		return new ResponseEntity<>(scoreService.getAll(), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/scores/summary/{eventId}")
-	public ResponseEntity<?> getScoreSummary (@PathVariable String username, @PathVariable int entryId){
-		return new ResponseEntity<>("return pojo", HttpStatus.OK);
-	}
+	
 	
 	@PostMapping(value = "/scores/finalize/{eventid}/{judgeId}")
 	public ResponseEntity<?> finalizeScore (@PathVariable long eventid, @PathVariable long judgeId){

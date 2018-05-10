@@ -36,23 +36,23 @@ public class UserController {
 	
 	@GetMapping(value = "/users")
 	public ResponseEntity<?> getAllUsers (){
-		return new ResponseEntity<>("all users!", HttpStatus.OK);
+		return new ResponseEntity<>("not yet implemented", HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/users/{userId}")
 	public ResponseEntity<?> deleteUser (@PathVariable int userId){
-		return new ResponseEntity<>("all users!", HttpStatus.OK);
+		return new ResponseEntity<>("not yet implemented", HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/users/usertype/{userType}")
 	public ResponseEntity<?> getAllUsersByType (@PathVariable int userType){
-		return new ResponseEntity<>("all users!", HttpStatus.OK);
+		return new ResponseEntity<>("not yet implemented", HttpStatus.OK);
 	}
 	
 	
 	@GetMapping(value = "/users/{username}")
 	public ResponseEntity<?> getUsersByUsername (@PathVariable String username){
-		return new ResponseEntity<>("all users!", HttpStatus.OK);
+		return new ResponseEntity<>("not yet implemented", HttpStatus.OK);
 	}
 
 }

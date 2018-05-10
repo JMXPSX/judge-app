@@ -36,7 +36,7 @@ public class EntryController {
 	@GetMapping(value = "/entries/event/{eventId}/{judgeId")
 	public ResponseEntity<?> getAllEntriesByEventIdAndJudgeId (int eventId, int judgeId){
 		//TODO
-		return new ResponseEntity<>("to be completed", HttpStatus.OK);
+		return new ResponseEntity<>("Not yet Implemented", HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/entries")

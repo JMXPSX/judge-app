@@ -31,7 +31,7 @@ public class EventDetailController {
 	
 	@PutMapping(value = "/eventdetail")
 	public ResponseEntity<?> updateEvent (@RequestBody EventDetailDTO eventDetailDTO){
-		return new ResponseEntity<>("return pojo", HttpStatus.OK);
+		return new ResponseEntity<>("Not yet Implemented", HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/eventdetail")
