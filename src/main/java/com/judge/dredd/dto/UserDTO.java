@@ -1,7 +1,9 @@
 package com.judge.dredd.dto;
 
 public class UserDTO{
-
+	
+	private long id;
+	
 	private String userName;
 	private String password;
 	private int type;
@@ -24,5 +26,12 @@ public class UserDTO{
 	public void setType(int type) {
 		this.type = type;
 	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 	
 }

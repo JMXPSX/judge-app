@@ -10,4 +10,5 @@ public interface SystemUserService {
 	void delete(long id);
 	List<UserDTO> getAll();
 	List<UserDTO> getAllByUserType(int userType);
+	public UserDTO login(String username, String password);
 }

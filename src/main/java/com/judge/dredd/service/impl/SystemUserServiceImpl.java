@@ -1,6 +1,7 @@
 package com.judge.dredd.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,21 @@ public class SystemUserServiceImpl implements SystemUserService{
 		});
 
 		return objDTo;
+	}
+
+	@Override
+	public UserDTO login(String username, String password) {
+		UserDTO u = new UserDTO();
+		SystemUser user = userRepository.findByUsernameAndPassword(username, password);
+		if(null != user){
+			userRepository.save(user);
+			u.setId(user.getId());
+			u.setType(user.getUserType());
+			u.setUserName(user.getUsername());
+			u.setPassword(user.getPassword());
+		}
+		
+		return u;
 	}
 
 }
