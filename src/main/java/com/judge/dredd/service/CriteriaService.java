@@ -9,4 +9,6 @@ public interface CriteriaService {
 	CriteriaDTO save(CriteriaDTO criteriaDTO);
 	void delete(long id);
 	List<CriteriaDTO> getAll();
+	
+	List<CriteriaDTO> getByEventDetailId(long eventId);
 }
