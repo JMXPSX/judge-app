@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.judge.dredd.dto.UserDTO;
-import com.judge.dredd.service.SystemUserService;
+import com.judge.dredd.service.AppUserService;
 
 @CrossOrigin
 @RestController
@@ -22,7 +22,7 @@ import com.judge.dredd.service.SystemUserService;
 public class UserController {
   
 	@Autowired
-	private SystemUserService systemUserService;
+	private AppUserService systemUserService;
 	
 	@PostMapping(value = "/users")
 	public ResponseEntity<?> addUser (@RequestBody UserDTO userDTO){

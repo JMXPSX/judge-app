@@ -1,53 +1,53 @@
 package com.judge.dredd.model;
 
+import java.sql.Timestamp;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="score")
 public class Score {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "score_id")
 	private Long scoreId;
+		
+	@ManyToOne(cascade = CascadeType.DETACH, targetEntity = Criteria.class)
+    @JoinColumn(name = "criteria_id")
+	private Criteria criteria;
 	
-	//the event
-	private long eventDetailId;
-	
-	// the entry
-	private long entryId;
-	
-	//the judge
-	private long judgeId;
-	
-	private long criteriaId;
-	
-	private long score;
+	private double score;
 	
 	// done scoring
 	private boolean isDone;
 	
-	// judge finalized
-	private boolean isFinal;
+	@ManyToOne(cascade = CascadeType.DETACH, targetEntity = Tabulator.class)
+    @JoinColumn(name = "tabulator_id")
+	private Tabulator tabulator;
 	
-//	@OneToOne
-//	@JoinColumn(name="entryId")
-//	private Entry entry;
-	
-//	@OneToOne
-//	@JoinColumn(name = "eventDetailId")
-//	private EventDetail eventDetail;
-	
-	//@OneToOne
-	//@JoinColumn(name = "criteriaId")
-	//private Criteria criteria;
+    @JsonIgnore
+    @Column(name = "created_date")
+    @CreationTimestamp
+    private Timestamp createdDate;
+
+    @JsonIgnore
+    @Column(name = "updated_date")
+    @UpdateTimestamp
+    private Timestamp updatedDate;
 
 	public Long getScoreId() {
 		return scoreId;
@@ -57,45 +57,19 @@ public class Score {
 		this.scoreId = scoreId;
 	}
 
-	
-
-	public long getEventDetailId() {
-		return eventDetailId;
+	public Criteria getCriteria() {
+		return criteria;
 	}
 
-	public void setEventDetailId(long eventDetailId) {
-		this.eventDetailId = eventDetailId;
+	public void setCriteria(Criteria criteria) {
+		this.criteria = criteria;
 	}
 
-	public long getEntryId() {
-		return entryId;
-	}
-
-	public void setEntryId(long entryId) {
-		this.entryId = entryId;
-	}
-
-	public long getJudgeId() {
-		return judgeId;
-	}
-
-	public void setJudgeId(long judgeId) {
-		this.judgeId = judgeId;
-	}
-
-	public long getCriteriaId() {
-		return criteriaId;
-	}
-
-	public void setCriteriaId(long criteriaId) {
-		this.criteriaId = criteriaId;
-	}
-
-	public long getScore() {
+	public double getScore() {
 		return score;
 	}
 
-	public void setScore(long score) {
+	public void setScore(double score) {
 		this.score = score;
 	}
 
@@ -107,38 +81,22 @@ public class Score {
 		this.isDone = isDone;
 	}
 
-	public boolean isFinal() {
-		return isFinal;
+	public Timestamp getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setFinal(boolean isFinal) {
-		this.isFinal = isFinal;
+	public void setCreatedDate(Timestamp createdDate) {
+		this.createdDate = createdDate;
 	}
 
-//	public EventDetail getEventDetail() {
-//		return eventDetail;
-//	}
-//
-//	public void setEventDetail(EventDetail eventDetail) {
-//		this.eventDetail = eventDetail;
-//	}
+	public Timestamp getUpdatedDate() {
+		return updatedDate;
+	}
 
-	//public Criteria getCriteria() {
-	//	return criteria;
-	//}
-
-	//public void setCriteria(Criteria criteria) {
-	//	this.criteria = criteria;
-	//}
-
-//	public Entry getEntry() {
-//		return entry;
-//	}
-//
-//	public void setEntry(Entry entry) {
-//		this.entry = entry;
-//	}
-
+	public void setUpdatedDate(Timestamp updatedDate) {
+		this.updatedDate = updatedDate;
+	}
 	
-	
+    
+    
 }

@@ -4,17 +4,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.judge.dredd.dto.CriteriaDTO;
-import com.judge.dredd.dto.EntryCriteriaDTO;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EventDetailDTO;
 import com.judge.dredd.dto.ScoreDTO;
 import com.judge.dredd.dto.UserDTO;
+import com.judge.dredd.model.AppUser;
 import com.judge.dredd.model.Criteria;
 import com.judge.dredd.model.Entry;
-import com.judge.dredd.model.EntryCriteria;
-import com.judge.dredd.model.EventDetail;
+import com.judge.dredd.model.Event;
 import com.judge.dredd.model.Score;
-import com.judge.dredd.model.SystemUser;
 import com.judge.dredd.service.DtoService;
 
 @Service
@@ -43,12 +41,12 @@ public class DtoServiceImpl implements DtoService {
 	}
 
 	@Override
-	public EventDetail convertToModel(EventDetailDTO eventDetailDTO) {
-		return this.modelMapper.map(eventDetailDTO, EventDetail.class);
+	public Event convertToModel(EventDetailDTO eventDetailDTO) {
+		return this.modelMapper.map(eventDetailDTO, Event.class);
 	}
 
 	@Override
-	public EventDetailDTO convertToDTO(EventDetail eventDetail) {
+	public EventDetailDTO convertToDTO(Event eventDetail) {
 		return this.modelMapper.map(eventDetail, EventDetailDTO.class);
 	}
 
@@ -63,25 +61,13 @@ public class DtoServiceImpl implements DtoService {
 	}
 
 	@Override
-	public SystemUser convertToModel(UserDTO userDTO) {
-		return this.modelMapper.map(userDTO, SystemUser.class);
+	public AppUser convertToModel(UserDTO userDTO) {
+		return this.modelMapper.map(userDTO, AppUser.class);
 	}
 
 	@Override
-	public UserDTO convertToDTO(SystemUser systemUser) {
+	public UserDTO convertToDTO(AppUser systemUser) {
 		return this.modelMapper.map(systemUser, UserDTO.class);
 	}
-
-	@Override
-	public EntryCriteriaDTO toDTO(EntryCriteria entryCriteria) {
-		return this.modelMapper.map(entryCriteria, EntryCriteriaDTO.class);
-	}
-
-	@Override
-	public EntryCriteria toModel(EntryCriteriaDTO entryCriteriaDTO) {
-		return this.modelMapper.map(entryCriteriaDTO, EntryCriteria.class);
-	}
-
-
 
 }

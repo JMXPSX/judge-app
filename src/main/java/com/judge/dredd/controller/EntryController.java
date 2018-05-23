@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.service.EntryService;
-import com.judge.dredd.service.ScoreService;
 
 @CrossOrigin
 @RestController

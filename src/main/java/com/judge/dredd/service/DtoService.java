@@ -1,17 +1,15 @@
 package com.judge.dredd.service;
 
 import com.judge.dredd.dto.CriteriaDTO;
-import com.judge.dredd.dto.EntryCriteriaDTO;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EventDetailDTO;
 import com.judge.dredd.dto.ScoreDTO;
 import com.judge.dredd.dto.UserDTO;
+import com.judge.dredd.model.AppUser;
 import com.judge.dredd.model.Criteria;
 import com.judge.dredd.model.Entry;
-import com.judge.dredd.model.EntryCriteria;
-import com.judge.dredd.model.EventDetail;
+import com.judge.dredd.model.Event;
 import com.judge.dredd.model.Score;
-import com.judge.dredd.model.SystemUser;
 
 public interface DtoService {
 
@@ -23,18 +21,17 @@ public interface DtoService {
 
    public EntryDTO convertToDTO(Entry criteria);
 
-   public EventDetail convertToModel(EventDetailDTO eventDetailDTO);
+   public Event convertToModel(EventDetailDTO eventDetailDTO);
 
-   public EventDetailDTO convertToDTO(EventDetail eventDetail);
+   public EventDetailDTO convertToDTO(Event eventDetail);
 
    public Score convertToModel(ScoreDTO eventDetailDTO);
 
    public ScoreDTO convertToDTO(Score score);
    
-   public SystemUser convertToModel(UserDTO userDTO);
+   public AppUser convertToModel(UserDTO userDTO);
 
-   public UserDTO convertToDTO(SystemUser systemUser);
+   public UserDTO convertToDTO(AppUser systemUser);
    
-   public EntryCriteriaDTO toDTO(EntryCriteria entryCriteria);
-   public EntryCriteria toModel(EntryCriteriaDTO entryCriteriaDTO);
+
 }

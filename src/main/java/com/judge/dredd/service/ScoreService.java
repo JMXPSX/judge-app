@@ -2,7 +2,6 @@ package com.judge.dredd.service;
 
 import java.util.List;
 
-import com.judge.dredd.display.dto.DisplayEventDTO;
 import com.judge.dredd.dto.ScoreDTO;
 
 public interface ScoreService {

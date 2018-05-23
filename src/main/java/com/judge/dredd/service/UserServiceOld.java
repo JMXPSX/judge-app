@@ -5,23 +5,21 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Service;
-
 import com.judge.dredd.dto.LoginDTO;
-import com.judge.dredd.model.SystemUser;
-import com.judge.dredd.repository.UserRepository;
+import com.judge.dredd.model.AppUser;
+import com.judge.dredd.repository.AppUserRepository;
 
 //converted to spring jwt
 //@Service
 public class UserServiceOld {
 	
 	@Inject
-	UserRepository userRepository;
+	AppUserRepository userRepository;
 	
 	public LoginDTO login(String username, String password){
 		LoginDTO loginDTO = new LoginDTO();
 		
-		SystemUser user = userRepository.findByUsernameAndPassword(username, password);
+		AppUser user = userRepository.findByUsernameAndPassword(username, password);
 		//int rows affected = update user set token = tempToken, set expiry =sysdate+24hrs where user=user and pass=pass
 		
 		if(null != user){

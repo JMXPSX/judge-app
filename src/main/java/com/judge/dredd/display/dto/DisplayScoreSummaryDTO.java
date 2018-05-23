@@ -6,7 +6,7 @@ import java.util.List;
 public class DisplayScoreSummaryDTO {
 
 	private long eventId;
-	private List<Judge> judges = new ArrayList();
+	private List<Judge> judges = new ArrayList<>();
 	
 	
 	public long getEventId() {
@@ -27,7 +27,7 @@ public class DisplayScoreSummaryDTO {
 
 	public class Judge{
 		long judgeId;
-		List<Entry> entries = new ArrayList();
+		List<Entry> entries = new ArrayList<>();
 
 		public List<Entry> getEntries() {
 			return entries;
@@ -49,7 +49,7 @@ public class DisplayScoreSummaryDTO {
 	
 	public class Entry{
 		long entryId;
-		List<Criteria> criteria = new ArrayList();
+		List<Criteria> criteria = new ArrayList<>();
 
 		public List<Criteria> getCriteria() {
 			return criteria;

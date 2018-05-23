@@ -1,7 +1,6 @@
 package com.judge.dredd.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +9,16 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.judge.dredd.dto.UserDTO;
-import com.judge.dredd.model.SystemUser;
-import com.judge.dredd.repository.UserRepository;
+import com.judge.dredd.model.AppUser;
+import com.judge.dredd.repository.AppUserRepository;
+import com.judge.dredd.service.AppUserService;
 import com.judge.dredd.service.DtoService;
-import com.judge.dredd.service.SystemUserService;
 
 @Service
-public class SystemUserServiceImpl implements SystemUserService{
+public class AppUserServiceImpl implements AppUserService{
 
 	@Autowired
-	private UserRepository userRepository;
+	private AppUserRepository userRepository;
 
 	@Autowired
 	private DtoService dtoService;
@@ -29,13 +28,13 @@ public class SystemUserServiceImpl implements SystemUserService{
 	
 	@Override
 	public UserDTO getOne(long id) {
-		SystemUser obj = userRepository.findById(id).get();
+		AppUser obj = userRepository.findById(id).get();
 		return dtoService.convertToDTO(obj);
 	}
 
 	@Override
 	public UserDTO save(UserDTO userDTO) {
-		SystemUser obj = dtoService.convertToModel(userDTO);
+		AppUser obj = dtoService.convertToModel(userDTO);
 		
 		String pass = obj.getPassword();
 		
@@ -53,7 +52,7 @@ public class SystemUserServiceImpl implements SystemUserService{
 
 	@Override
 	public List<UserDTO> getAll() {
-		List<SystemUser> obj = Lists.newArrayList(userRepository.findAll());
+		List<AppUser> obj = Lists.newArrayList(userRepository.findAll());
 		List<UserDTO> objDTo = new ArrayList<>();
 
 		obj.forEach(i -> {
@@ -65,7 +64,7 @@ public class SystemUserServiceImpl implements SystemUserService{
 
 	@Override
 	public List<UserDTO> getAllByUserType(int userType) {
-		List<SystemUser> obj = Lists.newArrayList(userRepository.findByUserType(userType));
+		List<AppUser> obj = Lists.newArrayList(userRepository.findByUserType(userType));
 		List<UserDTO> objDTo = new ArrayList<>();
 
 		obj.forEach(i -> {
@@ -78,7 +77,7 @@ public class SystemUserServiceImpl implements SystemUserService{
 	@Override
 	public UserDTO login(String username, String password) {
 		UserDTO u = new UserDTO();
-		SystemUser user = userRepository.findByUsernameAndPassword(username, password);
+		AppUser user = userRepository.findByUsernameAndPassword(username, password);
 		if(null != user){
 			userRepository.save(user);
 			u.setId(user.getId());

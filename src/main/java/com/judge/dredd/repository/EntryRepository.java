@@ -8,5 +8,7 @@ import com.judge.dredd.model.Entry;
 
 public interface EntryRepository extends CrudRepository<Entry, Long>{
 
-	public List<Entry> findAllByEventId(long eventId);
+	List<Entry> findAllByEventId(long eventId);
+	List<Entry> findByEntryId(long entryId);
+	
 }

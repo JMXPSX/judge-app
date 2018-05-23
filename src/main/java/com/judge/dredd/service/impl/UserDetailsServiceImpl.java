@@ -8,22 +8,22 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.judge.dredd.model.SystemUser;
-import com.judge.dredd.repository.UserRepository;
+import com.judge.dredd.model.AppUser;
+import com.judge.dredd.repository.AppUserRepository;
 
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	private UserRepository repository;
+	private AppUserRepository repository;
 
-	public UserDetailsServiceImpl(UserRepository repository) {
+	public UserDetailsServiceImpl(AppUserRepository repository) {
 		this.repository = repository;
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		SystemUser user = repository.findByUsername(username);
+		AppUser user = repository.findByUsername(username);
 		if (user == null) {
 			throw new UsernameNotFoundException(username);
 		}

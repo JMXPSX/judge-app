@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
-import com.judge.dredd.display.dto.DisplayEventDTO;
 import com.judge.dredd.dto.ScoreDTO;
 import com.judge.dredd.model.Score;
 import com.judge.dredd.repository.ScoreRepository;
@@ -67,7 +66,7 @@ public class ScoreServiceImpl implements ScoreService {
 //		if(scores.size() == scores.stream().filter(s -> s.isDone() == true).count()){
 			// finalize each one
 			scores.forEach(s -> {
-				s.setFinal(true);
+//				s.setFinal(true);
 				scoreRepository.save(s);
 				});
 			message += " done";

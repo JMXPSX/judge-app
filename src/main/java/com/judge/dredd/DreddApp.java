@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
-public class App extends SpringBootServletInitializer implements CommandLineRunner {
-	private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
+public class DreddApp extends SpringBootServletInitializer implements CommandLineRunner {
+	private static final Logger LOGGER = LoggerFactory.getLogger(DreddApp.class);
 
 	@Value(value="${application.name}")
 	private String applicationName;
@@ -29,7 +29,7 @@ public class App extends SpringBootServletInitializer implements CommandLineRunn
 		return application.sources(applicationClass);
 	}
 
-	private static Class<App> applicationClass = App.class;
+	private static Class<DreddApp> applicationClass = DreddApp.class;
 
 	
 	public static void main(String[] args) {

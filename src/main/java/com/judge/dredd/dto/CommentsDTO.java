@@ -1,6 +1,6 @@
 package com.judge.dredd.dto;
 
-public class NotesDTO {
+public class CommentsDTO {
 
 	private Long noteId;
 	private long judgeId;

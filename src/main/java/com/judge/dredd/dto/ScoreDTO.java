@@ -17,7 +17,7 @@ public class ScoreDTO {
 	
 	private long criteriaId;
 	
-	private long score;
+	private double score;
 	
 	// done scoring
 	private boolean isDone;
@@ -65,11 +65,11 @@ public class ScoreDTO {
 		this.criteriaId = criteriaId;
 	}
 
-	public long getScore() {
+	public double getScore() {
 		return score;
 	}
 
-	public void setScore(long score) {
+	public void setScore(double score) {
 		this.score = score;
 	}
 
@@ -91,14 +91,14 @@ public class ScoreDTO {
 	
 	public ScoreDTO toDTO(Score s){
 		ScoreDTO dto = new ScoreDTO();
-		dto.setScoreId(s.getScoreId());
-		dto.setEventId(s.getEntryId());
-		dto.setEntryId(s.getEntryId());
-		dto.setJudgeId(s.getJudgeId());
-		dto.setCriteriaId(s.getCriteriaId());
-		dto.setScore(s.getScore());
-		dto.setDone(s.isDone());
-		dto.setFinal(s.isFinal());
+//		dto.setScoreId(s.getScoreId());
+//		dto.setEventId(s.getEvent().getId());
+//		dto.setEntryId(s.getEntry().getEntryId());
+//		dto.setJudgeId(s.getJudge().getId());
+//		dto.setCriteriaId(s.getCriteria().getCriteriaId());
+//		dto.setScore(s.getScore());
+//		dto.setDone(s.isDone());
+//		dto.setFinal(s.isFinal());
 		return dto;
 	}
 	

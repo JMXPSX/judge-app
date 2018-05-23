@@ -1,35 +1,66 @@
 package com.judge.dredd.model;
 
-import javax.persistence.Column;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="entry")
 public class Entry {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "entry_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long entryId;
 	
 	private String entryName;
 	
 	private String entryDescription;
 	
-	private String userName;
+    @OneToMany(mappedBy="entry")
+	private List<Member> members = new LinkedList<>();
 	
-	private long eventId;
+	@ManyToOne(cascade = CascadeType.MERGE, targetEntity = Event.class)
+    @JoinColumn(name = "event_id")
+	private Event event;
+	
+	@JsonIgnore
+    @ManyToMany(cascade = { 
+            CascadeType.DETACH, 
+            CascadeType.MERGE
+        })
+        @JoinTable(name = "entry_judge",
+            joinColumns = @JoinColumn(name = "entry_id"),
+            inverseJoinColumns = @JoinColumn(name = "app_user_id")
+        )
+	private List<AppUser> judges;
 		
-	public long getEventId() {
-		return eventId;
-	}
-
-	public void setEventId(long eventId) {
-		this.eventId = eventId;
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private Category category;
+		
+	public Entry() {}
+	
+	public Entry(Long entryId, String entryName, String entryDescription, Event event,
+			Category category) {
+		super();
+		this.entryId = entryId;
+		this.entryName = entryName;
+		this.entryDescription = entryDescription;
+		this.event = event;
+		this.category = category;
 	}
 
 	public Long getEntryId() {
@@ -56,13 +87,36 @@ public class Entry {
 		this.entryDescription = entryDescription;
 	}
 
-	public String getUserName() {
-		return userName;
+	public List<Member> getMembers() {
+		return members;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setMembers(List<Member> members) {
+		this.members = members;
 	}
-	
-	
+
+	public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+
+	public List<AppUser> getJudges() {
+		return judges;
+	}
+
+	public void setJudges(List<AppUser> judges) {
+		this.judges = judges;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 }

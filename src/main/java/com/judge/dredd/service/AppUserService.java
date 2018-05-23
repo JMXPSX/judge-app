@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.judge.dredd.dto.UserDTO;
 
-public interface SystemUserService {
+public interface AppUserService {
 	UserDTO getOne(long id);
 	UserDTO save(UserDTO scoreDTO);
 	void delete(long id);

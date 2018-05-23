@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.judge.dredd.service.SystemUserService;
+import com.judge.dredd.service.AppUserService;
 
 @RestController
 public class LoginController {
 	
 	@Autowired
-	SystemUserService systemUserService;
+	AppUserService systemUserService;
 
 	@GetMapping("/dredd/api/login/{username},{password}")
 	public ResponseEntity<?> login (@PathVariable String username, @PathVariable String password){
