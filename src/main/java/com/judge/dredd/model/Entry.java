@@ -43,7 +43,7 @@ public class Entry {
         })
         @JoinTable(name = "entry_judge",
             joinColumns = @JoinColumn(name = "entry_id"),
-            inverseJoinColumns = @JoinColumn(name = "app_user_id")
+            inverseJoinColumns = @JoinColumn(name = "user_id")
         )
 	private List<AppUser> judges;
 		

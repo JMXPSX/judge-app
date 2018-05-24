@@ -27,8 +27,6 @@ public class Category {
 	private String name;
 	
 	private String description;
-	
-	private String pointOfContact;
 
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.MERGE, targetEntity = Event.class)
@@ -81,15 +79,5 @@ public class Category {
 	public void setEntries(List<Entry> entries) {
 		this.entries = entries;
 	}
-
-	public String getPointOfContact() {
-		return pointOfContact;
-	}
-
-	public void setPointOfContact(String pointOfContact) {
-		this.pointOfContact = pointOfContact;
-	}
-
-	
 	
 }
