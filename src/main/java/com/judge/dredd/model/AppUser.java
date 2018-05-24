@@ -19,7 +19,7 @@ public class AppUser {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "app_user_id")
+	@Column(name = "user_id")
 	private Long id;
 	
 	private String username;
@@ -28,7 +28,8 @@ public class AppUser {
 	
 	private int userType;
 	
-	private boolean agreedOnTermsAndCondition;
+	@SuppressWarnings("unused")
+	private boolean withTAC;
 
 	@JsonIgnore
 	@ManyToMany(mappedBy = "judges")
@@ -78,18 +79,6 @@ public class AppUser {
 
 	public void setUserType(int userType) {
 		this.userType = userType;
-	}
-
-
-
-	public boolean isAgreedOnTermsAndCondition() {
-		return agreedOnTermsAndCondition;
-	}
-
-
-
-	public void setAgreedOnTermsAndCondition(boolean agreedOnTermsAndCondition) {
-		this.agreedOnTermsAndCondition = agreedOnTermsAndCondition;
 	}
 
 

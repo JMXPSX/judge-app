@@ -22,6 +22,11 @@ public class EntryController {
 	@Autowired
 	private EntryService entryService;
 	
+	@GetMapping(value = "/entries/{eventId}/categories/{categoryId}/users/{appUserId}  ")
+	public ResponseEntity<?> getentry (@PathVariable long eventId, @PathVariable long categoryId, @PathVariable long appUserId){
+		return new ResponseEntity<>(entryService.getEntriesByEventIdAndCategoryIdAndAppUserId(eventId, categoryId, appUserId), HttpStatus.OK);
+	}
+	
 	@PostMapping(value = "/entries")
 	public ResponseEntity<?> addorUpdateEntry (@RequestBody EntryDTO entryDTO){
 		return new ResponseEntity<>(entryService.save(entryDTO), HttpStatus.OK);

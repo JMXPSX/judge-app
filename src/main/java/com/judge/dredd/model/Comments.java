@@ -27,7 +27,7 @@ public class Comments {
 	private Entry entry;
 	
 	@ManyToOne(cascade = CascadeType.DETACH, targetEntity = AppUser.class)
-    @JoinColumn(name = "app_user_id")
+    @JoinColumn(name = "user_id")
 	private AppUser appUser;
 	
 	@Lob

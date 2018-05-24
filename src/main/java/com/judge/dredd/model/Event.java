@@ -39,7 +39,7 @@ public class Event {
 	private List<Category> category;
     
 	@ManyToOne(cascade = CascadeType.MERGE, targetEntity = AppUser.class)
-    @JoinColumn(name = "app_user_id")
+    @JoinColumn(name = "user_id")
 	private AppUser appUser;
     
 	public Event() {

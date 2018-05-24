@@ -71,4 +71,10 @@ public class EntryServiceImpl implements EntryService {
 		return objDTo;
 	}
 
+	@Override
+	public List<EntryDTO> getEntriesByEventIdAndCategoryIdAndAppUserId(long eventId, long categoryId, long appUserId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

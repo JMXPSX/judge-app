@@ -11,4 +11,6 @@ public interface EntryService {
 	List<EntryDTO> getAll();
 	
 	public List<EntryDTO> getAllEntriesByEventId(long eventId);
+	
+	public List<EntryDTO> getEntriesByEventIdAndCategoryIdAndAppUserId(long eventId, long categoryId, long appUserId);
 }

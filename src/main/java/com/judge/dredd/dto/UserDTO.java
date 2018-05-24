@@ -3,12 +3,11 @@ package com.judge.dredd.dto;
 import java.util.Date;
 
 public class UserDTO{
-	
-	private long id;	
-	private String userName;
+	private long id;
+	private String username;
 	private String password;
-	private int type;
-	private boolean isTNC;
+	private int userType;
+	private boolean isTAC;
 	private boolean isPWReset;
 	private Date lastUpdate;
 	
@@ -18,11 +17,11 @@ public class UserDTO{
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getPassword() {
 		return password;
@@ -30,17 +29,17 @@ public class UserDTO{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public int getType() {
-		return type;
+	public int getUserType() {
+		return userType;
 	}
-	public void setType(int type) {
-		this.type = type;
+	public void setUserType(int userType) {
+		this.userType = userType;
 	}
-	public boolean isTNC() {
-		return isTNC;
+	public boolean isTAC() {
+		return isTAC;
 	}
-	public void setTNC(boolean isTNC) {
-		this.isTNC = isTNC;
+	public void setTAC(boolean isTAC) {
+		this.isTAC = isTAC;
 	}
 	public boolean isPWReset() {
 		return isPWReset;
@@ -54,6 +53,8 @@ public class UserDTO{
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
+	
+	
 	
 	
 }

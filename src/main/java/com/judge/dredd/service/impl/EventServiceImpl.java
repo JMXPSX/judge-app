@@ -1,39 +1,29 @@
 package com.judge.dredd.service.impl;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.judge.dredd.display.dto.DisplayEventDTO;
 import com.judge.dredd.display.dto.DisplayScoreSummaryDTO;
-import com.judge.dredd.display.dto.DisplayScoreSummaryDTO.Criteria;
-import com.judge.dredd.display.dto.DisplayScoreSummaryDTO.Entry;
-import com.judge.dredd.display.dto.DisplayScoreSummaryDTO.Judge;
 import com.judge.dredd.dto.EventDTO;
-import com.judge.dredd.dto.ScoreDTO;
-import com.judge.dredd.service.CommentsService;
-import com.judge.dredd.service.CriteriaService;
-import com.judge.dredd.service.EntryService;
 import com.judge.dredd.service.EventService;
-import com.judge.dredd.service.ScoreService;
+
 
 @Service
 public class EventServiceImpl implements EventService{
 
-	@Autowired
-	private EntryService entryService;
+//	@Autowired
+//	private EntryService entryService;
 	
-	@Autowired
-	private ScoreService scoreService;
-	
-	@Autowired
-	private CriteriaService criteriaService;
-	
-	@Autowired
-	private CommentsService commentsService;
+//	@Autowired
+//	private ScoreService scoreService;
+//	
+//	@Autowired
+//	private CriteriaService criteriaService;
+//	
+//	@Autowired
+//	private CommentsService commentsService;
 	
 	@Override
 	public DisplayEventDTO getAllForDisplay(long eventId, long judgeId) {
@@ -111,47 +101,47 @@ public class EventServiceImpl implements EventService{
 		
 	
 	public DisplayScoreSummaryDTO getFinalizedScoreSummary(long eventId){
-		DisplayScoreSummaryDTO d = new DisplayScoreSummaryDTO(); 
-		d.setEventId(eventId);
-		
-		//all the finalized data are here
-		List<ScoreDTO> sdto = scoreService.getFinalizedScoresByEventId(eventId);
-		
-		//the judge ids
-		Set<Long> judgeIds = sdto.stream().map(ScoreDTO::getJudgeId).collect(Collectors.toSet());
-
-		System.out.println("judgeIds: "+judgeIds.size());
-		judgeIds.forEach(jid -> {
-			
-			Judge judge = d.new Judge();
-			judge.setJudgeId(jid);
-			
-			//the entries for each judge
-			Set<Long> entryIds = sdto.stream().filter(e -> e.getJudgeId() == jid).map(ScoreDTO::getEntryId).collect(Collectors.toSet());
-			entryIds.forEach(eid -> {
-				Entry entry = d.new Entry();
-				entry.setEntryId(eid);
-						
-				//the criteria for each entry
-						Set<Long> criteriaIds = sdto.stream().filter(c -> c.getJudgeId() == jid && c.getEntryId() == eid).map(ScoreDTO::getCriteriaId).collect(Collectors.toSet());
-						criteriaIds.forEach(cid -> {
-							Criteria criteria = d.new Criteria();
-							
-							//the final filtered data
-							ScoreDTO x = sdto.stream().filter(z -> z.getJudgeId() == jid && z.getEntryId() == eid && z.getCriteriaId() == cid).findFirst().get();
-							criteria.setCriteriaId(x.getCriteriaId());
-//							criteria.setScore(x.getScore());
-							entry.addCriteria(criteria);
-						});
-						judge.addEntry(entry);		
-					});
-			d.addJudge(judge);
-		});
+//		DisplayScoreSummaryDTO d = new DisplayScoreSummaryDTO(); 
+//		d.setEventId(eventId);
+//		
+//		//all the finalized data are here
+//		List<ScoreDTO> sdto = scoreService.getFinalizedScoresByEventId(eventId);
+//		
+//		//the judge ids
+//		Set<Long> judgeIds = sdto.stream().map(ScoreDTO::getJudgeId).collect(Collectors.toSet());
+//
+//		System.out.println("judgeIds: "+judgeIds.size());
+//		judgeIds.forEach(jid -> {
+//			
+//			Judge judge = d.new Judge();
+//			judge.setJudgeId(jid);
+//			
+//			//the entries for each judge
+//			Set<Long> entryIds = sdto.stream().filter(e -> e.getJudgeId() == jid).map(ScoreDTO::getEntryId).collect(Collectors.toSet());
+//			entryIds.forEach(eid -> {
+//				Entry entry = d.new Entry();
+//				entry.setEntryId(eid);
+//						
+//				//the criteria for each entry
+//						Set<Long> criteriaIds = sdto.stream().filter(c -> c.getJudgeId() == jid && c.getEntryId() == eid).map(ScoreDTO::getCriteriaId).collect(Collectors.toSet());
+//						criteriaIds.forEach(cid -> {
+//							Criteria criteria = d.new Criteria();
+//							
+//							//the final filtered data
+//							ScoreDTO x = sdto.stream().filter(z -> z.getJudgeId() == jid && z.getEntryId() == eid && z.getCriteriaId() == cid).findFirst().get();
+//							criteria.setCriteriaId(x.getCriteriaId());
+////							criteria.setScore(x.getScore());
+//							entry.addCriteria(criteria);
+//						});
+//						judge.addEntry(entry);		
+//					});
+//			d.addJudge(judge);
+//		});
 		
 		
 	//have a nice day! :)
 		
-		return d;
+		return null;
 	}
 
 
