@@ -1,5 +1,7 @@
 package com.judge.dredd.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +24,7 @@ public class CommentsServiceImpl implements CommentsService {
 
 	@Override
 	public String updateComments(CommentsDTO notesDTO) {
-		Comments n = commentsRepository.findById(notesDTO.getNoteId()).get();
+		Comments n = commentsRepository.findById(notesDTO.getCommentId()).get();
 		
 		if(n != null){
 			n.setNote(notesDTO.getNote());
@@ -30,6 +32,18 @@ public class CommentsServiceImpl implements CommentsService {
 		}
 		
 		return "message: Done";
+	}
+
+	@Override
+	public List<Comments> findCommentsByEntryId(long entryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addComment(long entryId, long appUserId) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -12,6 +12,7 @@ import com.judge.dredd.display.dto.DisplayScoreSummaryDTO;
 import com.judge.dredd.display.dto.DisplayScoreSummaryDTO.Criteria;
 import com.judge.dredd.display.dto.DisplayScoreSummaryDTO.Entry;
 import com.judge.dredd.display.dto.DisplayScoreSummaryDTO.Judge;
+import com.judge.dredd.dto.EventDTO;
 import com.judge.dredd.dto.ScoreDTO;
 import com.judge.dredd.service.CommentsService;
 import com.judge.dredd.service.CriteriaService;
@@ -151,6 +152,13 @@ public class EventServiceImpl implements EventService{
 	//have a nice day! :)
 		
 		return d;
+	}
+
+
+	@Override
+	public List<EventDTO> getEventsByUser(long appUserId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

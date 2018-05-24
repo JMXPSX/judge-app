@@ -14,6 +14,11 @@ public class EventController {
 
 	@Autowired
 	private EventService eventService;
+	
+	@GetMapping("/dredd/api/events/{appUserId}")
+	public ResponseEntity<?> getEventsByUser (@PathVariable long appUserId){
+		return new ResponseEntity<>(eventService.getEventsByUser(appUserId), HttpStatus.OK);
+	}
 		
 	
 	@GetMapping("/dredd/api/mainevent/{eventId}/{judgeId}")

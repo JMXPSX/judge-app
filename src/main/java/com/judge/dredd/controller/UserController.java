@@ -50,9 +50,9 @@ public class UserController {
 	}
 	
 	
-	@GetMapping(value = "/users/{username}")
-	public ResponseEntity<?> getUsersByUsername (@PathVariable String username){
-		return new ResponseEntity<>("not yet implemented", HttpStatus.OK);
+	@GetMapping(value = "/users/{userId}")
+	public ResponseEntity<?> getUsersByUsername (@PathVariable long userId){
+		return new ResponseEntity<>(systemUserService.getOne(userId), HttpStatus.OK);
 	}
 
 }

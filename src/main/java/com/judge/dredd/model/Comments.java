@@ -1,5 +1,7 @@
 package com.judge.dredd.model;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,6 +32,8 @@ public class Comments {
 	
 	@Lob
 	private String note;
+	
+	private Date entryDate;
 
 	public Long getNoteId() {
 		return noteId;
