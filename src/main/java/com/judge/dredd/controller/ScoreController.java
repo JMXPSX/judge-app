@@ -48,6 +48,10 @@ public class ScoreController {
 		return new ResponseEntity<>(scoreService.getAll(), HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/scores/events/{eventId}/categories/{categoryId}/users/{appUserId}")
+	public ResponseEntity<?> getScores (@PathVariable int eventId, @PathVariable int categoryId, @PathVariable int appUserId){
+		return new ResponseEntity<>(scoreService.getScoreByEventIdAndCategoryIdAndAppUserId(eventId, categoryId, appUserId), HttpStatus.OK);
+	}
 	
 	
 	@PostMapping(value = "/scores/finalize/{eventid}/{judgeId}")

@@ -20,7 +20,7 @@ public class Comments {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "comment_id")
-	private Long noteId;
+	private Long commentId;
 	
 	@ManyToOne(cascade = CascadeType.DETACH, targetEntity = Entry.class)
     @JoinColumn(name = "entry_id")
@@ -33,14 +33,14 @@ public class Comments {
 	@Lob
 	private String note;
 	
-	private Date entryDate;
+	private Date commentDate;
 
-	public Long getNoteId() {
-		return noteId;
+	public Long getCommentId() {
+		return commentId;
 	}
 
-	public void setNoteId(Long noteId) {
-		this.noteId = noteId;
+	public void setCommentId(Long commentId) {
+		this.commentId = commentId;
 	}
 
 	public Entry getEntry() {
@@ -66,5 +66,14 @@ public class Comments {
 	public void setAppUser(AppUser appUser) {
 		this.appUser = appUser;
 	}
+
+	public Date getCommentDate() {
+		return commentDate;
+	}
+
+	public void setCommentDate(Date commentDate) {
+		this.commentDate = commentDate;
+	}
+	
 	
 }

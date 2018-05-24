@@ -85,36 +85,20 @@ public class ScoreServiceImpl implements ScoreService {
 
 	@Override
 	public String updateScore(ScoreDTO scoreDTO) {
-		String message = "message: success";
-		
-		Score score = scoreRepository.findById(scoreDTO.getScoreId()).get();
-		
-		score.setScore(scoreDTO.getScore());
-		score.setDone(scoreDTO.isDone());
-		scoreRepository.save(score);
-		
-		return message;
-
+		return null;
 	}
 
 	@Override
 	public List<ScoreDTO> getScoresByEventIdAndJudgeId(long eventId, long judgeId) {
-		List<ScoreDTO> scoreDTOs = new ArrayList<>();
 		
-		List<Score> scores = scoreRepository.findScoreByEventIdAndJudgeId(eventId, judgeId);
-		scores.forEach(score -> scoreDTOs.add(new ScoreDTO().toDTO(score)));
 		
-		return scoreDTOs;
+		return null;
 	}
 
 	@Override
 	public List<ScoreDTO> getFinalizedScoresByEventId(long eventId) {
-		List<ScoreDTO> scoreDTOs = new ArrayList<>();
 		
-		List<Score> scores = scoreRepository.findFinalScoreByEventId(eventId);
-		scores.forEach(score -> scoreDTOs.add(new ScoreDTO().toDTO(score)));
-		
-		return scoreDTOs;
+		return null;
 	}
 
 	@Override
@@ -148,6 +132,12 @@ public class ScoreServiceImpl implements ScoreService {
 			scoreRepository.save(s);
 		});
 		return "message: done";
+	}
+
+	@Override
+	public List<ScoreDTO> getScoreByEventIdAndCategoryIdAndAppUserId(long eventId, long categoryId, long appUserId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

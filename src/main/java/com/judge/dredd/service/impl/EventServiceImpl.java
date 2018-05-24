@@ -25,7 +25,6 @@ public class EventServiceImpl implements EventService{
 //	@Autowired
 //	private CommentsService commentsService;
 	
-	@Override
 	public DisplayEventDTO getAllForDisplay(long eventId, long judgeId) {
 //		DisplayEventDTO displayEventDTO = new  DisplayEventDTO();
 //		
