@@ -27,24 +27,24 @@ public class EntryController {
 		return new ResponseEntity<>(entryService.getEntriesByEventIdAndCategoryIdAndAppUserId(eventId, categoryId, appUserId), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/entries")
-	public ResponseEntity<?> addorUpdateEntry (@RequestBody EntryDTO entryDTO){
-		return new ResponseEntity<>(entryService.save(entryDTO), HttpStatus.OK);
-	}
-	
-	@GetMapping(value = "/entries/{entryId}")
-	public ResponseEntity<?> getEntry (@PathVariable int entryId){
-		return new ResponseEntity<>(entryService.getOne(entryId), HttpStatus.OK);
-	}
-	
-	@GetMapping(value = "/entries/event/{eventId}/{judgeId")
-	public ResponseEntity<?> getAllEntriesByEventIdAndJudgeId (int eventId, int judgeId){
-		//TODO
-		return new ResponseEntity<>("Not yet Implemented", HttpStatus.OK);
-	}
-	
-	@GetMapping(value = "/entries")
-	public ResponseEntity<?> getAllEntries (){
-		return new ResponseEntity<>(entryService.getAll(), HttpStatus.OK);
-	}
+//	@PostMapping(value = "/entries")
+//	public ResponseEntity<?> addorUpdateEntry (@RequestBody EntryDTO entryDTO){
+//		return new ResponseEntity<>(entryService.save(entryDTO), HttpStatus.OK);
+//	}
+//	
+//	@GetMapping(value = "/entries/{entryId}")
+//	public ResponseEntity<?> getEntry (@PathVariable int entryId){
+//		return new ResponseEntity<>(entryService.getOne(entryId), HttpStatus.OK);
+//	}
+//	
+//	@GetMapping(value = "/entries/event/{eventId}/{judgeId")
+//	public ResponseEntity<?> getAllEntriesByEventIdAndJudgeId (int eventId, int judgeId){
+//		//TODO
+//		return new ResponseEntity<>("Not yet Implemented", HttpStatus.OK);
+//	}
+//	
+//	@GetMapping(value = "/entries")
+//	public ResponseEntity<?> getAllEntries (){
+//		return new ResponseEntity<>(entryService.getAll(), HttpStatus.OK);
+//	}
 }

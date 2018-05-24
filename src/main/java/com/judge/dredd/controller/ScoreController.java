@@ -43,7 +43,7 @@ public class ScoreController {
 		return new ResponseEntity<>(scoreService.getOne(scoreId), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/scores")
+	@GetMapping(value = "/scores/all")
 	public ResponseEntity<?> getScores (){
 		return new ResponseEntity<>(scoreService.getAll(), HttpStatus.OK);
 	}
