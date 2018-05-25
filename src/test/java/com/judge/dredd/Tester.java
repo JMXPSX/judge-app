@@ -21,7 +21,7 @@ public class Tester {
 	@Test
 	public void test() {
 		
-		List<Event> lst =eventRepository.findDistinctByEntries_judges_username("tony");
+		List<Event> lst =eventRepository.findDistinctByEntries_judges_id(1);
 		
 		
 		lst.forEach(i->{

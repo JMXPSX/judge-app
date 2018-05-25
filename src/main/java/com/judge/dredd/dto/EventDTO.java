@@ -1,13 +1,11 @@
 package com.judge.dredd.dto;
 
-import java.util.Date;
-
 public class EventDTO {
 	
 	private long eventId;
 	private String eventName;
-	private Date startDate;
-	private Date endDate;
+	private String startDate;
+	private String endDate;
 	
 	public long getEventId() {
 		return eventId;
@@ -21,16 +19,16 @@ public class EventDTO {
 	public void setEventName(String eventName) {
 		this.eventName = eventName;
 	}
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	
