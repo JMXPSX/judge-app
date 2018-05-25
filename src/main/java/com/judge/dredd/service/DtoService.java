@@ -1,13 +1,14 @@
 package com.judge.dredd.service;
 
+import com.judge.dredd.dto.CategoryDTO;
 import com.judge.dredd.dto.CriteriaDTO;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EventDTO;
-import com.judge.dredd.dto.EventDetailDTO;
 import com.judge.dredd.dto.MemberDTO;
 import com.judge.dredd.dto.ScoreDTO;
 import com.judge.dredd.dto.UserDTO;
 import com.judge.dredd.model.AppUser;
+import com.judge.dredd.model.Category;
 import com.judge.dredd.model.Criteria;
 import com.judge.dredd.model.Entry;
 import com.judge.dredd.model.Event;
@@ -39,4 +40,8 @@ public interface DtoService {
    public Event convertToModel(EventDTO eventDTO);
    
    public EventDTO convertToDTO(Event event);
+   
+   public Category convertToModel(CategoryDTO categoryDTO);
+   
+   public CategoryDTO convertToDTO(Category category);
 }

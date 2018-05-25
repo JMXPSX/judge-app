@@ -28,8 +28,8 @@ public class EntryController {
 	}
 	
 	@PostMapping(value = "/entries")
-	public ResponseEntity<?> AddEntry (@RequestBody EntryDTO entryDTO){
-		return new ResponseEntity<>(entryService.save(entryDTO), HttpStatus.OK);
+	public ResponseEntity<?> addEntry (@RequestBody EntryDTO entryDTO){
+		return new ResponseEntity<>(entryService.addEntryWithMembers(entryDTO), HttpStatus.OK);
 	}
 //	
 //	@GetMapping(value = "/entries/{entryId}")

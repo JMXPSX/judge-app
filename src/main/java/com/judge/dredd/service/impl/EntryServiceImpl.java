@@ -81,8 +81,21 @@ public class EntryServiceImpl implements EntryService {
 
 	@Override
 	public List<EntryDTO> getEntriesByEventIdAndCategoryIdAndAppUserId(long eventId, long categoryId, long appUserId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<EntryDTO> dtos = new ArrayList<EntryDTO>();
+		List<Entry> entries = entryRepository.findByEventIdAndCategory_idAndJudges_id(eventId, categoryId, appUserId);
+		entries.forEach(entry -> dtos.add(dtoService.convertToDTO(entry)));
+		return dtos;
+	}
+
+	@Override
+	public EntryDTO addEntryWithMembers(EntryDTO entryDTO) {
+		Entry obj = dtoService.convertToModel(entryDTO);
+		obj = entryRepository.save(obj);
+		
+		List<MemberDTO> members = entryDTO.getMembers();
+		members.forEach(member -> memberRepository.save(dtoService.convertToModel(member)));
+
+		return dtoService.convertToDTO(obj);
 	}
 
 }

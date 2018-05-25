@@ -3,13 +3,15 @@ package com.judge.dredd.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.judge.dredd.dto.CategoryDTO;
 import com.judge.dredd.dto.CriteriaDTO;
 import com.judge.dredd.dto.EntryDTO;
-import com.judge.dredd.dto.EventDetailDTO;
+import com.judge.dredd.dto.EventDTO;
 import com.judge.dredd.dto.MemberDTO;
 import com.judge.dredd.dto.ScoreDTO;
 import com.judge.dredd.dto.UserDTO;
 import com.judge.dredd.model.AppUser;
+import com.judge.dredd.model.Category;
 import com.judge.dredd.model.Criteria;
 import com.judge.dredd.model.Entry;
 import com.judge.dredd.model.Event;
@@ -43,16 +45,6 @@ public class DtoServiceImpl implements DtoService {
 	}
 
 	@Override
-	public Event convertToModel(EventDetailDTO eventDetailDTO) {
-		return this.modelMapper.map(eventDetailDTO, Event.class);
-	}
-
-	@Override
-	public EventDetailDTO convertToDTO(Event eventDetail) {
-		return this.modelMapper.map(eventDetail, EventDetailDTO.class);
-	}
-
-	@Override
 	public Score convertToModel(ScoreDTO eventDetailDTO) {
 		return this.modelMapper.map(eventDetailDTO, Score.class);
 	}
@@ -80,6 +72,26 @@ public class DtoServiceImpl implements DtoService {
 	@Override
 	public MemberDTO convertToDTO(Member member) {
 		return this.modelMapper.map(member, MemberDTO.class);
+	}
+
+	@Override
+	public Event convertToModel(EventDTO eventDTO) {
+		return this.modelMapper.map(eventDTO, Event.class);
+	}
+
+	@Override
+	public EventDTO convertToDTO(Event event) {
+		return this.modelMapper.map(event, EventDTO.class);
+	}
+
+	@Override
+	public Category convertToModel(CategoryDTO categoryDTO) {
+		return this.modelMapper.map(categoryDTO, Category.class);
+	}
+
+	@Override
+	public CategoryDTO convertToDTO(Category category) {
+		return this.modelMapper.map(category, CategoryDTO.class);
 	}
 
 }

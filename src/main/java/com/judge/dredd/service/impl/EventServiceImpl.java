@@ -1,5 +1,6 @@
 package com.judge.dredd.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,10 @@ public class EventServiceImpl implements EventService{
 
 	@Override
 	public List<EventDTO> getEventsByUser(long appUserId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<EventDTO> dtos = new ArrayList();
+//		List<Event> events = eventRepository.findByByAppUserId(appUserId);
+//		events.forEach(event -> dtos.add(dtoService.convertToDTO(event)));
+		return dtos;
 	}
 
 

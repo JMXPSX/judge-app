@@ -3,6 +3,7 @@ package com.judge.dredd.dto;
 public class CategoryDTO {
 
 	private long categoryId;
+	private long eventId;
 	private String categoryName;
 	private String categoryDescription;
 	public long getCategoryId() {
@@ -22,6 +23,12 @@ public class CategoryDTO {
 	}
 	public void setCategoryDescription(String categoryDescription) {
 		this.categoryDescription = categoryDescription;
+	}
+	public long getEventId() {
+		return eventId;
+	}
+	public void setEventId(long eventId) {
+		this.eventId = eventId;
 	}
 	
 	

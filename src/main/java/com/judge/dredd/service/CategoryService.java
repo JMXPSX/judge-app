@@ -7,4 +7,6 @@ import com.judge.dredd.dto.CategoryDTO;
 public interface CategoryService {
 
 	public List<CategoryDTO> getCategoriesByEvent (long eventId);
+	
+	public CategoryDTO addCategory(CategoryDTO categoryDTO);
 }

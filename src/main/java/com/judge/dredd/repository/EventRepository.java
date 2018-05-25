@@ -10,4 +10,6 @@ public interface EventRepository extends CrudRepository<Event, Long> {
 	
 	public List<Event> findAllById(long eventId);
 	
+	//public List<Event> findByByAppUserId(long appUserId);
+	
 }
