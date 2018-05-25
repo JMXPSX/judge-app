@@ -24,13 +24,13 @@ public class CommentsController {
 		return new ResponseEntity<>(commentsService.findCommentsByEntryId(entryId), HttpStatus.OK);
 	}
 	
-	@PostMapping("/dredd/api/comments/{entryId}/{appUserId}")
-	public void addComments (@PathVariable long entryId, long appUserId){
-		commentsService.addComment(entryId, appUserId);
+	@PutMapping("/dredd/api/comments")
+	public void updateComments (@RequestBody CommentsDTO commentsDTO){
+		commentsService.updateComments(commentsDTO);
 	}
 	
-	@PutMapping(value = "/dredd/api/comments")
-	public ResponseEntity<?> updateComments (@RequestBody CommentsDTO commentsDTO){
-		return new ResponseEntity<>(commentsService.updateComments(commentsDTO), HttpStatus.OK);
+	@PostMapping(value = "/dredd/api/comments")
+	public ResponseEntity<?> addComments (@RequestBody CommentsDTO commentsDTO){
+		return new ResponseEntity<>(commentsService.addComment(commentsDTO), HttpStatus.OK);
 	}
 }

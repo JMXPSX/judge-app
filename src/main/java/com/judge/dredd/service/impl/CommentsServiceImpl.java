@@ -1,5 +1,7 @@
 package com.judge.dredd.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,41 +11,46 @@ import com.judge.dredd.dto.CommentsDTO;
 import com.judge.dredd.model.Comments;
 import com.judge.dredd.repository.CommentsRepository;
 import com.judge.dredd.service.CommentsService;
+import com.judge.dredd.service.DtoService;
 
 @Service
 public class CommentsServiceImpl implements CommentsService {
 	
 	@Autowired
-	CommentsRepository commentsRepository;
+	private CommentsRepository commentsRepository;
+	
+	@Autowired
+	private DtoService dtoService;
+
 
 	@Override
-	public Comments findByEntryIdAndJudgeId(long entryId, long judgeId) {
-		Comments n = commentsRepository.findByEntryIdAndJudgeId(entryId, judgeId);
-		return n;
-	}
-
-	@Override
-	public String updateComments(CommentsDTO notesDTO) {
+	public CommentsDTO updateComments(CommentsDTO notesDTO) {
 		Comments n = commentsRepository.findById(notesDTO.getCommentId()).get();
 		
 		if(n != null){
 			n.setNote(notesDTO.getNote());
-			commentsRepository.save(n);
+			n = commentsRepository.save(n);
 		}
 		
-		return "message: Done";
+		return dtoService.convertToDTO(n);
 	}
 
 	@Override
-	public List<Comments> findCommentsByEntryId(long entryId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CommentsDTO> findCommentsByEntryId(long entryId) {
+		List<CommentsDTO> dtos = new ArrayList<>();
+		List<Comments> comments = commentsRepository.findByEntry_entryId(entryId);
+		System.out.println("from db "+comments.get(0).getCommentDate());
+		comments.forEach(comment -> dtos.add(dtoService.convertToDTO(comment)));
+		System.out.println("converted "+dtos.get(0).getCommentDate());
+		return dtos;
 	}
 
 	@Override
-	public void addComment(long entryId, long appUserId) {
-		// TODO Auto-generated method stub
-		
+	public CommentsDTO addComment(CommentsDTO commentsDTO) {
+		Comments c = dtoService.convertToModel(commentsDTO);
+		c.setCommentDate(new Date());
+		c = commentsRepository.save(c);
+		return dtoService.convertToDTO(c);
 	}
 
 }

@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.judge.dredd.dto.CategoryDTO;
+import com.judge.dredd.dto.CommentsDTO;
 import com.judge.dredd.dto.CriteriaDTO;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EventDTO;
@@ -12,6 +13,7 @@ import com.judge.dredd.dto.ScoreDTO;
 import com.judge.dredd.dto.UserDTO;
 import com.judge.dredd.model.AppUser;
 import com.judge.dredd.model.Category;
+import com.judge.dredd.model.Comments;
 import com.judge.dredd.model.Criteria;
 import com.judge.dredd.model.Entry;
 import com.judge.dredd.model.Event;
@@ -92,6 +94,16 @@ public class DtoServiceImpl implements DtoService {
 	@Override
 	public CategoryDTO convertToDTO(Category category) {
 		return this.modelMapper.map(category, CategoryDTO.class);
+	}
+
+	@Override
+	public Comments convertToModel(CommentsDTO commentsDTO) {
+		return this.modelMapper.map(commentsDTO, Comments.class);
+	}
+
+	@Override
+	public CommentsDTO convertToDTO(Comments comment) {
+		return this.modelMapper.map(comment, CommentsDTO.class);
 	}
 
 }

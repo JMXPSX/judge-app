@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="comments")
@@ -33,6 +35,8 @@ public class Comments {
 	@Lob
 	private String note;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "comment_date", columnDefinition="DATETIME")
 	private Date commentDate;
 
 	public Long getCommentId() {
