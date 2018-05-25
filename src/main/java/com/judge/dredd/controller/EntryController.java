@@ -27,10 +27,10 @@ public class EntryController {
 		return new ResponseEntity<>(entryService.getEntriesByEventIdAndCategoryIdAndAppUserId(eventId, categoryId, appUserId), HttpStatus.OK);
 	}
 	
-//	@PostMapping(value = "/entries")
-//	public ResponseEntity<?> addorUpdateEntry (@RequestBody EntryDTO entryDTO){
-//		return new ResponseEntity<>(entryService.save(entryDTO), HttpStatus.OK);
-//	}
+	@PostMapping(value = "/entries")
+	public ResponseEntity<?> AddEntry (@RequestBody EntryDTO entryDTO){
+		return new ResponseEntity<>(entryService.save(entryDTO), HttpStatus.OK);
+	}
 //	
 //	@GetMapping(value = "/entries/{entryId}")
 //	public ResponseEntity<?> getEntry (@PathVariable int entryId){

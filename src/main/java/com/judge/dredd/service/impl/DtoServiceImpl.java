@@ -6,12 +6,14 @@ import org.springframework.stereotype.Service;
 import com.judge.dredd.dto.CriteriaDTO;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EventDetailDTO;
+import com.judge.dredd.dto.MemberDTO;
 import com.judge.dredd.dto.ScoreDTO;
 import com.judge.dredd.dto.UserDTO;
 import com.judge.dredd.model.AppUser;
 import com.judge.dredd.model.Criteria;
 import com.judge.dredd.model.Entry;
 import com.judge.dredd.model.Event;
+import com.judge.dredd.model.Member;
 import com.judge.dredd.model.Score;
 import com.judge.dredd.service.DtoService;
 
@@ -68,6 +70,16 @@ public class DtoServiceImpl implements DtoService {
 	@Override
 	public UserDTO convertToDTO(AppUser systemUser) {
 		return this.modelMapper.map(systemUser, UserDTO.class);
+	}
+
+	@Override
+	public Member convertToModel(MemberDTO memberDTO) {
+		return this.modelMapper.map(memberDTO, Member.class);
+	}
+
+	@Override
+	public MemberDTO convertToDTO(Member member) {
+		return this.modelMapper.map(member, MemberDTO.class);
 	}
 
 }

@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.judge.dredd.dto.EntryDTO;
+import com.judge.dredd.dto.MemberDTO;
 import com.judge.dredd.model.Entry;
 import com.judge.dredd.repository.EntryRepository;
+import com.judge.dredd.repository.MemberRepository;
 import com.judge.dredd.service.DtoService;
 import com.judge.dredd.service.EntryService;
 
@@ -18,6 +20,9 @@ public class EntryServiceImpl implements EntryService {
 
 	@Autowired
 	private EntryRepository entryRepository;
+	
+	@Autowired
+	private MemberRepository memberRepository;
 
 	@Autowired
 	private DtoService dtoService;
@@ -35,6 +40,9 @@ public class EntryServiceImpl implements EntryService {
 		
 		Entry obj = dtoService.convertToModel(entryDTO);
 		obj = entryRepository.save(obj);
+		
+		List<MemberDTO> members = entryDTO.getMembers();
+		members.forEach(member -> memberRepository.save(dtoService.convertToModel(member)));
 
 		return dtoService.convertToDTO(obj);
 	}
