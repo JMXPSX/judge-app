@@ -33,7 +33,7 @@ public class Comments {
 	private AppUser appUser;
 	
 	@Lob
-	private String note;
+	private String comment;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "comment_date", columnDefinition="DATETIME")
@@ -55,14 +55,6 @@ public class Comments {
 		this.entry = entry;
 	}
 
-	public String getNote() {
-		return note;
-	}
-
-	public void setNote(String note) {
-		this.note = note;
-	}
-
 	public AppUser getAppUser() {
 		return appUser;
 	}
@@ -77,6 +69,14 @@ public class Comments {
 
 	public void setCommentDate(Date commentDate) {
 		this.commentDate = commentDate;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	
 	

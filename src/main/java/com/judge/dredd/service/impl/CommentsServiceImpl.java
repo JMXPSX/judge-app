@@ -28,7 +28,7 @@ public class CommentsServiceImpl implements CommentsService {
 		Comments n = commentsRepository.findById(notesDTO.getCommentId()).get();
 		
 		if(n != null){
-			n.setNote(notesDTO.getNote());
+			n.setComment(notesDTO.getComment());
 			n = commentsRepository.save(n);
 		}
 		
@@ -39,9 +39,9 @@ public class CommentsServiceImpl implements CommentsService {
 	public List<CommentsDTO> findCommentsByEntryId(long entryId) {
 		List<CommentsDTO> dtos = new ArrayList<>();
 		List<Comments> comments = commentsRepository.findByEntry_entryId(entryId);
-		System.out.println("from db "+comments.get(0).getCommentDate());
+//		System.out.println("from db "+comments.get(0).getCommentDate());
 		comments.forEach(comment -> dtos.add(dtoService.convertToDTO(comment)));
-		System.out.println("converted "+dtos.get(0).getCommentDate());
+//		System.out.println("converted "+dtos.get(0).getCommentDate());
 		return dtos;
 	}
 

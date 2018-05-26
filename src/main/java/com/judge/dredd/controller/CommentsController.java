@@ -1,5 +1,7 @@
 package com.judge.dredd.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,7 @@ public class CommentsController {
 	
 	@PostMapping(value = "/dredd/api/comments")
 	public ResponseEntity<?> addComments (@RequestBody CommentsDTO commentsDTO){
+		commentsDTO.setCommentDate(new Date());
 		return new ResponseEntity<>(commentsService.addComment(commentsDTO), HttpStatus.OK);
 	}
 }

@@ -7,8 +7,8 @@ public class CommentsDTO {
 	private Long commentId;
 	private long appUserId;
 	private long entryId;
-	private String note;
-	private String commentDate;
+	private String comment;
+	private Date commentDate;
 	public Long getCommentId() {
 		return commentId;
 	}
@@ -27,19 +27,17 @@ public class CommentsDTO {
 	public void setEntryId(long entryId) {
 		this.entryId = entryId;
 	}
-	public String getNote() {
-		return note;
+	public String getComment() {
+		return comment;
 	}
-	public void setNote(String note) {
-		this.note = note;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
-	public String getCommentDate() {
+	public Date getCommentDate() {
 		return commentDate;
 	}
-	public void setCommentDate(String commentDate) {
+	public void setCommentDate(Date commentDate) {
 		this.commentDate = commentDate;
 	}
-	
-	
-	
+		
 }
