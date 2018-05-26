@@ -29,7 +29,7 @@ public class PushController {
 		comments.setAppUserId(array[index]);
 		comments.setCommentDate(new Date(0, 10, 2018));
 		
-		if (index == 4) {
+		if (index == 5) {
 			index = 0;
 		} else {
 			index++;
