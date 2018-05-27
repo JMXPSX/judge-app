@@ -2,12 +2,15 @@ package com.judge.dredd.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class CommentsDTO {
 
 	private Long commentId;
 	private long appUserId;
 	private long entryId;
 	private String comment;
+	@JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
 	private Date commentDate;
 	public Long getCommentId() {
 		return commentId;
