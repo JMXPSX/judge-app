@@ -16,4 +16,10 @@ public interface AppUserRepository extends CrudRepository<AppUser, Long>{
 	
 	public List<AppUser> findByUserType(int userType);
 	
+	//All users by type and by event id
+	public List<AppUser> findDistinctByUserTypeAndEntries_Event_Id(int userType,long eventId);
+	
+	//All users by event id
+	public List<AppUser> findDistinctByEntries_Event_Id(long eventId);
+	
 }

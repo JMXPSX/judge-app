@@ -80,9 +80,9 @@ public class EntryServiceImpl implements EntryService {
 	}
 
 	@Override
-	public List<EntryDTO> getEntriesByEventIdAndCategoryIdAndAppUserId(long eventId, long categoryId, long appUserId) {
+	public List<EntryDTO> getEntriesByEventIdAndCategoryIdAndUserId(long eventId, long categoryId, long appUserId) {
 		List<EntryDTO> dtos = new ArrayList<EntryDTO>();
-		List<Entry> entries = entryRepository.findByEventIdAndCategory_idAndJudges_id(eventId, categoryId, appUserId);
+		List<Entry> entries = entryRepository.findByEventIdAndCategory_idAndJudges_userId(eventId, categoryId, appUserId);
 		entries.forEach(entry -> dtos.add(dtoService.convertToDTO(entry)));
 		return dtos;
 	}

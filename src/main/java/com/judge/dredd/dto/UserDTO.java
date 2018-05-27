@@ -3,7 +3,7 @@ package com.judge.dredd.dto;
 import java.util.Date;
 
 public class UserDTO{
-	private long id;
+	private long userId;
 	private String username;
 	private String password;
 	private int userType;
@@ -11,11 +11,11 @@ public class UserDTO{
 	private boolean isPWReset;
 	private Date lastUpdate;
 	
-	public long getId() {
-		return id;
+	public long getUserId() {
+		return userId;
 	}
-	public void setId(long id) {
-		this.id = id;
+	public void setUserId(long id) {
+		this.userId = id;
 	}
 	public String getUsername() {
 		return username;

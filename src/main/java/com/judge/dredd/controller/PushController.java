@@ -7,7 +7,6 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.util.HtmlUtils;
 
 import com.judge.dredd.dto.CommentsDTO;
 
@@ -26,9 +25,9 @@ public class PushController {
 	public CommentsDTO greeting() throws Exception {
 		CommentsDTO comments = new CommentsDTO();
 		comments.setComment(words[index]);
-		comments.setAppUserId(array[index]);
+		comments.setUserId(array[index]);
 		comments.setCommentDate(new Date(0, 10, 2018));
-		System.out.println(comments);
+
 		if (index == 3) {
 			index = 0;
 		} else {

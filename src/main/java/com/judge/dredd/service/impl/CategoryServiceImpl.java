@@ -23,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<CategoryDTO> getCategoriesByEvent(long eventId) {
-		List<CategoryDTO> response = new ArrayList();
+		List<CategoryDTO> response = new ArrayList<>();
 		List<Category> categories = categoryRepository.findCategoriesByEventId(eventId);
 		categories.forEach(category -> response.add(dtoService.convertToDTO(category)));
 		return response;

@@ -80,7 +80,7 @@ public class AppUserServiceImpl implements AppUserService{
 		AppUser user = userRepository.findByUsernameAndPassword(username, password);
 		if(null != user){
 			userRepository.save(user);
-			u.setId(user.getId());
+			u.setUserId(user.getUserId());
 			u.setUserType(user.getUserType());
 			u.setUsername(user.getUsername());
 			u.setPassword(user.getPassword());

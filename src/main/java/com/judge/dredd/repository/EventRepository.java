@@ -9,7 +9,7 @@ import com.judge.dredd.model.Event;
 public interface EventRepository extends CrudRepository<Event, Long> {
 	
 	public List<Event> findAllById(long eventId);
-	public List<Event> findDistinctByEntries_judges_id(long appUserId);
+	public List<Event> findDistinctByEntries_judges_userId(long userId);
 
 	
 }

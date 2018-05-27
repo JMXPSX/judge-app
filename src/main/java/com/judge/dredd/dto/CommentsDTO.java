@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class CommentsDTO {
 
 	private Long commentId;
-	private long appUserId;
+	private long userId;
 	private long entryId;
 	private String comment;
 	@JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
@@ -18,11 +18,11 @@ public class CommentsDTO {
 	public void setCommentId(Long commentId) {
 		this.commentId = commentId;
 	}
-	public long getAppUserId() {
-		return appUserId;
+	public long getUserId() {
+		return userId;
 	}
-	public void setAppUserId(long appUserId) {
-		this.appUserId = appUserId;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 	public long getEntryId() {
 		return entryId;
