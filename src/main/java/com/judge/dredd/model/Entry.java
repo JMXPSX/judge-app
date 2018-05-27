@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +38,7 @@ public class Entry {
 	private Event event;
 	
 	@JsonIgnore
-    @ManyToMany(cascade = { 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { 
             CascadeType.DETACH, 
             CascadeType.MERGE
         })

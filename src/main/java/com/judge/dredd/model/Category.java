@@ -46,8 +46,6 @@ public class Category {
 		this.event = event;
 	}
 
-
-
 	public Long getId() {
 		return id;
 	}

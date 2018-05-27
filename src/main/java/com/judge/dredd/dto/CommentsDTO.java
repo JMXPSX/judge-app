@@ -5,7 +5,7 @@ import java.util.Date;
 public class CommentsDTO {
 
 	private Long commentId;
-	private long appUserId;
+	private long userId;
 	private long entryId;
 	private String comment;
 	private Date commentDate;
@@ -15,11 +15,11 @@ public class CommentsDTO {
 	public void setCommentId(Long commentId) {
 		this.commentId = commentId;
 	}
-	public long getAppUserId() {
-		return appUserId;
+	public long getUserId() {
+		return userId;
 	}
-	public void setAppUserId(long appUserId) {
-		this.appUserId = appUserId;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 	public long getEntryId() {
 		return entryId;

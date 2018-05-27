@@ -27,7 +27,7 @@ public class UserServiceOld {
 			String token = String.valueOf(now.getTime());
 			Date expiry = addHours(now, 24);
 			userRepository.save(user);
-			loginDTO.setUserId(user.getId());
+			loginDTO.setUserId(user.getUserId());
 			loginDTO.setToken(token);
 			loginDTO.setMessage("login success");
 		}else{

@@ -24,9 +24,9 @@ public class EventServiceImpl implements EventService{
 		
 
 	@Override
-	public List<EventDTO> getEventsByUser(long appUserId) {
+	public List<EventDTO> getEventsByUser(long userId) {
 		List<EventDTO> dtos = new ArrayList();
-		List<Event> events = eventRepository.findDistinctByEntries_judges_id(appUserId);
+		List<Event> events = eventRepository.findDistinctByEntries_judges_userId(userId);
 		events.forEach(event -> dtos.add(dtoService.convertToDTO(event)));
 		return dtos;
 	}

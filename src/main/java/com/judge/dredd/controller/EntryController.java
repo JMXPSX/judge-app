@@ -24,7 +24,7 @@ public class EntryController {
 	
 	@GetMapping(value = "/entries/{eventId}/categories/{categoryId}/users/{appUserId}  ")
 	public ResponseEntity<?> getentry (@PathVariable long eventId, @PathVariable long categoryId, @PathVariable long appUserId){
-		return new ResponseEntity<>(entryService.getEntriesByEventIdAndCategoryIdAndAppUserId(eventId, categoryId, appUserId), HttpStatus.OK);
+		return new ResponseEntity<>(entryService.getEntriesByEventIdAndCategoryIdAndUserId(eventId, categoryId, appUserId), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/entries")

@@ -12,7 +12,7 @@ public interface EntryService {
 	
 	public List<EntryDTO> getAllEntriesByEventId(long eventId);
 	
-	public List<EntryDTO> getEntriesByEventIdAndCategoryIdAndAppUserId(long eventId, long categoryId, long appUserId);
+	public List<EntryDTO> getEntriesByEventIdAndCategoryIdAndUserId(long eventId, long categoryId, long userId);
 	
 	public EntryDTO addEntryWithMembers(EntryDTO entryDTO);
 }

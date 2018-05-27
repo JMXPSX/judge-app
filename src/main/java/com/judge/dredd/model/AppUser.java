@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,47 +15,44 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class AppUser {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
-	private Long id;
-	
+	private Long userId;
+
 	private String username;
-	
+
 	private String password;
-	
+
 	private int userType;
-	
+
 	@SuppressWarnings("unused")
 	private boolean withTAC;
 
 	@JsonIgnore
-	@ManyToMany(mappedBy = "judges")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "judges")
 	private List<Entry> entries = new LinkedList<>();
-	
-	public AppUser() {}
-	
-	
-	
+
+	public AppUser() {
+	}
+
 	public AppUser(Long id, String username, String password, int userType) {
 		super();
-		this.id = id;
+		this.userId = id;
 		this.username = username;
 		this.password = password;
 		this.userType = userType;
 	}
 
-
-
-	public Long getId() {
-		return id;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getUsername() {
@@ -81,6 +79,4 @@ public class AppUser {
 		this.userType = userType;
 	}
 
-
-	
 }

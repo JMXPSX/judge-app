@@ -18,7 +18,6 @@ public class Member {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "member_id")
 	private Long id;
-	
 	private String firstname;
 	private String lasttname;
 	private String details;
