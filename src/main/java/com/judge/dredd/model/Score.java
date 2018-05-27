@@ -96,6 +96,14 @@ public class Score {
 	public void setUpdatedDate(Timestamp updatedDate) {
 		this.updatedDate = updatedDate;
 	}
+
+	public Tabulator getTabulator() {
+		return tabulator;
+	}
+
+	public void setTabulator(Tabulator tabulator) {
+		this.tabulator = tabulator;
+	}
 	
     
     

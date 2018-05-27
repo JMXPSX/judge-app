@@ -1,5 +1,6 @@
 package com.judge.dredd.service.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +9,18 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.judge.dredd.dto.ScoreDTO;
+import com.judge.dredd.model.AppUser;
+import com.judge.dredd.model.Criteria;
+import com.judge.dredd.model.Entry;
+import com.judge.dredd.model.Event;
 import com.judge.dredd.model.Score;
+import com.judge.dredd.model.Tabulator;
+import com.judge.dredd.repository.AppUserRepository;
+import com.judge.dredd.repository.CriteriaRepository;
+import com.judge.dredd.repository.EntryRepository;
+import com.judge.dredd.repository.EventRepository;
 import com.judge.dredd.repository.ScoreRepository;
+import com.judge.dredd.repository.TabulatorRepository;
 import com.judge.dredd.service.DtoService;
 import com.judge.dredd.service.ScoreService;
 
@@ -18,7 +29,22 @@ public class ScoreServiceImpl implements ScoreService {
 	
 	@Autowired
 	private ScoreRepository scoreRepository;
+	
+	@Autowired
+	private CriteriaRepository criteriaRepository;
 
+	@Autowired
+	private TabulatorRepository tabulatorRepository;
+	
+	@Autowired
+	private EntryRepository entryRepository;
+	
+	@Autowired
+	private EventRepository eventRepository;
+	
+	@Autowired
+	private AppUserRepository appUserRepository;
+	
 	@Autowired
 	private DtoService dtoService;
 	
@@ -32,11 +58,44 @@ public class ScoreServiceImpl implements ScoreService {
 
 	@Override
 	public ScoreDTO save(ScoreDTO scoreDTO) {
+		Timestamp now = new Timestamp(System.currentTimeMillis());
 		
-		Score obj = dtoService.convertToModel(scoreDTO);
-		obj = scoreRepository.save(obj);
+		Tabulator tabulator = new Tabulator();
+				
+		Entry entry = entryRepository.findById(scoreDTO.getEntryId()).get();		
+		Event event = eventRepository.findById(scoreDTO.getEventId()).get();
+		AppUser judge = appUserRepository.findById(scoreDTO.getJudgeId()).get();
+		
+		tabulator.setEntry(entry);;
+		tabulator.setEvent(event);
+		tabulator.setJudge(judge);
+		tabulator.setFinal(false);
+		tabulator.setCreatedDate(now);
+		tabulator.setUpdatedDate(now);
+		
+		final Tabulator tab = tabulatorRepository.save(tabulator);
+		
+		List<Score> scores = new ArrayList<>();
+		
+		scoreDTO.getScores().forEach(s -> {
+			System.out.println("loop scores");
+			Score score = new Score();
+			Criteria criteria = criteriaRepository.findById(s.getCriteriaId()).get();
+			
+			score.setCriteria(criteria);
+			score.setCreatedDate(now);
+			score.setDone(false);
+			score.setScore(s.getScore());
+			score.setUpdatedDate(now);
+			score.setTabulator(tab);
+			scores.add(score);
+			
+		});
+		scoreRepository.saveAll(scores);
+		
+		
 
-		return dtoService.convertToDTO(obj);
+		return scoreDTO;
 	}
 
 	@Override
@@ -135,9 +194,32 @@ public class ScoreServiceImpl implements ScoreService {
 	}
 
 	@Override
-	public List<ScoreDTO> getScoreByEventIdAndCategoryIdAndAppUserId(long eventId, long categoryId, long appUserId) {
+	public List<ScoreDTO> getScoreByEventIdAndCategoryIdAndEntryId(long eventId, long categoryId, long entryId) {
+//		scoreRepository
+		return null;
+	}
+
+	@Override
+	public List<ScoreDTO> getScoreByEventIdAndCategoryIdAndEntryIdAndAppUserId(long eventId, long categoryId,
+			long entryId, long appUserId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<ScoreDTO> getScoreByEventIdAndEntryId(long eventId, long entryId) {
+		List<ScoreDTO> dtos = new ArrayList<>();
+		List<Score> scores = scoreRepository.findByCriteria_Event_idAndTabulator_Entry_entryId(eventId, entryId);
+		scores.forEach(score -> dtos.add(dtoService.convertToDTO(score)));
+		return dtos;
+	}
+
+	@Override
+	public List<ScoreDTO> getScoreByEventIdAndEntryIdAndAppUserId(long eventId, long entryId, long appUserId) {
+		List<ScoreDTO> dtos = new ArrayList<>();
+		List<Score> scores = scoreRepository.findByCriteria_Event_idAndTabulator_Entry_entryIdAndTabulator_Judge_userId(eventId, entryId, appUserId);
+		scores.forEach(score -> dtos.add(dtoService.convertToDTO(score)));
+		return dtos;
 	}
 	
 }

@@ -24,7 +24,7 @@ public class ScoreController {
 	private ScoreService scoreService;
 	
 	@PostMapping(value = "/scores")
-	public ResponseEntity<?> addScore (@PathVariable int entryId, @RequestBody ScoreDTO scoreDTO){
+	public ResponseEntity<?> addScore (@RequestBody ScoreDTO scoreDTO){
 		return new ResponseEntity<>(scoreService.save(scoreDTO), HttpStatus.OK);
 	}
 	
@@ -33,30 +33,45 @@ public class ScoreController {
 		return new ResponseEntity<>(scoreService.updateScore(scoreDTO), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/scores/done/{eventId}/{entryId}/{judgeId}")
-	public ResponseEntity<?> setDone (@PathVariable long eventId, @PathVariable long entryId, @PathVariable long judgeId){
-		return new ResponseEntity<>(scoreService.setDone(eventId, entryId, judgeId), HttpStatus.OK);
-	}
+//	@PostMapping(value = "/scores/done/{eventId}/{entryId}/{judgeId}")
+//	public ResponseEntity<?> setDone (@PathVariable long eventId, @PathVariable long entryId, @PathVariable long judgeId){
+//		return new ResponseEntity<>(scoreService.setDone(eventId, entryId, judgeId), HttpStatus.OK);
+//	}
 	
-	@GetMapping(value = "/scores/{scoreId}")
-	public ResponseEntity<?> getOne (@PathVariable int scoreId){
-		return new ResponseEntity<>(scoreService.getOne(scoreId), HttpStatus.OK);
-	}
+//	@GetMapping(value = "/scores/{scoreId}")
+//	public ResponseEntity<?> getOne (@PathVariable int scoreId){
+//		return new ResponseEntity<>(scoreService.getOne(scoreId), HttpStatus.OK);
+//	}
 	
 	@GetMapping(value = "/scores/all")
 	public ResponseEntity<?> getScores (){
 		return new ResponseEntity<>(scoreService.getAll(), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/scores/events/{eventId}/categories/{categoryId}/users/{appUserId}")
-	public ResponseEntity<?> getScores (@PathVariable int eventId, @PathVariable int categoryId, @PathVariable int appUserId){
-		return new ResponseEntity<>(scoreService.getScoreByEventIdAndCategoryIdAndAppUserId(eventId, categoryId, appUserId), HttpStatus.OK);
+//	@GetMapping(value = "/scores/events/{eventId}/categories/{categoryId}/entry/{entryId}")
+//	public ResponseEntity<?> getScores (@PathVariable long eventId, @PathVariable long categoryId, @PathVariable long entryId){
+//		return new ResponseEntity<>(scoreService.getScoreByEventIdAndCategoryIdAndEntryId(eventId, categoryId, entryId), HttpStatus.OK);
+//	}
+//	
+//	@GetMapping(value = "/scores/events/{eventId}/categories/{categoryId}/entry/{entryId}/appuser/{appUserId")
+//	public ResponseEntity<?> getScores (@PathVariable long eventId, @PathVariable long categoryId, @PathVariable long entryId, @PathVariable long appUserId){
+//		return new ResponseEntity<>(scoreService.getScoreByEventIdAndCategoryIdAndEntryIdAndAppUserId(eventId, categoryId, entryId, appUserId), HttpStatus.OK);
+//	}
+	
+	@GetMapping(value = "/scores/events/{eventId}/entry/{entryId}")
+	public ResponseEntity<?> getScores (@PathVariable long eventId, @PathVariable long entryId){
+		return new ResponseEntity<>(scoreService.getScoreByEventIdAndEntryId(eventId, entryId), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/scores/events/{eventId}/entry/{entryId}/appuser/{appUserId}")
+	public ResponseEntity<?> getScoreByJudge (@PathVariable long eventId, @PathVariable long entryId, @PathVariable long appUserId){
+		return new ResponseEntity<>(scoreService.getScoreByEventIdAndEntryIdAndAppUserId(eventId, entryId, appUserId), HttpStatus.OK);
 	}
 	
 	
-	@PostMapping(value = "/scores/finalize/{eventid}/{judgeId}")
-	public ResponseEntity<?> finalizeScore (@PathVariable long eventid, @PathVariable long judgeId){
-		return new ResponseEntity<>(scoreService.finalizeScore(eventid, judgeId), HttpStatus.OK);
-	}
+//	@PostMapping(value = "/scores/finalize/{eventid}/{judgeId}")
+//	public ResponseEntity<?> finalizeScore (@PathVariable long eventid, @PathVariable long judgeId){
+//		return new ResponseEntity<>(scoreService.finalizeScore(eventid, judgeId), HttpStatus.OK);
+//	}
 	
 }
