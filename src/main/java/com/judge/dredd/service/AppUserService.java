@@ -10,5 +10,6 @@ public interface AppUserService {
 	void delete(long id);
 	List<UserDTO> getAll();
 	List<UserDTO> getAllByUserType(int userType);
-	public UserDTO login(String username, String password);
+	UserDTO login(String username, String password);
+
 }

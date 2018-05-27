@@ -1,5 +1,7 @@
 package com.judge.dredd.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,11 @@ public class EntryController {
 	@PostMapping(value = "dredd/api/entry")
 	public ResponseEntity<?> addEntry (@RequestBody EntryDTO entryDTO){
 		return new ResponseEntity<>(entryService.addEntryWithMembers(entryDTO), HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/entries/{entryId}/judges")
+	public ResponseEntity<?> addEntryJudges(@RequestBody List<Long> judges,@PathVariable long entryId){
+		return new ResponseEntity<>(entryService.assignJudges(entryId, judges), HttpStatus.OK);
 	}
 //	
 //	@GetMapping(value = "/entries/{entryId}")

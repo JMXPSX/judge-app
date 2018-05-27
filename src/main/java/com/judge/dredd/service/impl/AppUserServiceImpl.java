@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.Lists;
 import com.judge.dredd.dto.UserDTO;
 import com.judge.dredd.model.AppUser;
+import com.judge.dredd.model.Entry;
 import com.judge.dredd.repository.AppUserRepository;
+import com.judge.dredd.repository.EntryRepository;
 import com.judge.dredd.service.AppUserService;
 import com.judge.dredd.service.DtoService;
 
@@ -25,6 +27,9 @@ public class AppUserServiceImpl implements AppUserService{
 	
 	@Autowired
 	private BCryptPasswordEncoder bcrypt;
+	
+	@Autowired
+	private EntryRepository entryRepository;
 	
 	@Override
 	public UserDTO getOne(long id) {
@@ -88,5 +93,6 @@ public class AppUserServiceImpl implements AppUserService{
 		
 		return u;
 	}
+
 
 }
