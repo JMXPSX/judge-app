@@ -3,31 +3,27 @@ package com.judge.dredd.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.service.EntryService;
 
-@CrossOrigin
 @RestController
-@RequestMapping({"/dredd/api"})
 public class EntryController {
 
 	@Autowired
 	private EntryService entryService;
 	
-	@GetMapping(value = "/entries/{eventId}/categories/{categoryId}/users/{appUserId}  ")
+	@GetMapping(value = "dredd/api/entry/{eventId}/category/{categoryId}/users/{appUserId}")
 	public ResponseEntity<?> getentry (@PathVariable long eventId, @PathVariable long categoryId, @PathVariable long appUserId){
 		return new ResponseEntity<>(entryService.getEntriesByEventIdAndCategoryIdAndUserId(eventId, categoryId, appUserId), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/entries")
+	@PostMapping(value = "dredd/api/entry")
 	public ResponseEntity<?> addEntry (@RequestBody EntryDTO entryDTO){
 		return new ResponseEntity<>(entryService.addEntryWithMembers(entryDTO), HttpStatus.OK);
 	}
