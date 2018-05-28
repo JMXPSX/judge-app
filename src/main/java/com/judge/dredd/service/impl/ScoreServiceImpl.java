@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
+import com.judge.dredd.controller.ScoreController;
+import com.judge.dredd.dto.CriteriaScoreDTO;
 import com.judge.dredd.dto.ScoreDTO;
 import com.judge.dredd.model.AppUser;
 import com.judge.dredd.model.Criteria;
@@ -207,11 +209,22 @@ public class ScoreServiceImpl implements ScoreService {
 	}
 
 	@Override
-	public List<ScoreDTO> getScoreByEventIdAndEntryId(long eventId, long entryId) {
-		List<ScoreDTO> dtos = new ArrayList<>();
+	public ScoreDTO getScoreByEventIdAndEntryId(long eventId, long entryId) {
+		List<CriteriaScoreDTO> dtos = new ArrayList<>();
 		List<Score> scores = scoreRepository.findByCriteria_Event_idAndTabulator_Entry_entryId(eventId, entryId);
-		scores.forEach(score -> dtos.add(dtoService.convertToDTO(score)));
-		return dtos;
+		scores.forEach(score -> dtos.add(dtoService.convertToMixDTO(score)));
+		
+		Tabulator tab = tabulatorRepository.findByEvent_IdAndEntry_entryId(eventId, entryId);
+		ScoreDTO dto = new ScoreDTO();
+		dto.setScores(dtos);
+		dto.setEntryId(tab.getEntry().getEntryId());
+		dto.setEventId(tab.getEvent().getId());
+		dto.setJudgeId(tab.getJudge().getUserId());
+		dto.setTabulatorId(tab.getId());
+		dto.setFinal(tab.isFinal());
+		dto.setCategoryId(tab.getEntry().getCategory().getId());
+		
+		return dto;
 	}
 
 	@Override

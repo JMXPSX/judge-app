@@ -2,6 +2,7 @@ package com.judge.dredd.service;
 
 import java.util.List;
 
+import com.judge.dredd.dto.CriteriaScoreDTO;
 import com.judge.dredd.dto.ScoreDTO;
 
 public interface ScoreService {
@@ -23,6 +24,6 @@ public interface ScoreService {
 	public List<ScoreDTO> getScoreByEventIdAndCategoryIdAndEntryId(long eventId, long categoryId, long entryId);
 	public List<ScoreDTO> getScoreByEventIdAndCategoryIdAndEntryIdAndAppUserId(long eventId, long categoryId, long entryId, long appUserId);
 	
-	public List<ScoreDTO> getScoreByEventIdAndEntryId(long eventId, long entryId);
+	public ScoreDTO getScoreByEventIdAndEntryId(long eventId, long entryId);
 	public List<ScoreDTO> getScoreByEventIdAndEntryIdAndAppUserId(long eventId, long entryId, long appUserId);
 }

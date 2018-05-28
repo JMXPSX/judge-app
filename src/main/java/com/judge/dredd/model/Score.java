@@ -113,12 +113,5 @@ public class Score {
 	public void setTabulator(Tabulator tabulator) {
 		this.tabulator = tabulator;
 	}
-	@Override
-	public String toString() {
-		return "Score [scoreId=" + scoreId + ", criteria=" + criteria + ", score=" + score + ", isDone=" + isDone
-				+ ", tabulator=" + tabulator + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + "]";
-	}
-	
-    
     
 }

@@ -2,23 +2,22 @@ package com.judge.dredd.dto;
 
 import java.util.List;
 
-public class ScoreDTO {
-
+public class ScoresDTO {
 	private long tabulatorId;
-
-	// the event
+	
+	//the event
 	private long eventId;
-
+	
 	// the entry
 	private long entryId;
-
+	
 	private long categoryId;
-
-	// the judge
+	
+	//the judge
 	private long judgeId;
-
+	
 	private List<CriteriaScoreDTO> scores;
-
+	
 	// judge finalized
 	private boolean isFinal;
 
@@ -77,5 +76,5 @@ public class ScoreDTO {
 	public void setFinal(boolean isFinal) {
 		this.isFinal = isFinal;
 	}
-
+	
 }

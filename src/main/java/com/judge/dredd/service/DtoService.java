@@ -3,6 +3,7 @@ package com.judge.dredd.service;
 import com.judge.dredd.dto.CategoryDTO;
 import com.judge.dredd.dto.CommentsDTO;
 import com.judge.dredd.dto.CriteriaDTO;
+import com.judge.dredd.dto.CriteriaScoreDTO;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EventDTO;
 import com.judge.dredd.dto.MemberDTO;
@@ -50,4 +51,7 @@ public interface DtoService {
    public Comments convertToModel(CommentsDTO commentsDTO);
    
    public CommentsDTO convertToDTO(Comments comment);
+   
+   public CriteriaScoreDTO convertToMixDTO(Score score);
+   
 }

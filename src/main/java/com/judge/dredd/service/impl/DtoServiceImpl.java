@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.judge.dredd.dto.CategoryDTO;
 import com.judge.dredd.dto.CommentsDTO;
 import com.judge.dredd.dto.CriteriaDTO;
+import com.judge.dredd.dto.CriteriaScoreDTO;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EventDTO;
 import com.judge.dredd.dto.MemberDTO;
@@ -109,7 +110,12 @@ public class DtoServiceImpl implements DtoService {
 	public CommentsDTO convertToDTO(Comments comment) {
 		return this.modelMapper.map(comment, CommentsDTO.class);
 	}
-
+	
+	@Override
+	public CriteriaScoreDTO convertToMixDTO(Score score) {
+		return this.modelMapper.map(score, CriteriaScoreDTO.class);
+	}
+	
 	private void init() {
 	    PropertyMap<CommentsDTO, Comments> commentsMap = new PropertyMap<CommentsDTO, Comments>() {
 	        protected void configure() {
@@ -125,4 +131,6 @@ public class DtoServiceImpl implements DtoService {
 	    };
 	    modelMapper.addMappings(commentsDtoMap);
 	}
+
+
 }

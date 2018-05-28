@@ -119,5 +119,11 @@ public class Tabulator {
 		this.updatedDate = updatedDate;
 	}
 
+	@Override
+	public String toString() {
+		return "Tabulator [id=" + id + ", event=" + event + ", entry=" + entry + ", judge=" + judge + ", isFinal=" + isFinal + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate
+				+ "]";
+	}
+
 	
 }

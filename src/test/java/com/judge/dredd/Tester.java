@@ -59,6 +59,10 @@ public class Tester {
 		List<Score> scores = sr.findByCriteria_Event_idAndTabulator_Entry_entryId(1, 1);
 		
 		scores.forEach(i->System.out.println(i));
+		System.out.println("Yeah");
+		Tabulator tab = tb.findByEvent_IdAndEntry_entryId(1, 1);
+		
+		System.out.println(tab);
 		
 	}
 	
