@@ -9,6 +9,7 @@ public class CommentsDTO {
 	private Long commentId;
 	private long userId;
 	private long entryId;
+	private String username;
 	private String comment;
 	@JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
 	private Date commentDate;
@@ -41,6 +42,12 @@ public class CommentsDTO {
 	}
 	public void setCommentDate(Date commentDate) {
 		this.commentDate = commentDate;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 		
 }

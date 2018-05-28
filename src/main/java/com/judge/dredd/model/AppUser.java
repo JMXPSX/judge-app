@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -36,6 +37,10 @@ public class AppUser {
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "judges")
 	private List<Entry> entries = new LinkedList<>();
 
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "appUser")
+	private List<Comments> comments= new LinkedList<>();
+	
 	public AppUser() {
 	}
 

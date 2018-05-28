@@ -48,6 +48,15 @@ public class Score {
     @Column(name = "updated_date")
     @UpdateTimestamp
     private Timestamp updatedDate;
+    public Score() {}
+	public Score(Long scoreId, Criteria criteria, double score, boolean isDone, Tabulator tabulator) {
+		super();
+		this.scoreId = scoreId;
+		this.criteria = criteria;
+		this.score = score;
+		this.isDone = isDone;
+		this.tabulator = tabulator;
+	}
 
 	public Long getScoreId() {
 		return scoreId;
@@ -103,6 +112,11 @@ public class Score {
 
 	public void setTabulator(Tabulator tabulator) {
 		this.tabulator = tabulator;
+	}
+	@Override
+	public String toString() {
+		return "Score [scoreId=" + scoreId + ", criteria=" + criteria + ", score=" + score + ", isDone=" + isDone
+				+ ", tabulator=" + tabulator + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + "]";
 	}
 	
     

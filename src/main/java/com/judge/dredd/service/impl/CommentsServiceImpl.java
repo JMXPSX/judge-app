@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.judge.dredd.dto.CommentsDTO;
 import com.judge.dredd.model.Comments;
+import com.judge.dredd.repository.AppUserRepository;
 import com.judge.dredd.repository.CommentsRepository;
 import com.judge.dredd.service.CommentsService;
 import com.judge.dredd.service.DtoService;
@@ -22,7 +23,9 @@ public class CommentsServiceImpl implements CommentsService {
 	@Autowired
 	private DtoService dtoService;
 
-
+	@Autowired
+	private AppUserRepository appUserRepository;
+	
 	@Override
 	public CommentsDTO updateComments(CommentsDTO notesDTO) {
 		Comments n = commentsRepository.findById(notesDTO.getCommentId()).get();
@@ -50,6 +53,9 @@ public class CommentsServiceImpl implements CommentsService {
 		Comments c = dtoService.convertToModel(commentsDTO);
 		c.setCommentDate(new Date());
 		c = commentsRepository.save(c);
+//		c.setAppUser(appUserRepository.findById(commentsDTO.getUserId()).get());
+//		System.out.println(c.getAppUser().getUserId());
+//		System.out.println(c.getAppUser().getUsername());
 		return dtoService.convertToDTO(c);
 	}
 

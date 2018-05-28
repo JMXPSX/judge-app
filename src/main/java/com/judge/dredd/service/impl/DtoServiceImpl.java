@@ -1,6 +1,7 @@
 package com.judge.dredd.service.impl;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.stereotype.Service;
 
 import com.judge.dredd.dto.CategoryDTO;
@@ -25,7 +26,10 @@ import com.judge.dredd.service.DtoService;
 public class DtoServiceImpl implements DtoService {
 
 	private ModelMapper modelMapper = new ModelMapper();
-
+	public DtoServiceImpl() {
+		init();
+	}
+	
 	@Override
 	public Criteria convertToModel(CriteriaDTO criteriaDTO) {
 		return this.modelMapper.map(criteriaDTO, Criteria.class);
@@ -106,4 +110,19 @@ public class DtoServiceImpl implements DtoService {
 		return this.modelMapper.map(comment, CommentsDTO.class);
 	}
 
+	private void init() {
+	    PropertyMap<CommentsDTO, Comments> commentsMap = new PropertyMap<CommentsDTO, Comments>() {
+	        protected void configure() {
+	            map().getAppUser().setUserId(source.getUserId());
+	        }
+	    };
+	    modelMapper.addMappings(commentsMap);
+	    
+	    PropertyMap<Comments,CommentsDTO> commentsDtoMap = new PropertyMap<Comments,CommentsDTO>() {
+	        protected void configure() {
+	            map().setUsername(source.getAppUser().getUsername());
+	        }
+	    };
+	    modelMapper.addMappings(commentsDtoMap);
+	}
 }
