@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.judge.dredd.dto.CommentsDTO;
 import com.judge.dredd.model.Comments;
-import com.judge.dredd.repository.AppUserRepository;
 import com.judge.dredd.repository.CommentsRepository;
 import com.judge.dredd.service.CommentsService;
 import com.judge.dredd.service.DtoService;
@@ -22,9 +21,6 @@ public class CommentsServiceImpl implements CommentsService {
 	
 	@Autowired
 	private DtoService dtoService;
-
-	@Autowired
-	private AppUserRepository appUserRepository;
 	
 	@Override
 	public CommentsDTO updateComments(CommentsDTO notesDTO) {
@@ -42,9 +38,9 @@ public class CommentsServiceImpl implements CommentsService {
 	public List<CommentsDTO> findCommentsByEntryId(long entryId) {
 		List<CommentsDTO> dtos = new ArrayList<>();
 		List<Comments> comments = commentsRepository.findByEntry_entryId(entryId);
-//		System.out.println("from db "+comments.get(0).getCommentDate());
+
 		comments.forEach(comment -> dtos.add(dtoService.convertToDTO(comment)));
-//		System.out.println("converted "+dtos.get(0).getCommentDate());
+
 		return dtos;
 	}
 
@@ -53,9 +49,7 @@ public class CommentsServiceImpl implements CommentsService {
 		Comments c = dtoService.convertToModel(commentsDTO);
 		c.setCommentDate(new Date());
 		c = commentsRepository.save(c);
-//		c.setAppUser(appUserRepository.findById(commentsDTO.getUserId()).get());
-//		System.out.println(c.getAppUser().getUserId());
-//		System.out.println(c.getAppUser().getUsername());
+
 		return dtoService.convertToDTO(c);
 	}
 

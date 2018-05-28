@@ -49,5 +49,11 @@ public class CommentsDTO {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	@Override
+	public String toString() {
+		return "CommentsDTO [commentId=" + commentId + ", userId=" + userId + ", entryId=" + entryId + ", username="
+				+ username + ", comment=" + comment + ", commentDate=" + commentDate + "]";
+	}
 		
+	
 }
