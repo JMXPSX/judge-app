@@ -21,6 +21,7 @@ public class Member {
 	private String firstname;
 	private String lasttname;
 	private String details;
+	private String memberType;
 	
 	@ManyToOne(cascade = CascadeType.MERGE, targetEntity = Entry.class)
     @JoinColumn(name = "entry_id")
@@ -75,6 +76,14 @@ public class Member {
 
 	public void setDetails(String details) {
 		this.details = details;
+	}
+
+	public String getMemberType() {
+		return memberType;
+	}
+
+	public void setMemberType(String memberType) {
+		this.memberType = memberType;
 	}
 
 

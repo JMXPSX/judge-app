@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
@@ -12,6 +11,7 @@ import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.MemberDTO;
 import com.judge.dredd.model.AppUser;
 import com.judge.dredd.model.Entry;
+import com.judge.dredd.model.Member;
 import com.judge.dredd.repository.AppUserRepository;
 import com.judge.dredd.repository.EntryRepository;
 import com.judge.dredd.repository.MemberRepository;
@@ -99,10 +99,15 @@ public class EntryServiceImpl implements EntryService {
 		Entry obj = dtoService.convertToModel(entryDTO);
 		obj = entryRepository.save(obj);
 
+		EntryDTO dto = dtoService.convertToDTO(obj);
+		
+		if(null == dto.getMembers()){
+			dto.setMembers(new ArrayList<>());
+		}
 		List<MemberDTO> members = entryDTO.getMembers();
-		members.forEach(member -> memberRepository.save(dtoService.convertToModel(member)));
+		members.forEach(member -> dto.getMembers().add(dtoService.convertToDTO(memberRepository.save(dtoService.convertToModel(member)))));
 
-		return dtoService.convertToDTO(obj);
+		return dto;
 	}
 
 	@Override
