@@ -1,14 +1,15 @@
 package com.judge.dredd.service;
 
-import org.springframework.stereotype.Service;
+import com.judge.dredd.dto.UserDTO;
 
-@Service
-public class TacService {
+public interface TacService {
 	
-	public boolean updateTac (boolean tacFlag) {
-		
-		return (tacFlag)?true:false;	
-		
-	};		
+	UserDTO updateTac (UserDTO userDTO);
+	
+//	public boolean updateTac (boolean tacFlag) {
+//		
+//		return (tacFlag)?true:false;	
+//		
+//	};		
 
 }

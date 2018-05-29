@@ -12,6 +12,7 @@ public interface AppUserRepository extends CrudRepository<AppUser, Long>{
 	@Query(value = "select u.* from user u where u.username = ?1 and u.password =?2", nativeQuery = true)
 	public AppUser findByUsernameAndPassword(String username, String password);
 	
+	@Query(value = "select u.* from user u where u.username = ?1", nativeQuery = true)
 	public AppUser findByUsername(String username);
 	
 	public List<AppUser> findByUserType(int userType);
