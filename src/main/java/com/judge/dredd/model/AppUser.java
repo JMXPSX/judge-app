@@ -29,8 +29,10 @@ public class AppUser {
 	private String password;
 
 	private int userType;
+	
+	private boolean isPWReset;
 
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	private boolean withTAC;
 
 	@JsonIgnore
@@ -82,6 +84,14 @@ public class AppUser {
 
 	public void setUserType(int userType) {
 		this.userType = userType;
+	}	
+
+	public boolean isPWReset() {
+		return isPWReset;
+	}
+
+	public void setPWReset(boolean isPWReset) {
+		this.isPWReset = isPWReset;
 	}
 
 	public boolean isWithTAC() {

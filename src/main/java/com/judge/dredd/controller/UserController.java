@@ -34,6 +34,11 @@ public class UserController {
 		return new ResponseEntity<>(systemUserService.save(userDTO), HttpStatus.OK);
 	}
 	
+//	@PutMapping(value = "/users")
+//	public ResponseEntity<?> pwResetFlag (@RequestBody UserDTO userDTO){
+//		return new ResponseEntity<>(systemUserService.pwResetFlag(userDTO), HttpStatus.OK);
+//	}
+	
 	@GetMapping(value = "/users")
 	public ResponseEntity<?> getAllUsers (){
 		return new ResponseEntity<>("not yet implemented", HttpStatus.OK);
