@@ -22,7 +22,7 @@ public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="category_id")
-	private Long id;
+	private Long categoryId;
 	
 	private String name;
 	
@@ -38,20 +38,20 @@ public class Category {
 	
     public Category() {}
     
-	public Category(Long id, String name, String description, Event event) {
+	public Category(Long categoryId, String name, String description, Event event) {
 		super();
-		this.id = id;
+		this.categoryId = categoryId;
 		this.name = name;
 		this.description = description;
 		this.event = event;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getCategoryId() {
+		return categoryId;
 	}
 
-	public void setid(Long id) {
-		this.id = id;
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public String getName() {
@@ -76,6 +76,14 @@ public class Category {
 
 	public void setEntries(List<Entry> entries) {
 		this.entries = entries;
+	}
+
+	public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
 	}
 	
 }
