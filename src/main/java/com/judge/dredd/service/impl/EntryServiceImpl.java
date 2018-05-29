@@ -90,22 +90,39 @@ public class EntryServiceImpl implements EntryService {
 		List<EntryDTO> dtos = new ArrayList<EntryDTO>();
 		List<Entry> entries = entryRepository.findByEventIdAndCategory_categoryIdAndJudges_userId(eventId, categoryId,
 				appUserId);
-		entries.forEach(entry -> dtos.add(dtoService.convertToDTO(entry)));
+		entries.forEach(entry -> {
+			System.out.println("member isze: "+ entry.getMembers().size());
+			
+			EntryDTO e = dtoService.convertToDTO(entry);
+			e.setMembers(new ArrayList<>());
+			
+			List<Member> members = entry.getMembers();
+			members.forEach(m -> e.getMembers().add(dtoService.convertToDTO(m)));
+			
+			
+			dtos.add(e);
+			});
 		return dtos;
 	}
 
 	@Override
 	public EntryDTO addEntryWithMembers(EntryDTO entryDTO) {
 		Entry obj = dtoService.convertToModel(entryDTO);
-		obj = entryRepository.save(obj);
+		final Entry objf = entryRepository.save(obj);
 
-		EntryDTO dto = dtoService.convertToDTO(obj);
+		EntryDTO dto = dtoService.convertToDTO(objf);
 		
 		if(null == dto.getMembers()){
 			dto.setMembers(new ArrayList<>());
 		}
 		List<MemberDTO> members = entryDTO.getMembers();
-		members.forEach(member -> dto.getMembers().add(dtoService.convertToDTO(memberRepository.save(dtoService.convertToModel(member)))));
+		members.forEach(member ->{ 
+			Member m = dtoService.convertToModel(member);
+			m.setEntry(objf);
+			m = memberRepository.save(m);
+			
+			dto.getMembers().add(dtoService.convertToDTO(m));
+			});
 
 		return dto;
 	}
