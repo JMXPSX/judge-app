@@ -8,6 +8,8 @@ public class CriteriaDTO{
 	private String criteriaDescription;
 	private int minValue;
 	private int maxValue;
+	private long eventId;
+	
 	public long getCriteriaId() {
 		return criteriaId;
 	}
@@ -37,6 +39,12 @@ public class CriteriaDTO{
 	}
 	public void setMaxValue(int maxValue) {
 		this.maxValue = maxValue;
+	}
+	public long getEventId() {
+		return eventId;
+	}
+	public void setEventId(long eventId) {
+		this.eventId = eventId;
 	}
 	
 	

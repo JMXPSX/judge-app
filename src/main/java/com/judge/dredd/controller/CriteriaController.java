@@ -34,7 +34,7 @@ public class CriteriaController {
 		return new ResponseEntity<>(criteriaService.getAll(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/dredd/api/criteriabyevent/{eventId}")
+	@GetMapping("/dredd/api/criteria/event/{eventId}")
 	public ResponseEntity<?> getCriteriaByEventId (@PathVariable long eventId){
 		return new ResponseEntity<>(criteriaService.getByEventDetailId(eventId), HttpStatus.OK);
 	}

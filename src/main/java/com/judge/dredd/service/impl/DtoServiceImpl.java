@@ -130,6 +130,20 @@ public class DtoServiceImpl implements DtoService {
 	        }
 	    };
 	    modelMapper.addMappings(commentsDtoMap);
+	    
+	    PropertyMap<Criteria,CriteriaDTO> criteriaDtoMap = new PropertyMap<Criteria,CriteriaDTO>() {
+	        protected void configure() {
+	            map().setEventId(source.getEvents().getId());
+	        }
+	    };
+	    modelMapper.addMappings(criteriaDtoMap);
+	    
+	    PropertyMap<CriteriaDTO,Criteria> criteriaMap = new PropertyMap<CriteriaDTO,Criteria>() {
+	        protected void configure() {
+	            map().getEvents().setId(source.getEventId());
+	        }
+	    };
+	    modelMapper.addMappings(criteriaMap);
 	}
 
 

@@ -65,10 +65,10 @@ public class CriteriaServiceImpl implements CriteriaService {
 	}
 	
 	public List<CriteriaDTO> getByEventDetailId(long eventId){
-		List<CriteriaDTO> criteria = new ArrayList();
-		List<Event> list = eventDetailRepository.findAllById(eventId);
+		List<CriteriaDTO> criteria = new ArrayList<>();
+		List<Criteria> list = criteriaRepository.findByEventId(eventId);
 		list.forEach(e -> {
-//			criteria.add(dtoService.convertToDTO(e.get));
+			criteria.add(dtoService.convertToDTO(e));
 		});		
 		return criteria;
 	}
