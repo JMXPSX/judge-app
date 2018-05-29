@@ -41,7 +41,7 @@ public class UserController {
 	
 	@GetMapping(value = "/users")
 	public ResponseEntity<?> getAllUsers (){
-		return new ResponseEntity<>("not yet implemented", HttpStatus.OK);
+		return new ResponseEntity<>(systemUserService.getAll(), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/users/{userId}")
