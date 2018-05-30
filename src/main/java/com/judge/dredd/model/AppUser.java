@@ -84,4 +84,12 @@ public class AppUser {
 		this.userType = userType;
 	}
 
+	public boolean isWithTAC() {
+		return withTAC;
+	}
+
+	public void setWithTAC(boolean withTAC) {
+		this.withTAC = withTAC;
+	}	
+
 }
