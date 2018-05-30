@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
-import com.judge.dredd.controller.ScoreController;
 import com.judge.dredd.dto.CriteriaScoreDTO;
 import com.judge.dredd.dto.ScoreDTO;
 import com.judge.dredd.model.AppUser;
@@ -222,7 +221,7 @@ public class ScoreServiceImpl implements ScoreService {
 		dto.setJudgeId(tab.getJudge().getUserId());
 		dto.setTabulatorId(tab.getId());
 		dto.setFinal(tab.isFinal());
-		dto.setCategoryId(tab.getEntry().getCategory().getId());
+		dto.setCategoryId(tab.getEntry().getCategory().getCategoryId());
 		
 		return dto;
 	}

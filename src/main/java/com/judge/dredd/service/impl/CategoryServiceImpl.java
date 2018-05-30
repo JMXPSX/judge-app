@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.judge.dredd.dto.CategoryDTO;
 import com.judge.dredd.model.Category;
+import com.judge.dredd.model.Event;
 import com.judge.dredd.repository.CategoryRepository;
+import com.judge.dredd.repository.EventRepository;
 import com.judge.dredd.service.CategoryService;
 import com.judge.dredd.service.DtoService;
 
@@ -20,6 +22,9 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Autowired
 	private DtoService dtoService;
+	
+	@Autowired
+	private EventRepository eventRepository;
 
 	@Override
 	public List<CategoryDTO> getCategoriesByEvent(long eventId) {
@@ -32,6 +37,9 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public CategoryDTO addCategory(CategoryDTO categoryDTO) {
 		Category c =  dtoService.convertToModel(categoryDTO);
+		
+		Event e = eventRepository.findById(categoryDTO.getEventId()).get();
+		c.setEvent(e);
 		c = categoryRepository.save(c);
 		return dtoService.convertToDTO(c);
 	}
