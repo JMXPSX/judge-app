@@ -59,7 +59,7 @@ public class ScoreServiceImpl implements ScoreService {
 
 	@Override
 	public ScoreDTO save(ScoreDTO scoreDTO) {
-		Timestamp now = new Timestamp(System.currentTimeMillis());
+		final Timestamp now = new Timestamp(System.currentTimeMillis());
 		
 		Tabulator tabulator = new Tabulator();
 				
@@ -67,7 +67,7 @@ public class ScoreServiceImpl implements ScoreService {
 		Event event = eventRepository.findById(scoreDTO.getEventId()).get();
 		AppUser judge = appUserRepository.findById(scoreDTO.getJudgeId()).get();
 		
-		tabulator.setEntry(entry);;
+		tabulator.setEntry(entry);
 		tabulator.setEvent(event);
 		tabulator.setJudge(judge);
 		tabulator.setFinal(false);
@@ -227,11 +227,27 @@ public class ScoreServiceImpl implements ScoreService {
 	}
 
 	@Override
-	public List<ScoreDTO> getScoreByEventIdAndEntryIdAndAppUserId(long eventId, long entryId, long appUserId) {
-		List<ScoreDTO> dtos = new ArrayList<>();
+	public ScoreDTO getScoreByEventIdAndEntryIdAndAppUserId(long eventId, long entryId, long appUserId) {
+		ScoreDTO dto = new ScoreDTO();
+		dto.setEventId(eventId);
+		dto.setEntryId(entryId);
+		dto.setJudgeId(appUserId);
+		dto.setScores(new ArrayList());
 		List<Score> scores = scoreRepository.findByCriteria_Event_idAndTabulator_Entry_entryIdAndTabulator_Judge_userId(eventId, entryId, appUserId);
-		scores.forEach(score -> dtos.add(dtoService.convertToDTO(score)));
-		return dtos;
+		scores.forEach(score -> {
+			dto.setFinal(score.getTabulator().isFinal());
+			dto.setTabulatorId(score.getTabulator().getId());
+			
+			CriteriaScoreDTO csd = new CriteriaScoreDTO();
+			csd.setScore(score.getScore());
+			csd.setCriteriaName(score.getCriteria().getCriteriaName());
+			csd.setCriteriaDescription(score.getCriteria().getCriteriaDescription());
+			csd.setCriteriaId(score.getCriteria().getCriteriaId());
+			dto.getScores().add(csd);
+			
+			
+		});
+		return dto;
 	}
 	
 }

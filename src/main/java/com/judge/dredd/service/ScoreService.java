@@ -25,5 +25,5 @@ public interface ScoreService {
 	public List<ScoreDTO> getScoreByEventIdAndCategoryIdAndEntryIdAndAppUserId(long eventId, long categoryId, long entryId, long appUserId);
 	
 	public ScoreDTO getScoreByEventIdAndEntryId(long eventId, long entryId);
-	public List<ScoreDTO> getScoreByEventIdAndEntryIdAndAppUserId(long eventId, long entryId, long appUserId);
+	public ScoreDTO getScoreByEventIdAndEntryIdAndAppUserId(long eventId, long entryId, long appUserId);
 }
