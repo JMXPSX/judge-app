@@ -49,6 +49,15 @@ public class AppUserServiceImpl implements AppUserService{
 
 		return dtoService.convertToDTO(obj);
 	}
+	
+	@Override
+	public UserDTO pwResetFlag(UserDTO userDTO) {
+		AppUser obj = dtoService.convertToModel(userDTO);
+		
+		obj.setPWReset(true);
+
+		return dtoService.convertToDTO(obj);
+	}
 
 	@Override
 	public void delete(long id) {
