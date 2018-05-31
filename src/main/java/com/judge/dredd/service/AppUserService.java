@@ -7,7 +7,7 @@ import com.judge.dredd.dto.UserDTO;
 public interface AppUserService {
 	UserDTO getOne(long id);
 	UserDTO save(UserDTO scoreDTO);
-	UserDTO pwResetFlag(UserDTO scoreDTO);
+	UserDTO pwResetFlag(long userId);
 	void delete(long id);
 	List<UserDTO> getAll();
 	List<UserDTO> getAllByUserType(int userType);

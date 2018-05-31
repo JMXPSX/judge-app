@@ -51,12 +51,11 @@ public class AppUserServiceImpl implements AppUserService{
 	}
 	
 	@Override
-	public UserDTO pwResetFlag(UserDTO userDTO) {
-		AppUser obj = dtoService.convertToModel(userDTO);
-		
-		obj.setPWReset(true);
-
-		return dtoService.convertToDTO(obj);
+	public UserDTO pwResetFlag(long userId) {
+		AppUser appUser = userRepository.findById(userId).get();		
+		appUser.setPWReset(true);		
+		appUser = userRepository.save(appUser);
+		return dtoService.convertToDTO(appUser);
 	}
 
 	@Override
