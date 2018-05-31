@@ -12,4 +12,5 @@ public interface AppUserService {
 	List<UserDTO> getAll();
 	List<UserDTO> getAllByUserType(int userType);
 	UserDTO login(String username, String password);
+	UserDTO setNewPassword(UserDTO scoreDTO);
 }

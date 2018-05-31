@@ -2,48 +2,28 @@ package com.judge.dredd.dto;
 
 public class RateDTO {
 
-	private long rateId;
-	private double rating;
-	private double max;
-	private double min;
+	private long tabulatorId;
+	private int rateValue;
 	private long eventId;
-	private long categoryId;
 	private long judgeId;
-	public long getRateId() {
-		return rateId;
+	
+	public long getTabulatorId() {
+		return tabulatorId;
 	}
-	public void setRateId(long rateId) {
-		this.rateId = rateId;
+	public void setTabulatorId(long tabulatorId) {
+		this.tabulatorId = tabulatorId;
 	}
-	public double getRating() {
-		return rating;
+	public int getRateValue() {
+		return rateValue;
 	}
-	public void setRating(double rating) {
-		this.rating = rating;
-	}
-	public double getMax() {
-		return max;
-	}
-	public void setMax(double max) {
-		this.max = max;
-	}
-	public double getMin() {
-		return min;
-	}
-	public void setMin(double min) {
-		this.min = min;
+	public void setRateValue(int rateValue) {
+		this.rateValue = rateValue;
 	}
 	public long getEventId() {
 		return eventId;
 	}
 	public void setEventId(long eventId) {
 		this.eventId = eventId;
-	}
-	public long getCategoryId() {
-		return categoryId;
-	}
-	public void setCategoryId(long categoryId) {
-		this.categoryId = categoryId;
 	}
 	public long getJudgeId() {
 		return judgeId;

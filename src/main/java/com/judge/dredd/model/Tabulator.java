@@ -45,6 +45,8 @@ public class Tabulator {
 	
 	private boolean isFinal;
 	
+	private int rateValue;
+	
     @JsonIgnore
     @Column(name = "created_date")
     @CreationTimestamp
@@ -125,5 +127,14 @@ public class Tabulator {
 				+ "]";
 	}
 
+	public int getRateValue() {
+		return rateValue;
+	}
+
+	public void setRateValue(int rateValue) {
+		this.rateValue = rateValue;
+	}
+
 	
+		
 }

@@ -21,18 +21,13 @@ public class RatingController {
 	@Autowired
 	private RatingService ratingService;
 
-	@PostMapping(value = "/rate")
-	public ResponseEntity<?> addRating (@RequestBody RateDTO rateDTO){
-		return new ResponseEntity<>(ratingService.save(rateDTO), HttpStatus.OK);
-	}
-	
 	@PutMapping(value = "/rate")
-	public ResponseEntity<?> updateRating (@RequestBody RateDTO rateDTO){
+	public ResponseEntity<?> setRating (@RequestBody RateDTO rateDTO){
 		return new ResponseEntity<>(ratingService.update(rateDTO), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/rate/event/{eventId}/category/{categoryId}/entry/{entryId}")
-	public ResponseEntity<?> getRating (@PathVariable long eventId, @PathVariable long categoryId, @PathVariable long entryId){
-		return new ResponseEntity<>(ratingService.getRating(eventId, categoryId, entryId), HttpStatus.OK);
+	@GetMapping(value = "/rate/event/{eventId}/entry/{entryId}/judge/{appuserId}")
+	public ResponseEntity<?> getRating (@PathVariable long eventId, @PathVariable long entryId, @PathVariable long appuserId){
+		return new ResponseEntity<>(ratingService.getRating(eventId, entryId, appuserId), HttpStatus.OK);
 	}
 }

@@ -107,5 +107,17 @@ public class AppUserServiceImpl implements AppUserService{
 		return u;
 	}
 
+	@Override
+	public UserDTO setNewPassword(UserDTO scoreDTO) {
+		AppUser au = userRepository.findById(scoreDTO.getUserId()).get();
+		if(null != au){
+			au.setPWReset(true);
+			au.setPassword(bcrypt.encode(scoreDTO.getPassword()));
+			au = userRepository.save(au);
+		}
+		
+		return dtoService.convertToDTO(au);
+	}
+
 
 }

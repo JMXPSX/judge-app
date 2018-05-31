@@ -29,10 +29,10 @@ public class UserController {
 		return new ResponseEntity<>(systemUserService.save(userDTO), HttpStatus.OK);
 	}
 	
-	@PutMapping(value = "/users")
-	public ResponseEntity<?> updateUser (@RequestBody UserDTO userDTO){
-		return new ResponseEntity<>(systemUserService.save(userDTO), HttpStatus.OK);
-	}
+//	@PutMapping(value = "/users")
+//	public ResponseEntity<?> updateUser (@RequestBody UserDTO userDTO){
+//		return new ResponseEntity<>(systemUserService.save(userDTO), HttpStatus.OK);
+//	}
 	
 	@PutMapping(value = "/users/{userId}")
 	public ResponseEntity<?> pwResetFlag (@PathVariable long userId){
@@ -64,6 +64,12 @@ public class UserController {
 	public ResponseEntity<?> proxyLogin (@PathVariable String username, @PathVariable String password){
 		System.out.println("user+pass: "+username + " : "+ password);
 		return new ResponseEntity<>(systemUserService.login(username, password), HttpStatus.OK);
+	}
+	
+	@PutMapping(value = "/users/reset/{userId}")
+	public ResponseEntity<?> updateUserPassword (@PathVariable long userId, @RequestBody UserDTO userDTO){
+		userDTO.setUserId(userId);
+		return new ResponseEntity<>(systemUserService.setNewPassword(userDTO), HttpStatus.OK);
 	}
 
 }
