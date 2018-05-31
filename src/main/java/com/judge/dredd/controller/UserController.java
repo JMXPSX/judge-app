@@ -61,7 +61,7 @@ public class UserController {
 	}
 	
 	@GetMapping(value = "/users/{username},{password}")
-	public ResponseEntity<?> proxyLogin (@PathVariable String username, String password){
+	public ResponseEntity<?> proxyLogin (@PathVariable String username, @PathVariable String password){
 		return new ResponseEntity<>(systemUserService.login(username, password), HttpStatus.OK);
 	}
 
