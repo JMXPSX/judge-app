@@ -59,5 +59,10 @@ public class UserController {
 	public ResponseEntity<?> getUsersByUsername (@PathVariable long userId){
 		return new ResponseEntity<>(systemUserService.getOne(userId), HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/users/{username},{password}")
+	public ResponseEntity<?> proxyLogin (@PathVariable String username, String password){
+		return new ResponseEntity<>(systemUserService.login(username, password), HttpStatus.OK);
+	}
 
 }
