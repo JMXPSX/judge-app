@@ -60,8 +60,9 @@ public class UserController {
 		return new ResponseEntity<>(systemUserService.getOne(userId), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/users/{username},{password}")
+	@GetMapping(value = "/users/{username}/{password}")
 	public ResponseEntity<?> proxyLogin (@PathVariable String username, @PathVariable String password){
+		System.out.println("user+pass: "+username + " : "+ password);
 		return new ResponseEntity<>(systemUserService.login(username, password), HttpStatus.OK);
 	}
 

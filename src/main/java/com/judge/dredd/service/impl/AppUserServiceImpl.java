@@ -90,13 +90,18 @@ public class AppUserServiceImpl implements AppUserService{
 
 	@Override
 	public UserDTO login(String username, String password) {
+		System.out.println("login: "+username+"/"+bcrypt.encode(password));
 		UserDTO u = new UserDTO();
-		AppUser user = userRepository.findByUsernameAndPassword(username, password);
-		if(null != user){
-			userRepository.save(user);
+		AppUser user = userRepository.findByUsername(username);
+		if(null != user && bcrypt.matches(password, user.getPassword())){
+			
+			System.out.println("userid: "+user.getUserId());
 			u.setUserId(user.getUserId());
+			System.out.println("getUserType: "+user.getUserType());
 			u.setUserType(user.getUserType());
+			System.out.println("getUsername: "+user.getUsername());
 			u.setUsername(user.getUsername());
+			System.out.println("getPassword: "+user.getPassword());
 			u.setPassword(user.getPassword());
 		}
 		
