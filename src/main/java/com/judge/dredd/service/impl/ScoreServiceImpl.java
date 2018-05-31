@@ -145,7 +145,17 @@ public class ScoreServiceImpl implements ScoreService {
 
 	@Override
 	public String updateScore(ScoreDTO scoreDTO) {
-		return null;
+		final Timestamp now = new Timestamp(System.currentTimeMillis());
+		
+		scoreDTO.getScores().forEach(s -> {
+			
+			Score score = scoreRepository.findById(s.getScoreId()).get();
+			score.setUpdatedDate(now);
+			score.setScore(s.getScore());
+			scoreRepository.save(score);
+		});
+		
+		return "update done";
 	}
 
 	@Override
@@ -243,6 +253,7 @@ public class ScoreServiceImpl implements ScoreService {
 			csd.setCriteriaName(score.getCriteria().getCriteriaName());
 			csd.setCriteriaDescription(score.getCriteria().getCriteriaDescription());
 			csd.setCriteriaId(score.getCriteria().getCriteriaId());
+			csd.setScoreId(score.getScoreId());
 			dto.getScores().add(csd);
 			
 			
