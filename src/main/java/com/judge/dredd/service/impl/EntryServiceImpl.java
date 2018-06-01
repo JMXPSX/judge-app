@@ -226,4 +226,22 @@ public class EntryServiceImpl implements EntryService {
 		return null;
 	}
 
+	@Override
+	public List<EntryDTO> getEntriesByEventIdAndUserId(long eventId, long userId) {
+		List<EntryDTO> dtos = new ArrayList<EntryDTO>();
+		List<Entry> entries = entryRepository.findByEventIdAndJudges_userId(eventId, userId);
+		entries.forEach(entry -> {
+			
+			EntryDTO e = dtoService.convertToDTO(entry);
+			e.setMembers(new ArrayList<>());
+			
+			List<Member> members = entry.getMembers();
+			members.forEach(m -> e.getMembers().add(dtoService.convertToDTO(m)));
+			
+			
+			dtos.add(e);
+			});
+		return dtos;
+	}
+
 }

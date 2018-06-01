@@ -14,4 +14,6 @@ public interface EntryRepository extends CrudRepository<Entry, Long>{
 //	@Query(value = "select e.* from event e where e.event_id = ?1 and e.category_id = ?2 and e.user", nativeQuery = true)
 	List<Entry> findByEventIdAndCategory_categoryIdAndJudges_userId(long eventId, long categoryId, long userId);
 	
+	List<Entry> findByEventIdAndJudges_userId(long eventId, long userId);
+	
 }

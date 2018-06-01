@@ -14,6 +14,8 @@ public interface EntryService {
 	
 	public List<EntryDTO> getEntriesByEventIdAndCategoryIdAndUserId(long eventId, long categoryId, long userId);
 	
+	public List<EntryDTO> getEntriesByEventIdAndUserId(long eventId, long userId);
+	
 	public EntryDTO addEntryWithMembers(EntryDTO entryDTO);
 	
 	String assignJudges(long entryId, List<Long> judges);
