@@ -44,4 +44,12 @@ public class CategoryServiceImpl implements CategoryService {
 		return dtoService.convertToDTO(c);
 	}
 
+	@Override
+	public List<CategoryDTO> getCategoriesByUser(long appUserId) {
+		List<CategoryDTO> response = new ArrayList<>();
+		List<Category> categories = categoryRepository.findByEntries_judges_userId(appUserId);
+		categories.forEach(category -> response.add(dtoService.convertToDTO(category)));
+		return response;
+	}
+
 }

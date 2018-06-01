@@ -13,4 +13,6 @@ public interface CategoryRepository extends CrudRepository<Category, Long>{
 	
 	@Query(value = "select c.* from category c where c.event_id = ?1", nativeQuery = true)
 	List<Category> findCategoriesByEventId(long eventId);
+	
+	public List<Category> findByEntries_judges_userId(long appUserId);
 }

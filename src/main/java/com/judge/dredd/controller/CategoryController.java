@@ -27,4 +27,9 @@ public class CategoryController {
 	public ResponseEntity<?> createCategory (@RequestBody CategoryDTO categoryDTO){
 		return new ResponseEntity<>(categoryService.addCategory(categoryDTO), HttpStatus.OK);
 	}
+	
+	@GetMapping("/dredd/api/category/user/{appUserId}")
+	public ResponseEntity<?> getCategoriesByUser (@PathVariable long appUserId){
+		return new ResponseEntity<>(categoryService.getCategoriesByEvent(appUserId), HttpStatus.OK);
+	}
 }
