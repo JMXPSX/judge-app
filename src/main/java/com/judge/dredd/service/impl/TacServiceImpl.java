@@ -19,11 +19,13 @@ public class TacServiceImpl implements TacService {
 	private DtoService dtoService;
 
 	@Override
-	public UserDTO updateTac(UserDTO userDTO) {
+	public UserDTO agreeTac(long userId) {
 		
-		AppUser appUser = appUserRepository.findByUsername(userDTO.getUsername());
+		AppUser appUser = appUserRepository.findById(userId).get();
 		
 		appUser.setWithTAC(true);
+		
+		appUser = appUserRepository.save(appUser);
 		
 		return dtoService.convertToDTO(appUser);
 		

@@ -4,7 +4,7 @@ import com.judge.dredd.dto.UserDTO;
 
 public interface TacService {
 	
-	UserDTO updateTac (UserDTO userDTO);
+	UserDTO agreeTac (long userId);
 	
 //	public boolean updateTac (boolean tacFlag) {
 //		
