@@ -41,7 +41,7 @@ public class UserController {
 	
 	@GetMapping(value = "/users")
 	public ResponseEntity<?> getAllUsers (){
-		return new ResponseEntity<>("not yet implemented", HttpStatus.OK);
+		return new ResponseEntity<>(systemUserService.getAll(), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/users/{userId}")
@@ -58,6 +58,11 @@ public class UserController {
 	@GetMapping(value = "/users/{userId}")
 	public ResponseEntity<?> getUsersByUsername (@PathVariable long userId){
 		return new ResponseEntity<>(systemUserService.getOne(userId), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/users/{username},{password}")
+	public ResponseEntity<?> proxyLogin (@PathVariable String username, @PathVariable String password){
+		return new ResponseEntity<>(systemUserService.login(username, password), HttpStatus.OK);
 	}
 
 }

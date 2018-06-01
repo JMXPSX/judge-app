@@ -22,7 +22,7 @@ public class RatingController {
 	private RatingService ratingService;
 
 	@PostMapping(value = "/rate")
-	public ResponseEntity<?> addRating (@PathVariable RateDTO rateDTO){
+	public ResponseEntity<?> addRating (@RequestBody RateDTO rateDTO){
 		return new ResponseEntity<>(ratingService.save(rateDTO), HttpStatus.OK);
 	}
 	

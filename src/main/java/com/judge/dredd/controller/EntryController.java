@@ -34,6 +34,7 @@ public class EntryController {
 	public ResponseEntity<?> addEntryJudges(@RequestBody List<Long> judges,@PathVariable long entryId){
 		return new ResponseEntity<>(entryService.assignJudges(entryId, judges), HttpStatus.OK);
 	}
+	
 //	
 //	@GetMapping(value = "/entries/{entryId}")
 //	public ResponseEntity<?> getEntry (@PathVariable int entryId){

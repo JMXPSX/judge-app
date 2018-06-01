@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.Lists;
 import com.judge.dredd.dto.CriteriaDTO;
 import com.judge.dredd.model.Criteria;
+import com.judge.dredd.model.Entry;
 import com.judge.dredd.model.Event;
 import com.judge.dredd.repository.CriteriaRepository;
 import com.judge.dredd.repository.EventRepository;
@@ -25,7 +26,7 @@ public class CriteriaServiceImpl implements CriteriaService {
 	private DtoService dtoService;
 	
 	@Autowired
-	private EventRepository eventDetailRepository;
+	private EventRepository eventRepository;
 
 	@Override
 	public CriteriaDTO getOne(long id) {
@@ -65,12 +66,12 @@ public class CriteriaServiceImpl implements CriteriaService {
 	}
 	
 	public List<CriteriaDTO> getByEventDetailId(long eventId){
-		List<CriteriaDTO> criteria = new ArrayList();
-		List<Event> list = eventDetailRepository.findAllById(eventId);
+		List<CriteriaDTO> criteria = new ArrayList<>();
+		List<Criteria> list = criteriaRepository.findByEventId(eventId);
 		list.forEach(e -> {
-//			criteria.add(dtoService.convertToDTO(e.get));
+			criteria.add(dtoService.convertToDTO(e));
 		});		
 		return criteria;
 	}
 
-}
+	}

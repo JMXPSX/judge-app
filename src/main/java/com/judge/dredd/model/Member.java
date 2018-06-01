@@ -17,9 +17,9 @@ public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "member_id")
-	private Long id;
-	private String firstname;
-	private String lasttname;
+	private Long memberId;
+	private String firstName;
+	private String lastName;
 	private String details;
 	private String memberType;
 	
@@ -29,37 +29,37 @@ public class Member {
 	
 	public Member() {}
 
-	public Member(Long id, String firstname, String lasttname, String details, Entry entry) {
+	public Member(Long id, String firstName, String lastName, String details, Entry entry) {
 		super();
-		this.id = id;
-		this.firstname = firstname;
-		this.lasttname = lasttname;
+		this.memberId = memberId;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.details = details;
 		this.entry = entry;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getMemberId() {
+		return memberId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
 	}
 
-	public String getFirstname() {
-		return firstname;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getLasttname() {
-		return lasttname;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLasttname(String lasttname) {
-		this.lasttname = lasttname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public Entry getEntry() {

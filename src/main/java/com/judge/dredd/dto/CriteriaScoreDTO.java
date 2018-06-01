@@ -6,6 +6,7 @@ public class CriteriaScoreDTO {
 	private String criteriaName;
 	private String criteriaDescription;
 	private double score;
+	private long scoreId;
 	
 	public long getCriteriaId() {
 		return criteriaId;
@@ -30,6 +31,12 @@ public class CriteriaScoreDTO {
 	}
 	public void setScore(double score) {
 		this.score = score;
+	}
+	public long getScoreId() {
+		return scoreId;
+	}
+	public void setScoreId(long scoreId) {
+		this.scoreId = scoreId;
 	}
 	
 	

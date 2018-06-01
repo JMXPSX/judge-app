@@ -27,6 +27,8 @@ public class EventController {
 	public ResponseEntity<?> createEvent (@RequestBody EventDTO eventDTO){
 		return new ResponseEntity<>(eventService.addEvent(eventDTO), HttpStatus.OK);
 	}
+	
+	
 		
 	
 //	@GetMapping("/dredd/api/mainevent/{eventId}/{judgeId}")

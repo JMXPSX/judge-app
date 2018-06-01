@@ -5,7 +5,7 @@ public class MemberDTO {
 	private String firstName;
 	private String lastName;
 	private String details;
-	private int type;
+	private String memberType;
 	
 	public String getFirstName() {
 		return firstName;
@@ -25,12 +25,13 @@ public class MemberDTO {
 	public void setDetails(String details) {
 		this.details = details;
 	}
-	public int getType() {
-		return type;
+	public String getMemberType() {
+		return memberType;
 	}
-	public void setType(int type) {
-		this.type = type;
+	public void setMemberType(String memberType) {
+		this.memberType = memberType;
 	}
+	
 	
 	
 }
