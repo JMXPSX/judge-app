@@ -27,7 +27,7 @@ public class EntryController {
 	
 	@GetMapping(value = "dredd/api/entry/{eventId}/users/{appUserId}")
 	public ResponseEntity<?> getentry (@PathVariable long eventId, @PathVariable long appUserId){
-		return new ResponseEntity<>(entryService.getEntriesByEventIdAndCategoryIdAndUserId(eventId, appUserId), HttpStatus.OK);
+		return new ResponseEntity<>(entryService.getEntriesByEventIdAndUserId(eventId, appUserId), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "dredd/api/entry")

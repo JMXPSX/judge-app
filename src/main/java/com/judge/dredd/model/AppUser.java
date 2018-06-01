@@ -32,8 +32,9 @@ public class AppUser {
 	
 	private boolean isPWReset;
 
-	//@SuppressWarnings("unused")
 	private boolean withTAC;
+	
+	private String email;
 
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "judges")
@@ -100,6 +101,15 @@ public class AppUser {
 
 	public void setWithTAC(boolean withTAC) {
 		this.withTAC = withTAC;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}	
 
+	
 }

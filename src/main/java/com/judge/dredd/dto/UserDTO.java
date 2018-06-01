@@ -10,6 +10,7 @@ public class UserDTO{
 	private boolean isTAC;
 	private boolean isPWReset;
 	private Date lastUpdate;
+	private String email;
 	
 	public long getUserId() {
 		return userId;
@@ -53,8 +54,11 @@ public class UserDTO{
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
-	
-	
-	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}	
 	
 }
