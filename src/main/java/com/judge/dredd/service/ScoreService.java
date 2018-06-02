@@ -26,4 +26,6 @@ public interface ScoreService {
 	
 	public ScoreDTO getScoreByEventIdAndEntryId(long eventId, long entryId);
 	public ScoreDTO getScoreByEventIdAndEntryIdAndAppUserId(long eventId, long entryId, long appUserId);
+	
+	public String doneEntries(long entryId, long judgeId);
 }

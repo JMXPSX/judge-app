@@ -261,4 +261,19 @@ public class ScoreServiceImpl implements ScoreService {
 		return dto;
 	}
 	
+	@Override
+	public String doneEntries(long entryId, long judgeId) {
+		
+		Tabulator tabulator = tabulatorRepository.findByEntry_IdAndJudge_userId(entryId, judgeId);
+		
+		List<Score> scores = scoreRepository.findScoreByTabulator_Id(tabulator.getId());
+		
+		scores.forEach(score -> {
+			score.setDone(true);
+			scoreRepository.save(score);
+		});
+		
+		return scores.size() + " Done";		
+	};
+	
 }

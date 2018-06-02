@@ -68,6 +68,10 @@ public class ScoreController {
 		return new ResponseEntity<>(scoreService.getScoreByEventIdAndEntryIdAndAppUserId(eventId, entryId, appUserId), HttpStatus.OK);
 	}
 	
+	@PostMapping(value = "/entry/{entryId}/judge/{judgeId}")
+	public ResponseEntity<?> doneEntries(@PathVariable long entryId,@PathVariable long judgeId){
+		return new ResponseEntity<>(scoreService.doneEntries(entryId, judgeId), HttpStatus.OK);
+	}
 	
 //	@PostMapping(value = "/scores/finalize/{eventid}/{judgeId}")
 //	public ResponseEntity<?> finalizeScore (@PathVariable long eventid, @PathVariable long judgeId){
