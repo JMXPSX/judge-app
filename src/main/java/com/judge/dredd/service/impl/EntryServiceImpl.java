@@ -204,14 +204,24 @@ public class EntryServiceImpl implements EntryService {
 				
 			});
 		});
-		
-		
-		
-		
-		
-		
 
 		return value;
+	}
+	
+	@Override
+	public String finalizeEntries(long eventId, long judgeId) {		
+			
+		List<Tabulator> tabulators = tabulatorRepository.findByEvent_IdAndJudge_userId(eventId, judgeId);
+		
+		System.out.println("tabulators " + tabulators);
+		
+		tabulators.forEach(tabulator -> {			
+			tabulator.setFinal(true);
+			tabulatorRepository.save(tabulator);
+		});
+		
+		return tabulators.size() + " Finalized";
+		
 	}
 
 	@Override

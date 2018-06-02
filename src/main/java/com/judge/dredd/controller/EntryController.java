@@ -40,6 +40,11 @@ public class EntryController {
 		return new ResponseEntity<>(entryService.assignJudges(entryId, judges), HttpStatus.OK);
 	}
 	
+	@PostMapping(value = "/event/{eventId}/judge/{judgeId}")
+	public ResponseEntity<?> finalizeEntries(@PathVariable long eventId,@PathVariable long judgeId){
+		return new ResponseEntity<>(entryService.finalizeEntries(eventId, judgeId), HttpStatus.OK);
+	}
+	
 //	
 //	@GetMapping(value = "/entries/{entryId}")
 //	public ResponseEntity<?> getEntry (@PathVariable int entryId){

@@ -20,6 +20,8 @@ public interface EntryService {
 	
 	String assignJudges(long entryId, List<Long> judges);
 	
+	public String finalizeEntries(long eventId, long judgeId);
+	
 	String removeJudges(long entryId, List<Long> judges);
 	
 	public String assignUserToEntry(long entryId, long appUserId);
