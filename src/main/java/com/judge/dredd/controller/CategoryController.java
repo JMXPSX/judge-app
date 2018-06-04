@@ -30,6 +30,6 @@ public class CategoryController {
 	
 	@GetMapping("/dredd/api/category/user/{appUserId}")
 	public ResponseEntity<?> getCategoriesByUser (@PathVariable long appUserId){
-		return new ResponseEntity<>(categoryService.getCategoriesByEvent(appUserId), HttpStatus.OK);
+		return new ResponseEntity<>(categoryService.getCategoriesByUser(appUserId), HttpStatus.OK);
 	}
 }
