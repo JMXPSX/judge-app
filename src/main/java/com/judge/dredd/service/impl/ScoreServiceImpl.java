@@ -2,7 +2,9 @@ package com.judge.dredd.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -218,22 +220,61 @@ public class ScoreServiceImpl implements ScoreService {
 	}
 
 	@Override
-	public ScoreDTO getScoreByEventIdAndEntryId(long eventId, long entryId) {
-		List<CriteriaScoreDTO> dtos = new ArrayList<>();
+	public List<ScoreDTO> getScoreByEventIdAndEntryId(long eventId, long entryId) {
+		
+		List<ScoreDTO> scoreDTOs = new ArrayList();
+		
+		Map<Tabulator, List<Score>> mapulator = new HashMap();
+		
+		
 		List<Score> scores = scoreRepository.findByCriteria_Event_idAndTabulator_Entry_entryId(eventId, entryId);
-		scores.forEach(score -> dtos.add(dtoService.convertToMixDTO(score)));
 		
-		Tabulator tab = tabulatorRepository.findByEvent_IdAndEntry_entryId(eventId, entryId);
-		ScoreDTO dto = new ScoreDTO();
-		dto.setScores(dtos);
-		dto.setEntryId(tab.getEntry().getEntryId());
-		dto.setEventId(tab.getEvent().getId());
-		dto.setJudgeId(tab.getJudge().getUserId());
-		dto.setTabulatorId(tab.getId());
-		dto.setFinal(tab.isFinal());
-		dto.setCategoryId(tab.getEntry().getCategory().getCategoryId());
+		scores.forEach(score -> {
+			System.out.println("=============================TAB?ULATR : "+score.getTabulator());
+			Tabulator t = tabulatorRepository.findById(score.getTabulator().getId()).get();
+			
+			List<Score> ls;
+			if(mapulator.containsKey(t)){
+				ls =  mapulator.get(t);
+				
+			}else{
+				ls = new ArrayList();
+			}
+			ls.add(score);
+			mapulator.put(t, ls);
+//			dtos.add(dtoService.convertToMixDTO(score));
+			});
 		
-		return dto;
+		mapulator.forEach((tabulator, scrs) -> {
+			ScoreDTO dto = new ScoreDTO();
+			
+			dto.setEntryId(tabulator.getEntry().getEntryId());
+			dto.setEventId(tabulator.getEvent().getId());
+			dto.setJudgeId(tabulator.getJudge().getUserId());
+			dto.setTabulatorId(tabulator.getId());
+			dto.setFinal(tabulator.isFinal());
+			dto.setCategoryId(tabulator.getEntry().getCategory().getCategoryId());
+			
+			List<CriteriaScoreDTO> dtos = new ArrayList<>();
+			scrs.forEach(s -> dtos.add(dtoService.convertToMixDTO(s)));
+			dto.setScores(dtos);
+			
+			scoreDTOs.add(dto);
+		});
+		
+		
+//		Tabulator tab = tabulatorRepository.findByEvent_IdAndEntry_entryId(eventId, entryId);
+//		List<CriteriaScoreDTO> dtos = new ArrayList<>();
+//		ScoreDTO dto = new ScoreDTO();
+//		dto.setScores(dtos);
+//		dto.setEntryId(tab.getEntry().getEntryId());
+//		dto.setEventId(tab.getEvent().getId());
+//		dto.setJudgeId(tab.getJudge().getUserId());
+//		dto.setTabulatorId(tab.getId());
+//		dto.setFinal(tab.isFinal());
+//		dto.setCategoryId(tab.getEntry().getCategory().getCategoryId());
+		
+		return scoreDTOs;
 	}
 
 	@Override
