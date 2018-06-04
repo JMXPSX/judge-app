@@ -17,6 +17,7 @@ import com.judge.dredd.model.Member;
 import com.judge.dredd.model.Score;
 import com.judge.dredd.model.Tabulator;
 import com.judge.dredd.repository.AppUserRepository;
+import com.judge.dredd.repository.CategoryRepository;
 import com.judge.dredd.repository.CriteriaRepository;
 import com.judge.dredd.repository.EntryRepository;
 import com.judge.dredd.repository.MemberRepository;
@@ -48,6 +49,9 @@ public class EntryServiceImpl implements EntryService {
 	
 	@Autowired
 	private TabulatorRepository tabulatorRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Override
 	public EntryDTO getOne(long id) {

@@ -39,7 +39,7 @@ public class Tabulator {
 	@ManyToOne(cascade = CascadeType.DETACH, targetEntity = AppUser.class)
     @JoinColumn(name = "user_id")
 	private AppUser judge;
-	
+		
     @OneToMany(mappedBy="tabulator")
 	private List<Score> scores;
 	
@@ -133,8 +133,6 @@ public class Tabulator {
 
 	public void setRateValue(int rateValue) {
 		this.rateValue = rateValue;
-	}
-
-	
+	}	
 		
 }

@@ -11,6 +11,7 @@ import com.judge.dredd.model.Category;
 import com.judge.dredd.model.Event;
 import com.judge.dredd.repository.CategoryRepository;
 import com.judge.dredd.repository.EventRepository;
+import com.judge.dredd.repository.TabulatorRepository;
 import com.judge.dredd.service.CategoryService;
 import com.judge.dredd.service.DtoService;
 
@@ -25,6 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Autowired
 	private EventRepository eventRepository;
+	
 
 	@Override
 	public List<CategoryDTO> getCategoriesByEvent(long eventId) {
@@ -47,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<CategoryDTO> getCategoriesByUser(long appUserId) {
 		List<CategoryDTO> response = new ArrayList<>();
-		List<Category> categories = categoryRepository.findByEntries_judges_userId(appUserId);
+		List<Category> categories = categoryRepository.findCategoriesByUserId(appUserId);
 		categories.forEach(category -> response.add(dtoService.convertToDTO(category)));
 		return response;
 	}

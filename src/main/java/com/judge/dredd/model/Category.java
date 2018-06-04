@@ -32,7 +32,7 @@ public class Category {
 	@ManyToOne(cascade = CascadeType.MERGE, targetEntity = Event.class)
     @JoinColumn(name = "event_id")
 	private Event event;
-	
+
     @OneToMany(mappedBy="event")
 	private List<Entry> entries;
 	

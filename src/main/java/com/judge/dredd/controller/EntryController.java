@@ -35,8 +35,8 @@ public class EntryController {
 		return new ResponseEntity<>(entryService.addEntryWithMembers(entryDTO), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/entries/{entryId}/judges")
-	public ResponseEntity<?> addEntryJudges(@RequestBody List<Long> judges,@PathVariable long entryId){
+	@PostMapping(value = "/entries/{entryId}/category/{categoryId}/judges")
+	public ResponseEntity<?> addEntryJudges(@RequestBody List<Long> judges, @PathVariable long entryId){
 		return new ResponseEntity<>(entryService.assignJudges(entryId, judges), HttpStatus.OK);
 	}
 	
