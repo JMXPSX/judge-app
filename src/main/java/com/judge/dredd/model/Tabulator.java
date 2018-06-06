@@ -47,6 +47,8 @@ public class Tabulator {
 	
 	private int rateValue;
 	
+	private String finalSubmitterName;
+	
     @JsonIgnore
     @Column(name = "created_date")
     @CreationTimestamp
@@ -133,6 +135,16 @@ public class Tabulator {
 
 	public void setRateValue(int rateValue) {
 		this.rateValue = rateValue;
+	}
+
+	public String getFinalSubmitterName() {
+		return finalSubmitterName;
+	}
+
+	public void setFinalSubmitterName(String finalSubmitterName) {
+		this.finalSubmitterName = finalSubmitterName;
 	}	
+	
+	
 		
 }

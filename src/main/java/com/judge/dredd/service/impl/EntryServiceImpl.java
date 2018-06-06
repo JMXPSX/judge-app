@@ -231,7 +231,7 @@ public class EntryServiceImpl implements EntryService {
 	
 	
 	@Override
-	public String finalizeEntries(long eventId, long judgeId) {		
+	public String finalizeEntries(long eventId, long judgeId, String submitterName) {		
 			
 		List<Tabulator> tabulators = tabulatorRepository.findByEvent_IdAndJudge_userId(eventId, judgeId);
 		
@@ -239,10 +239,12 @@ public class EntryServiceImpl implements EntryService {
 		
 		tabulators.forEach(tabulator -> {			
 			tabulator.setFinal(true);
+			tabulator.setFinalSubmitterName(submitterName);
+			tabulator.setUpdatedDate(new Timestamp(System.currentTimeMillis()));
 			tabulatorRepository.save(tabulator);
 		});
 		
-		return tabulators.size() + " Finalized";
+		return tabulators.size() + " entries Finalized by "+submitterName;
 		
 	}
 
