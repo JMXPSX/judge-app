@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.judge.dredd.dto.CommentsDTO;
+import com.judge.dredd.dto.UserDTO;
 import com.judge.dredd.model.Comments;
 import com.judge.dredd.repository.CommentsRepository;
+import com.judge.dredd.service.AppUserService;
 import com.judge.dredd.service.CommentsService;
 import com.judge.dredd.service.DtoService;
 
@@ -21,6 +23,9 @@ public class CommentsServiceImpl implements CommentsService {
 	
 	@Autowired
 	private DtoService dtoService;
+	
+	@Autowired
+	private AppUserService appUserService;
 	
 	@Override
 	public CommentsDTO updateComments(CommentsDTO notesDTO) {
@@ -47,7 +52,12 @@ public class CommentsServiceImpl implements CommentsService {
 	@Override
 	public CommentsDTO addComment(CommentsDTO commentsDTO) {
 		Comments c = dtoService.convertToModel(commentsDTO);
+		UserDTO user = appUserService.getOne(commentsDTO.getUserId());
+		
 		c.setCommentDate(new Date());
+		
+		//user comment type = user type
+		c.setUserCommentType(user.getUserType());
 		c = commentsRepository.save(c);
 
 		return dtoService.convertToDTO(c);

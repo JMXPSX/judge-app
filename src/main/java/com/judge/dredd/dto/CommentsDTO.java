@@ -9,6 +9,7 @@ public class CommentsDTO {
 	private Long commentId;
 	private long userId;
 	private long entryId;
+	private long userCommentType;
 	private String username;
 	private String comment;
 	@JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
@@ -53,6 +54,12 @@ public class CommentsDTO {
 	public String toString() {
 		return "CommentsDTO [commentId=" + commentId + ", userId=" + userId + ", entryId=" + entryId + ", username="
 				+ username + ", comment=" + comment + ", commentDate=" + commentDate + "]";
+	}
+	public long getUserCommentType() {
+		return userCommentType;
+	}
+	public void setUserCommentType(long userCommentType) {
+		this.userCommentType = userCommentType;
 	}
 		
 	

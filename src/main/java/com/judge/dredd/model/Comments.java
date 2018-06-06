@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,6 +34,8 @@ public class Comments {
 	
 	@Lob
 	private String comment;
+	
+	private int userCommentType;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "comment_date", columnDefinition="DATETIME")
@@ -78,6 +79,14 @@ public class Comments {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public int getUserCommentType() {
+		return userCommentType;
+	}
+
+	public void setUserCommentType(int userCommentType) {
+		this.userCommentType = userCommentType;
 	}
 	
 	
