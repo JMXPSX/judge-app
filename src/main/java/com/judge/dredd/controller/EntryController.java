@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.judge.dredd.dto.EntryDTO;
+import com.judge.dredd.dto.EntryJudgeDTO;
 import com.judge.dredd.service.EntryService;
 
 @RestController
@@ -45,20 +46,10 @@ public class EntryController {
 		return new ResponseEntity<>(entryService.finalizeEntries(eventId, judgeId), HttpStatus.OK);
 	}
 	
-//	
-//	@GetMapping(value = "/entries/{entryId}")
-//	public ResponseEntity<?> getEntry (@PathVariable int entryId){
-//		return new ResponseEntity<>(entryService.getOne(entryId), HttpStatus.OK);
-//	}
-//	
-//	@GetMapping(value = "/entries/event/{eventId}/{judgeId")
-//	public ResponseEntity<?> getAllEntriesByEventIdAndJudgeId (int eventId, int judgeId){
-//		//TODO
-//		return new ResponseEntity<>("Not yet Implemented", HttpStatus.OK);
-//	}
-//	
-//	@GetMapping(value = "/entries")
-//	public ResponseEntity<?> getAllEntries (){
-//		return new ResponseEntity<>(entryService.getAll(), HttpStatus.OK);
-//	}
+	@PostMapping(value = "/entries/assignjudgestoentries")
+	public ResponseEntity<?> assignJudgesToEntries(@RequestBody List<EntryJudgeDTO> params){
+		return new ResponseEntity<>(entryService.assignJudges(params), HttpStatus.OK);
+	}
+	
+
 }

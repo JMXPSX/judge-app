@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.judge.dredd.dto.EntryDTO;
+import com.judge.dredd.dto.EntryJudgeDTO;
 import com.judge.dredd.dto.MemberDTO;
 import com.judge.dredd.model.AppUser;
 import com.judge.dredd.model.Criteria;
@@ -182,28 +183,12 @@ public class EntryServiceImpl implements EntryService {
 		final Timestamp now = new Timestamp(System.currentTimeMillis());
 		entryF.getJudges().forEach(j -> {
 			
-			Tabulator t = new Tabulator();
-			t.setCreatedDate(now);
-			t.setEntry(entryF);
-			t.setFinal(false);
-			t.setEvent(entryF.getEvent());
-			t.setUpdatedDate(now);
-			t.setJudge(j);
-			
-			final Tabulator tabF = tabulatorRepository.save(t);
+			final Tabulator tabF = createOrRetrieveTabulator(now, entryF, j);
 		
 			List<Criteria> criteria = criteriaRepository.findByEventId(entryF.getEvent().getId());
 			criteria.forEach(c -> {
 				
-				Score s = new Score();
-				s.setTabulator(tabF);
-				s.setUpdatedDate(now);
-				s.setCreatedDate(now);
-				s.setCriteria(c);
-				s.setDone(false);
-				s.setScore(c.getMinValue());
-				
-				scoreRepository.save(s);
+				createOrRetrieveScore(now, tabF, c);
 				
 				
 			});
@@ -211,6 +196,39 @@ public class EntryServiceImpl implements EntryService {
 
 		return value;
 	}
+	
+	private Tabulator createOrRetrieveTabulator(Timestamp now, Entry entry, AppUser j){
+		
+		Tabulator t = tabulatorRepository.findByEvent_IdAndEntry_entryIdAndJudge_userId(entry.getEvent().getId(), entry.getEntryId(), j.getUserId());
+		if(null == t){
+			t = new Tabulator();
+			t.setCreatedDate(now);
+			t.setEntry(entry);
+			t.setFinal(false);
+			t.setEvent(entry.getEvent());
+			t.setUpdatedDate(now);
+			t.setJudge(j);
+			t = tabulatorRepository.save(t);
+		}		
+		return t;
+	}
+	
+	private Score createOrRetrieveScore(Timestamp now, Tabulator tab, Criteria c){
+		Score s = scoreRepository.findScoreByEventIdAndEntryIdAndJudgeIdAndCriteriaId(tab.getEvent().getId(), tab.getEntry().getEntryId(), tab.getJudge().getUserId(), c.getCriteriaId());
+		if(null == s){
+			s = new Score();
+			s.setTabulator(tab);
+			s.setUpdatedDate(now);
+			s.setCreatedDate(now);
+			s.setCriteria(c);
+			s.setDone(false);
+			s.setScore(c.getMinValue());
+			s = scoreRepository.save(s);
+		}
+		
+		return s;
+	}
+	
 	
 	@Override
 	public String finalizeEntries(long eventId, long judgeId) {		
@@ -237,7 +255,7 @@ public class EntryServiceImpl implements EntryService {
 	@Override
 	public String assignUserToEntry(long entryId, long appUserId) {
 		// TODO Auto-generated method stub
-		return null;
+		return "Not Implemented";
 	}
 
 	@Override
@@ -256,6 +274,16 @@ public class EntryServiceImpl implements EntryService {
 			dtos.add(e);
 			});
 		return dtos;
+	}
+
+	@Override
+	public String assignJudges(List<EntryJudgeDTO> params) {
+
+		params.forEach(dto -> {
+			assignJudges(dto.getEntryId(), dto.getJudges());
+		});
+		
+		return "done";
 	}
 
 }

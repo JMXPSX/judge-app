@@ -11,14 +11,11 @@ public interface ScoreService {
 	ScoreDTO save(ScoreDTO scoreDTO);
 	void delete(long id);
 	List<ScoreDTO> getAll();
-	String finalizeScore(long eventId, long judgeId);
 	void setScore();
 	String updateScore(ScoreDTO scoreDTO);
 	
-	public String setDone(long eventId, long entryId, long judgeId);
 	
 	public ScoreDTO getScoresByEventIdAndEntryIdAndJudgeIdAndCriteriaId(long eventId, long entryId, long judgeId, long criteriaId);
-	public ScoreDTO getScoresByEventIdAndEntryIdAndJudgeId(long eventId, long entryId, long judgeId);
 	public List<ScoreDTO> getScoresByEventIdAndJudgeId(long eventId, long judgeId);
 	public List<ScoreDTO> getFinalizedScoresByEventId(long eventId);
 	public List<ScoreDTO> getScoreByEventIdAndCategoryIdAndEntryId(long eventId, long categoryId, long entryId);
@@ -26,6 +23,7 @@ public interface ScoreService {
 	
 	public List<ScoreDTO> getScoreByEventIdAndEntryId(long eventId, long entryId);
 	public ScoreDTO getScoreByEventIdAndEntryIdAndAppUserId(long eventId, long entryId, long appUserId);
+	public List<ScoreDTO> getScoresByEventIdAndAppUserId(long eventId, long appUserId);
 	
 	public String doneEntries(long entryId, long judgeId);
 }

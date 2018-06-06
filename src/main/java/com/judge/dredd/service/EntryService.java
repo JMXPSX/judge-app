@@ -3,6 +3,7 @@ package com.judge.dredd.service;
 import java.util.List;
 
 import com.judge.dredd.dto.EntryDTO;
+import com.judge.dredd.dto.EntryJudgeDTO;
 
 public interface EntryService {
 	EntryDTO getOne(long id);
@@ -25,4 +26,6 @@ public interface EntryService {
 	String removeJudges(long entryId, List<Long> judges);
 	
 	public String assignUserToEntry(long entryId, long appUserId);
+	
+	public String assignJudges(List<EntryJudgeDTO> params);
 }

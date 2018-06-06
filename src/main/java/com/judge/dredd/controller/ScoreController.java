@@ -33,16 +33,6 @@ public class ScoreController {
 		return new ResponseEntity<>(scoreService.updateScore(scoreDTO), HttpStatus.OK);
 	}
 	
-//	@PostMapping(value = "/scores/done/{eventId}/{entryId}/{judgeId}")
-//	public ResponseEntity<?> setDone (@PathVariable long eventId, @PathVariable long entryId, @PathVariable long judgeId){
-//		return new ResponseEntity<>(scoreService.setDone(eventId, entryId, judgeId), HttpStatus.OK);
-//	}
-	
-//	@GetMapping(value = "/scores/{scoreId}")
-//	public ResponseEntity<?> getOne (@PathVariable int scoreId){
-//		return new ResponseEntity<>(scoreService.getOne(scoreId), HttpStatus.OK);
-//	}
-	
 	@GetMapping(value = "/scores/all")
 	public ResponseEntity<?> getScores (){
 		return new ResponseEntity<>(scoreService.getAll(), HttpStatus.OK);
@@ -66,6 +56,11 @@ public class ScoreController {
 	@GetMapping(value = "/scores/events/{eventId}/entry/{entryId}/appuser/{appUserId}")
 	public ResponseEntity<?> getScoreByJudge (@PathVariable long eventId, @PathVariable long entryId, @PathVariable long appUserId){
 		return new ResponseEntity<>(scoreService.getScoreByEventIdAndEntryIdAndAppUserId(eventId, entryId, appUserId), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/scores/events/{eventId}/appuser/{appUserId}")
+	public ResponseEntity<?> getAllScoresByJudge (@PathVariable long eventId, @PathVariable long appUserId){
+		return new ResponseEntity<>(scoreService.getScoresByEventIdAndAppUserId(eventId, appUserId), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/entry/{entryId}/judge/{judgeId}")

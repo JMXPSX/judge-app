@@ -30,4 +30,9 @@ public class RatingController {
 	public ResponseEntity<?> getRating (@PathVariable long eventId, @PathVariable long entryId, @PathVariable long appuserId){
 		return new ResponseEntity<>(ratingService.getRating(eventId, entryId, appuserId), HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/rate/event/{eventId}/judge/{appuserId}")
+	public ResponseEntity<?> getRating (@PathVariable long eventId, @PathVariable long appuserId){
+		return new ResponseEntity<>(ratingService.getRating(eventId, appuserId), HttpStatus.OK);
+	}
 }

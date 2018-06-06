@@ -6,6 +6,7 @@ public class RateDTO {
 	private int rateValue;
 	private long eventId;
 	private long judgeId;
+	private long entryId;
 	
 	public long getTabulatorId() {
 		return tabulatorId;
@@ -30,6 +31,12 @@ public class RateDTO {
 	}
 	public void setJudgeId(long judgeId) {
 		this.judgeId = judgeId;
+	}
+	public long getEntryId() {
+		return entryId;
+	}
+	public void setEntryId(long entryId) {
+		this.entryId = entryId;
 	}
 	
 	

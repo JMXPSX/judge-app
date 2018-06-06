@@ -11,6 +11,7 @@ import com.judge.dredd.dto.CriteriaScoreDTO;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EventDTO;
 import com.judge.dredd.dto.MemberDTO;
+import com.judge.dredd.dto.RateDTO;
 import com.judge.dredd.dto.ScoreDTO;
 import com.judge.dredd.dto.UserDTO;
 import com.judge.dredd.model.AppUser;
@@ -21,6 +22,7 @@ import com.judge.dredd.model.Entry;
 import com.judge.dredd.model.Event;
 import com.judge.dredd.model.Member;
 import com.judge.dredd.model.Score;
+import com.judge.dredd.model.Tabulator;
 import com.judge.dredd.service.DtoService;
 
 @Service
@@ -144,6 +146,17 @@ public class DtoServiceImpl implements DtoService {
 	        }
 	    };
 	    modelMapper.addMappings(criteriaMap);
+	}
+
+	@Override
+	public RateDTO convertToDTO(Tabulator tabulator) {
+		RateDTO r = new RateDTO();
+		r.setEventId(tabulator.getEvent().getId());
+		r.setJudgeId(tabulator.getJudge().getUserId());
+		r.setRateValue(tabulator.getRateValue());
+		r.setTabulatorId(tabulator.getId());
+		r.setEntryId(tabulator.getEntry().getEntryId());
+		return r;
 	}
 
 
