@@ -1,11 +1,17 @@
 package com.judge.dredd.dto;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class EventDTO {
 	
 	private long eventId;
 	private String eventName;
-	private String startDate;
-	private String endDate;
+	@JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+	private Date startDate;
+	@JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+	private Date endDate;
 	
 	public long getEventId() {
 		return eventId;
@@ -19,16 +25,16 @@ public class EventDTO {
 	public void setEventName(String eventName) {
 		this.eventName = eventName;
 	}
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public String getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(String endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 	
