@@ -69,8 +69,13 @@ public class EntryDTO {
 
 	public void setDone(boolean isDone) {
 		this.isDone = isDone;
-	}	
-	
+	}
 
+	@Override
+	public String toString() {
+		return "EntryDTO [entryId=" + entryId + ", eventId=" + eventId + ", categoryId=" + categoryId + ", entryName="
+				+ entryName + ", entryDescription=" + entryDescription + ", isDone=" + isDone + ", members=" + members
+				+ "]";
+	}	
 	
 }
