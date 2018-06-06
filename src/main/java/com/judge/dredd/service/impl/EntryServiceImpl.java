@@ -129,13 +129,13 @@ public class EntryServiceImpl implements EntryService {
 	@Override
 	public EntryDTO addEntryWithMembers(EntryDTO entryDTO) {
 		Entry obj = dtoService.convertToModel(entryDTO);
+		
 		final Entry objf = entryRepository.save(obj);
 
 		EntryDTO dto = dtoService.convertToDTO(objf);
+				
+		dto.setMembers(new ArrayList<>());
 		
-		if(null == dto.getMembers()){
-			dto.setMembers(new ArrayList<>());
-		}
 		List<MemberDTO> members = entryDTO.getMembers();
 		members.forEach(member ->{ 
 			Member m = dtoService.convertToModel(member);

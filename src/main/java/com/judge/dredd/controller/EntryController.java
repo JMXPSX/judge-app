@@ -36,17 +36,17 @@ public class EntryController {
 		return new ResponseEntity<>(entryService.addEntryWithMembers(entryDTO), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/entries/{entryId}/category/{categoryId}/judges")
+	@PostMapping(value = "dredd/api/entries/{entryId}/category/{categoryId}/judges")
 	public ResponseEntity<?> addEntryJudges(@RequestBody List<Long> judges, @PathVariable long entryId){
 		return new ResponseEntity<>(entryService.assignJudges(entryId, judges), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/event/{eventId}/judge/{judgeId}/submitter/{submitterName}")
+	@PostMapping(value = "dredd/api/entry/event/{eventId}/judge/{judgeId}/submitter/{submitterName}")
 	public ResponseEntity<?> finalizeEntries(@PathVariable long eventId, @PathVariable long judgeId, @PathVariable String submitterName){
 		return new ResponseEntity<>(entryService.finalizeEntries(eventId, judgeId, submitterName), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/entries/assignjudgestoentries")
+	@PostMapping(value = "dredd/api/entries/assignjudgestoentries")
 	public ResponseEntity<?> assignJudgesToEntries(@RequestBody List<EntryJudgeDTO> params){
 		return new ResponseEntity<>(entryService.assignJudges(params), HttpStatus.OK);
 	}

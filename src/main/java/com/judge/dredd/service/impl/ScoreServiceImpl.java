@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -339,6 +340,10 @@ public class ScoreServiceImpl implements ScoreService {
 		Tabulator tabulator = tabulatorRepository.findByEntry_IdAndJudge_userId(entryId, judgeId);
 		
 		List<Score> scores = scoreRepository.findScoreByTabulator_Id(tabulator.getId());
+		
+		for( int i =0; i<scores.size(); i++){
+			
+		}
 		
 		scores.forEach(score -> {
 			score.setDone(true);

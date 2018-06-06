@@ -42,6 +42,9 @@ public class AppUserServiceImpl implements AppUserService{
 		AppUser obj = dtoService.convertToModel(userDTO);
 		
 		String pass = obj.getPassword();
+		obj.setPWReset(false);
+		obj.setWithTAC(false);
+		obj.setPWReset(false);
 		
 		obj.setPassword(bcrypt.encode(pass));
 		
