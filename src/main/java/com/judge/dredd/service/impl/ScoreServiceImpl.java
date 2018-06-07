@@ -338,14 +338,21 @@ public class ScoreServiceImpl implements ScoreService {
 		
 		Tabulator tabulator = tabulatorRepository.findByEntry_IdAndJudge_userId(entryId, judgeId);
 		
-		List<Score> scores = scoreRepository.findScoreByTabulator_Id(tabulator.getId());
-		
-		scores.forEach(score -> {
-			score.setDone(true);
-			scoreRepository.save(score);
-		});
-		
-		return scores.size() + " Done";		
+		if(null != tabulator) {
+			
+			List<Score> scores = tabulator.getScores();
+			//List<Score> scores = scoreRepository.findScoreByTabulator_Id(tabulator.getId());
+			
+			scores.forEach(score -> {
+				score.setDone(true);
+				scoreRepository.save(score);
+			});
+			
+			return scores.size() + " Done";
+		}else {
+			return "Nothing found";
+		}
+			
 	}
 
 	@Override

@@ -109,20 +109,23 @@ public class EntryServiceImpl implements EntryService {
 	@Override
 	public List<EntryDTO> getEntriesByEventIdAndCategoryIdAndUserId(long eventId, long categoryId, long appUserId) {
 		List<EntryDTO> dtos = new ArrayList<EntryDTO>();
-		List<Entry> entries = entryRepository.findByEventIdAndCategory_categoryIdAndJudges_userId(eventId, categoryId,
-				appUserId);
+		List<Entry> entries = entryRepository.findByEventIdAndCategory_categoryIdAndJudges_userId(eventId, categoryId, appUserId);
+		
 		entries.forEach(entry -> {
-			System.out.println("member isze: "+ entry.getMembers().size());
+			System.out.println("member size: "+ entry.getMembers().size());
+			
+			Tabulator t = tabulatorRepository.findByEntry_IdAndJudge_userId(entry.getEntryId(), appUserId);
 			
 			EntryDTO e = dtoService.convertToDTO(entry);
+			e.setDone(isAllDone(t.getScores()));
 			e.setMembers(new ArrayList<>());
 			
 			List<Member> members = entry.getMembers();
-			members.forEach(m -> e.getMembers().add(dtoService.convertToDTO(m)));
-			
+			members.forEach(m -> e.getMembers().add(dtoService.convertToDTO(m)));			
 			
 			dtos.add(e);
-			});
+		});
+		
 		return dtos;
 	}
 
@@ -188,8 +191,7 @@ public class EntryServiceImpl implements EntryService {
 			List<Criteria> criteria = criteriaRepository.findByEventId(entryF.getEvent().getId());
 			criteria.forEach(c -> {
 				
-				createOrRetrieveScore(now, tabF, c);
-				
+				createOrRetrieveScore(now, tabF, c);				
 				
 			});
 		});
@@ -227,8 +229,7 @@ public class EntryServiceImpl implements EntryService {
 		}
 		
 		return s;
-	}
-	
+	}	
 	
 	@Override
 	public String finalizeEntries(long eventId, long judgeId, String submitterName) {		
@@ -263,18 +264,25 @@ public class EntryServiceImpl implements EntryService {
 	@Override
 	public List<EntryDTO> getEntriesByEventIdAndUserId(long eventId, long userId) {
 		List<EntryDTO> dtos = new ArrayList<EntryDTO>();
-		List<Entry> entries = entryRepository.findByEventIdAndJudges_userId(eventId, userId);
+		List<Entry> entries = entryRepository.findByEventIdAndJudges_userId(eventId, userId);		
+		
 		entries.forEach(entry -> {
 			
+			Tabulator t = tabulatorRepository.findByEntry_IdAndJudge_userId(entry.getEntryId(), userId);
+			
 			EntryDTO e = dtoService.convertToDTO(entry);
+			e.setDone(isAllDone(t.getScores()));
 			e.setMembers(new ArrayList<>());
 			
 			List<Member> members = entry.getMembers();
-			members.forEach(m -> e.getMembers().add(dtoService.convertToDTO(m)));
+			members.forEach(m -> e.getMembers().add(dtoService.convertToDTO(m)));	
 			
+			System.out.println("CHECK DTO VALUE" + e.toString());
 			
 			dtos.add(e);
-			});
+		
+		});
+		
 		return dtos;
 	}
 
@@ -286,6 +294,17 @@ public class EntryServiceImpl implements EntryService {
 		});
 		
 		return "done";
+	}
+	
+	private boolean isAllDone (List<Score> scores) {
+		boolean isDone = true;
+		
+		for(Score score : scores) {			
+			isDone = isDone && score.isDone();			
+			if(!isDone) return false;					
+		}
+		
+		return isDone;	
 	}
 
 }
