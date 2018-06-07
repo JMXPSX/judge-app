@@ -41,7 +41,7 @@ public class EntryController {
 		return new ResponseEntity<>(entryService.assignJudges(entryId, judges), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/event/{eventId}/judge/{judgeId}/sumbitter/{submitterName}")
+	@PostMapping(value = "/event/{eventId}/judge/{judgeId}/submitter/{submitterName}")
 	public ResponseEntity<?> finalizeEntries(@PathVariable long eventId, @PathVariable long judgeId, @PathVariable String submitterName){
 		return new ResponseEntity<>(entryService.finalizeEntries(eventId, judgeId, submitterName), HttpStatus.OK);
 	}
