@@ -63,6 +63,11 @@ public class ScoreController {
 		return new ResponseEntity<>(scoreService.getScoresByEventIdAndAppUserId(eventId, appUserId), HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/scores/events/{eventId}/sponsor")
+	public ResponseEntity<?> getAllScoresForSponsor (@PathVariable long eventId){
+		return new ResponseEntity<>(scoreService.getAllScoresForSponsor(eventId), HttpStatus.OK);
+	}
+	
 	@PostMapping(value = "/entry/{entryId}/judge/{judgeId}")
 	public ResponseEntity<?> doneEntries(@PathVariable long entryId,@PathVariable long judgeId){
 		return new ResponseEntity<>(scoreService.doneEntries(entryId, judgeId), HttpStatus.OK);

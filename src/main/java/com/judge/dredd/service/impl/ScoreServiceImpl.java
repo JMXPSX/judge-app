@@ -19,6 +19,7 @@ import com.judge.dredd.model.Entry;
 import com.judge.dredd.model.Event;
 import com.judge.dredd.model.Score;
 import com.judge.dredd.model.Tabulator;
+import com.judge.dredd.model.enums.UserType;
 import com.judge.dredd.repository.AppUserRepository;
 import com.judge.dredd.repository.CriteriaRepository;
 import com.judge.dredd.repository.EntryRepository;
@@ -366,6 +367,14 @@ public class ScoreServiceImpl implements ScoreService {
 		return toScoreDTOList(mapulator);
 		
 		
+	}
+
+	@Override
+	public List<ScoreDTO> getAllScoresForSponsor(long eventId) {
+		List<Score> scores = scoreRepository.findByTabulator_event_id(eventId).stream().filter(score -> UserType.APP_SPONSOR.getType() != score.getTabulator().getJudge().getUserType()).collect(Collectors.toList());
+		
+		Map<Tabulator, List<Score>> mapulator = toScoreMap(scores);
+		return toScoreDTOList(mapulator);
 	}
 	
 }

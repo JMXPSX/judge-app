@@ -24,6 +24,7 @@ public interface ScoreService {
 	public List<ScoreDTO> getScoreByEventIdAndEntryId(long eventId, long entryId);
 	public ScoreDTO getScoreByEventIdAndEntryIdAndAppUserId(long eventId, long entryId, long appUserId);
 	public List<ScoreDTO> getScoresByEventIdAndAppUserId(long eventId, long appUserId);
+	public List<ScoreDTO> getAllScoresForSponsor(long eventId);
 	
 	public String doneEntries(long entryId, long judgeId);
 }
