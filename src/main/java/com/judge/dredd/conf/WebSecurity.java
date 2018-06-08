@@ -1,5 +1,6 @@
 package com.judge.dredd.conf;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,15 +21,28 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
+        .antMatchers("/swagger-ui.html**").hasRole("ADMIN")
+        .antMatchers("/swagger-ui.html**").authenticated()
+        .antMatchers("/v2/api-docs").authenticated()
+        
+        
         		.antMatchers("/login").permitAll()
                 .antMatchers("/dredd/api/**").permitAll().and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager()));
+                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+                .httpBasic();
+        //http.httpBasic().authenticationEntryPoint(basicAuthenticationPoint);
     }
 
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+//    @Override                                                                                                                                                                                                                                                                                                                                   
+//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+//    }
+    
+    @Autowired  
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {  
+    	String password = new BCryptPasswordEncoder().encode("acnjudgeadmin");
+      auth.inMemoryAuthentication().withUser("acnjudgeadmin").password(password).roles("ADMIN");  
     }
 
 //    @Override
