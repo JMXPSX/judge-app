@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -374,7 +375,14 @@ public class ScoreServiceImpl implements ScoreService {
 		List<Score> scores = scoreRepository.findByTabulator_event_id(eventId).stream().filter(score -> UserType.APP_SPONSOR.getType() != score.getTabulator().getJudge().getUserType()).collect(Collectors.toList());
 		
 		Map<Tabulator, List<Score>> mapulator = toScoreMap(scores);
-		return toScoreDTOList(mapulator);
+		
+		List<ScoreDTO> l = toScoreDTOList(mapulator);
+		
+		try{
+		ObjectMapper om = new ObjectMapper();
+		System.out.println(om.writerWithDefaultPrettyPrinter().writeValueAsString(l));
+		} catch(Exception e) {e.printStackTrace();}
+		return l;
 	}
 	
 }
