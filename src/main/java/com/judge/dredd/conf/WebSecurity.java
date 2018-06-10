@@ -2,17 +2,26 @@ package com.judge.dredd.conf;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.judge.dredd.repository.AppUserRepository;
+
+import springfox.documentation.swagger2.web.Swagger2Controller;
+
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+	private AppUserRepository userRepository;
+	
     public WebSecurity(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -21,43 +30,21 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-        .antMatchers("/swagger-ui.html**").hasRole("ADMIN")
-        .antMatchers("/swagger-ui.html**").authenticated()
-        .antMatchers("/v2/api-docs").authenticated()
-        
-        
+		        .antMatchers("/swagger-ui.html#/**").hasRole("ADMIN")
+		        .antMatchers("/swagger-ui.html#/**").authenticated()
+		        .antMatchers("/v2/api-docs/**").hasRole("ADMIN")
+//		        .antMatchers("/v2/api-docs/**").authenticated()
         		.antMatchers("/login").permitAll()
-                .antMatchers("/dredd/api/**").permitAll().and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .antMatchers("/dredd/api/**").authenticated().and()
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(),userRepository))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 .httpBasic();
-        //http.httpBasic().authenticationEntryPoint(basicAuthenticationPoint);
     }
 
-//    @Override                                                                                                                                                                                                                                                                                                                                   
-//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
-//    }
-    
-    @Autowired  
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {  
-    	String password = new BCryptPasswordEncoder().encode("acnjudgeadmin");
-      auth.inMemoryAuthentication().withUser("acnjudgeadmin").password(password).roles("ADMIN");  
+    @Override                                                                                                                                                                                                                                                                                                                                   
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+        auth.inMemoryAuthentication().withUser("acnjudgeadmin").password(bCryptPasswordEncoder.encode("acnjudgeadmin")).roles("ADMIN");
     }
-
-//    @Override
-//    public void configure(org.springframework.security.config.annotation.web.builders.WebSecurity web) {
-//        web.ignoring().antMatchers(HttpMethod.POST, SIGN_UP_URL)
-//                .antMatchers(HttpMethod.POST, LANGUAGE_URL)
-//                .antMatchers(HttpMethod.POST, DROPDOWN_URL)
-//                .antMatchers(HttpMethod.POST, ADDRESS_URL)
-//                .antMatchers(HttpMethod.POST, VALIDATE_USER)
-//                .antMatchers(HttpMethod.POST, FORGOT_PASSWORD)
-//        		.antMatchers(HttpMethod.POST, FARM_MANAGEMENT)
-//                .antMatchers(HttpMethod.POST, FORGOT_PASSWORD)
-//                .antMatchers(HttpMethod.POST, ADDRESS_URL)
-//                .antMatchers(HttpMethod.POST, CALENDAR_URL);
-//
-//    }
 
 }
