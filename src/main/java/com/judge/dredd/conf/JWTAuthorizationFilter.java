@@ -37,7 +37,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 			return;
 		}
 		
-		System.out.println("here");
 		UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		chain.doFilter(req, res);
@@ -53,8 +52,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 			
 			String user =ar[0];
 			String role = ar[1];
-			
-			System.out.println(role);
 			
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			authorities.add(new SimpleGrantedAuthority(role));
