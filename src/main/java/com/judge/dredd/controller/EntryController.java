@@ -26,6 +26,11 @@ public class EntryController {
 		return new ResponseEntity<>(entryService.getEntriesByEventIdAndCategoryIdAndUserId(eventId, categoryId, appUserId), HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "dredd/api/entries/event/{eventId}")
+	public ResponseEntity<?> getEntriesByEvent (@PathVariable long eventId){
+		return new ResponseEntity<>(entryService.getAllEntriesByEventId(eventId), HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "dredd/api/entry/{eventId}/users/{appUserId}")
 	public ResponseEntity<?> getentry (@PathVariable long eventId, @PathVariable long appUserId){
 		return new ResponseEntity<>(entryService.getEntriesByEventIdAndUserId(eventId, appUserId), HttpStatus.OK);
