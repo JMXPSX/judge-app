@@ -275,11 +275,7 @@ public class EntryServiceImpl implements EntryService {
 		entries.forEach(entry -> {
 			
 			Tabulator t = tabulatorRepository.findByEntry_IdAndJudge_userId(entry.getEntryId(), userId);
-			LOGGER.info(" tabulator>>>>>> entryId: "+entry.getEntryId()+ " userid: " +userId);
-			try{
-			LOGGER.info(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(t));
-			}catch(Exception e){e.printStackTrace();}
-			
+						
 			EntryDTO e = dtoService.convertToDTO(entry);
 			e.setDone(isAllDone(t.getScores()));
 			e.setMembers(new ArrayList<>());
