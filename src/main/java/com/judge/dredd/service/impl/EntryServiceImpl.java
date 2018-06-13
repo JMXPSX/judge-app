@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -269,6 +270,10 @@ public class EntryServiceImpl implements EntryService {
 		entries.forEach(entry -> {
 			
 			Tabulator t = tabulatorRepository.findByEntry_IdAndJudge_userId(entry.getEntryId(), userId);
+			System.out.println(" tabulator>>>>>>");
+			try{
+			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(t));
+			}catch(Exception e){e.printStackTrace();}
 			
 			EntryDTO e = dtoService.convertToDTO(entry);
 			e.setDone(isAllDone(t.getScores()));
