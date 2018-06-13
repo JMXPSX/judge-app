@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
+import com.judge.dredd.DreddApp;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EntryJudgeDTO;
 import com.judge.dredd.dto.MemberDTO;
@@ -30,6 +33,8 @@ import com.judge.dredd.service.EntryService;
 
 @Service
 public class EntryServiceImpl implements EntryService {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(DreddApp.class);
 
 	@Autowired
 	private EntryRepository entryRepository;
@@ -270,9 +275,9 @@ public class EntryServiceImpl implements EntryService {
 		entries.forEach(entry -> {
 			
 			Tabulator t = tabulatorRepository.findByEntry_IdAndJudge_userId(entry.getEntryId(), userId);
-			System.out.println(" tabulator>>>>>>");
+			LOGGER.info(" tabulator>>>>>> entryId: "+entry.getEntryId()+ " userid: " +userId);
 			try{
-			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(t));
+			LOGGER.info(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(t));
 			}catch(Exception e){e.printStackTrace();}
 			
 			EntryDTO e = dtoService.convertToDTO(entry);
