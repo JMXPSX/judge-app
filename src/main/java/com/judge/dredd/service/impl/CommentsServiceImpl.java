@@ -51,14 +51,24 @@ public class CommentsServiceImpl implements CommentsService {
 
 	@Override
 	public CommentsDTO addComment(CommentsDTO commentsDTO) {
-		Comments c = dtoService.convertToModel(commentsDTO);
-		UserDTO user = appUserService.getOne(commentsDTO.getUserId());
+		Comments c;
 		
-		c.setCommentDate(new Date());
-		
-		//user comment type = user type
-		c.setUserCommentType(user.getUserType());
-		c = commentsRepository.save(c);
+		//check if existing
+		List<Comments> exisitngComments = commentsRepository.findByEntry_entryIdAndAppUser_userIdAndComment(commentsDTO.getEntryId(), commentsDTO.getUserId(), commentsDTO.getComment());
+		if(0 == exisitngComments.size()){
+			//if not, add it
+			c = dtoService.convertToModel(commentsDTO);
+			UserDTO user = appUserService.getOne(commentsDTO.getUserId());
+			
+			c.setCommentDate(new Date());
+			
+			//user comment type = user type
+			c.setUserCommentType(user.getUserType());			
+			c = commentsRepository.save(c);
+		}else{
+			//if exists, return it
+			c = exisitngComments.get(0);
+		}
 
 		return dtoService.convertToDTO(c);
 	}
