@@ -48,16 +48,16 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 			// parse the token.
 			String subject = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody()
 					.getSubject();
-			String ar[] = subject.split(",");
+//			String ar[] = subject.split(",");
 			
-			String user =ar[0];
-			String role = ar[1];
+//			String user =ar[0];
+			//			String role = ar[1];
 			
 			List<GrantedAuthority> authorities = new ArrayList<>();
-			authorities.add(new SimpleGrantedAuthority(role));
+			authorities.add(new SimpleGrantedAuthority("USER"));
 			
-			if (user != null) {
-				return new UsernamePasswordAuthenticationToken(user, null, authorities);
+			if (subject != null) {
+				return new UsernamePasswordAuthenticationToken(subject, null, authorities);
 			}
 			return null;
 		}

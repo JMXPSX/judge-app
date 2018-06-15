@@ -33,7 +33,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		        .antMatchers("/swagger-ui.html#/**").hasRole("ADMIN")
 		        .antMatchers("/swagger-ui.html#/**").authenticated()
 		        .antMatchers("/v2/api-docs/**").hasRole("ADMIN")
-//		        .antMatchers("/v2/api-docs/**").authenticated()
+		        .antMatchers("/v2/api-docs/**").authenticated()
+		        .antMatchers("/public/**").permitAll()
         		.antMatchers("/login").permitAll()
                 .antMatchers("/dredd/api/**").authenticated().and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager(),userRepository))
@@ -47,4 +48,5 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication().withUser("acnjudgeadmin").password(bCryptPasswordEncoder.encode("acnjudgeadmin")).roles("ADMIN");
     }
 
+    
 }
