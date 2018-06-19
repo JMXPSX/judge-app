@@ -52,8 +52,7 @@ public class ScoreServiceImpl implements ScoreService {
 	private AppUserRepository appUserRepository;
 	
 	@Autowired
-	private DtoService dtoService;
-	
+	private DtoService dtoService;	
 	
 	@Override
 	public ScoreDTO getOne(long id) {
@@ -98,8 +97,6 @@ public class ScoreServiceImpl implements ScoreService {
 			
 		});
 		scoreRepository.saveAll(scores);
-		
-		
 
 		return scoreDTO;
 	}
@@ -145,7 +142,6 @@ public class ScoreServiceImpl implements ScoreService {
 	@Override
 	public void setScore() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -164,8 +160,7 @@ public class ScoreServiceImpl implements ScoreService {
 	}
 
 	@Override
-	public List<ScoreDTO> getScoresByEventIdAndJudgeId(long eventId, long judgeId) {
-		
+	public List<ScoreDTO> getScoresByEventIdAndJudgeId(long eventId, long judgeId) {		
 		
 		return null;
 	}
@@ -187,8 +182,7 @@ public class ScoreServiceImpl implements ScoreService {
 			return dtoService.convertToDTO(score);
 		}else{
 			return null;
-		}
-		
+		}		
 		
 	}
 	
@@ -227,8 +221,7 @@ public class ScoreServiceImpl implements ScoreService {
 		
 		List<ScoreDTO> scoreDTOs = new ArrayList();
 		
-//		Map<Tabulator, List<Score>> mapulator = new HashMap();
-		
+//		Map<Tabulator, List<Score>> mapulator = new HashMap();		
 		
 		List<Score> scores = scoreRepository.findByCriteria_Event_idAndTabulator_Entry_entryId(eventId, entryId);
 		
@@ -329,8 +322,7 @@ public class ScoreServiceImpl implements ScoreService {
 			csd.setCriteriaDescription(score.getCriteria().getCriteriaDescription());
 			csd.setCriteriaId(score.getCriteria().getCriteriaId());
 			csd.setScoreId(score.getScoreId());
-			dto.getScores().add(csd);
-			
+			dto.getScores().add(csd);			
 			
 		});
 		return dto;
@@ -365,8 +357,7 @@ public class ScoreServiceImpl implements ScoreService {
 		List<Score> scores = scoreRepository.findByTabulator_event_idAndTabulator_judge_userId(eventId, appUserId);
 		
 		Map<Tabulator, List<Score>> mapulator = toScoreMap(scores);
-		return toScoreDTOList(mapulator);
-		
+		return toScoreDTOList(mapulator);		
 		
 	}
 
@@ -383,6 +374,18 @@ public class ScoreServiceImpl implements ScoreService {
 		System.out.println(om.writerWithDefaultPrettyPrinter().writeValueAsString(l));
 		} catch(Exception e) {e.printStackTrace();}
 		return l;
+	}
+
+	@Override
+	public ScoreDTO getScoreByEntryIdAndEventId(long entryId, long eventId) {
+		
+		Score score = scoreRepository.findScoreByEntryIdAndEventId(entryId, eventId);
+		
+		if(null != score){
+			return dtoService.convertToDTO(score);
+		}else{
+			return null;
+		}
 	}
 	
 }

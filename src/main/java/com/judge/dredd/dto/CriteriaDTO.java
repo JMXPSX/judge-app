@@ -47,5 +47,11 @@ public class CriteriaDTO{
 		this.eventId = eventId;
 	}
 	
+	@Override
+	public String toString() {
+		return "CriteriaDTO [criteriaId=" + criteriaId + ", criteriaName=" + criteriaName + ", criteriaDescription="
+				+ criteriaDescription + ", minValue=" + minValue + ", maxValue=" + maxValue + ", eventId=" + eventId
+				+ "]";
+	}	
 	
 }

@@ -11,6 +11,8 @@ public class ScoreDTO {
 
 	// the entry
 	private long entryId;
+		
+	private long criteriaId;
 
 	private long categoryId;
 
@@ -18,6 +20,8 @@ public class ScoreDTO {
 	private long judgeId;
 
 	private List<CriteriaScoreDTO> scores;
+	
+	private long score;
 
 	// judge finalized
 	private boolean isFinal;
@@ -76,6 +80,29 @@ public class ScoreDTO {
 
 	public void setFinal(boolean isFinal) {
 		this.isFinal = isFinal;
+	}	
+
+	public long getScore() {
+		return score;
+	}
+
+	public void setScore(long score) {
+		this.score = score;
+	}
+
+	public long getCriteriaId() {
+		return criteriaId;
+	}
+
+	public void setCriteriaId(long criteriaId) {
+		this.criteriaId = criteriaId;
+	}
+
+	@Override
+	public String toString() {
+		return "ScoreDTO [tabulatorId=" + tabulatorId + ", eventId=" + eventId + ", entryId=" + entryId
+				+ ", criteriaId=" + criteriaId + ", categoryId=" + categoryId + ", judgeId=" + judgeId + ", scores="
+				+ scores + ", score=" + score + ", isFinal=" + isFinal + "]";
 	}
 
 }
