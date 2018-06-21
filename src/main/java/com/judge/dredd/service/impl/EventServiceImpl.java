@@ -35,13 +35,5 @@ public class EventServiceImpl implements EventService{
 		Event e = dtoService.convertToModel(eventDTO);
 		e = eventRepository.save(e);
 		return dtoService.convertToDTO(e);
-	}
-	
-	/*@Override
-	public EventDTO getEvent(long eventId) {
-		Event e = dtoService.convertToModel(eventDTO);
-		e = eventRepository.save(e);
-		return dtoService.convertToDTO(e);
-	}*/
-	
+	}	
 }

@@ -166,11 +166,11 @@ public class ReportServiceImpl implements ReportService {
     	              
     	            ScoreDTO score = scoreService.getScoreByEntryIdAndEventId(entries.get(i).getEntryId(), event.getId());
     	            
-    	            if(score != null && criteria.getCriteriaId() == score.getCriteriaId()) {    	            	
-    	            	System.out.println("-------- > ENTRY SCORE: " + score.getScore());
-    	          	  	cell.setCellValue(score.getScore());
-    	          	  	scoreFlag = true;
-    	            }        			
+//    	            if(score != null && criteria.getCriteriaId() == score.getCriteriaId()) {    	            	
+//    	            	System.out.println("-------- > ENTRY SCORE: " + score.getScore());
+//    	          	  	cell.setCellValue(score.getScore());
+//    	          	  	scoreFlag = true;
+//    	            }        			
         		}        		
         	}        	
         }

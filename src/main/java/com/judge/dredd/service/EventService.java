@@ -9,6 +9,4 @@ public interface EventService {
 	public List<EventDTO> getEventsByUser(long appUserId);
 	
 	public EventDTO addEvent(EventDTO eventDTO);
-	
-	//public EventDTO getEvent(long eventId);
 }
