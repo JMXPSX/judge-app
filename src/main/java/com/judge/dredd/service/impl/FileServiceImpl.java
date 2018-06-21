@@ -12,6 +12,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -105,5 +109,28 @@ public class FileServiceImpl implements FileService {
 			throw new Exception("File not found " + fileName);
 		}
 	}
+
+	@Override
+	public String load(String fileName) {
+		try {
+			Path path = Paths.get(UPLOADED_FOLDER + fileName);
+			File file = path.toFile();
+			
+			Workbook workBook = WorkbookFactory.create(file);
+		} catch (EncryptedDocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	
 
 }

@@ -12,4 +12,6 @@ public interface FileService {
 	public List<String> getAllFileNames();
 	
 	public Resource getFile(String fileName) throws Exception;
+	
+	public String load(String fileName);
 }

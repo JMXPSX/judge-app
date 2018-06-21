@@ -26,6 +26,11 @@ public class FileController {
 		return new ResponseEntity<>(fileService.upload(file), HttpStatus.OK);
 	}
 	
+//	@PostMapping(value = "dredd/api/loadFile/{fileName}")
+//	public ResponseEntity<?> loadFile(@PathVariable String fileName) {
+//		return new ResponseEntity<>(fileService.load(fileName), HttpStatus.OK);
+//	}
+	
 	@GetMapping(value = "dredd/api/getAllFileNames")
 	public ResponseEntity<?> getAllFileNames() {
 		return new ResponseEntity<>(fileService.getAllFileNames(), HttpStatus.OK);
