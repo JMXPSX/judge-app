@@ -119,7 +119,11 @@ public class Event {
 		this.category = category;
 	}
 
-	
-	
+	@Override
+	public String toString() {
+		return "Event [id=" + id + ", eventName=" + eventName + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", entries=" + entries + ", criteria=" + criteria + ", category=" + category + ", appUser=" + appUser
+				+ "]";
+	}
 	
 }

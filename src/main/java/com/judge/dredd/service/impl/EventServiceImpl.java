@@ -20,8 +20,7 @@ public class EventServiceImpl implements EventService{
 	private EventRepository eventRepository;
 	
 	@Autowired
-	private DtoService dtoService;
-		
+	private DtoService dtoService;		
 
 	@Override
 	public List<EventDTO> getEventsByUser(long userId) {
@@ -31,7 +30,6 @@ public class EventServiceImpl implements EventService{
 		return dtos;
 	}
 
-
 	@Override
 	public EventDTO addEvent(EventDTO eventDTO) {
 		Event e = dtoService.convertToModel(eventDTO);
@@ -39,6 +37,11 @@ public class EventServiceImpl implements EventService{
 		return dtoService.convertToDTO(e);
 	}
 	
-	
+	/*@Override
+	public EventDTO getEvent(long eventId) {
+		Event e = dtoService.convertToModel(eventDTO);
+		e = eventRepository.save(e);
+		return dtoService.convertToDTO(e);
+	}*/
 	
 }

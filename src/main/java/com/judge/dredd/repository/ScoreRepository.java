@@ -20,7 +20,10 @@ public interface ScoreRepository extends CrudRepository<Score, Long>{
 	
 	//new -eldon5 june 2018
 	@Query(value = "select s.* from score s, tabulator t where s.tabulator_id = t.tabulator_id and t.event_id = 1? and t.entry_id = 2? and t.user_id = 3? and s.criteria_id = 4?;", nativeQuery = true)
-	public Score findScoreByEventIdAndEntryIdAndJudgeIdAndCriteriaId(long eventId, long entryId, long judgeId, long criteriaId);
+	public Score findScoreByEventIdAndEntryIdAndJudgeIdAndCriteriaId(long eventId, long entryId, long judgeId, long criteriaId);	
+	
+	@Query(value = "select s.* from score s, tabulator t where s.tabulator_id = t.tabulator_id and t.entry_id = ?1 and t.event_id = ?2", nativeQuery = true)
+	public Score findScoreByEntryIdAndEventId(long entryId, long eventId);
 	
 	@Query(value = "select s.* from score s where s.entry_id = ?1 and s.judge_id = ?2", nativeQuery = true)
 	public List<Score> findScoreByEntrytIdAndJudgeId(long eventId, long judgeId);
