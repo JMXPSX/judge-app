@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -41,14 +42,10 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public String getReport(long eventId) {
 		
-		Event event = eventRepository.findById(eventId).get();
-		
-		List<CriteriaDTO> criterias = criteriaService.getByEventDetailId(eventId);
-		
-		List<EntryDTO> entries = entryService.getAllEntriesByEventId(eventId);	 
-		
-		Workbook workbook = new XSSFWorkbook();
-		
+		Event event = eventRepository.findById(eventId).get();		
+		List<CriteriaDTO> criterias = criteriaService.getByEventDetailId(eventId);		
+		List<EntryDTO> entries = entryService.getAllEntriesByEventId(eventId);			
+		Workbook workbook = new XSSFWorkbook();		
 		Map<String, CellStyle> styles = createStyles(workbook);
 		
 		Sheet sheet = workbook.createSheet("All");
@@ -67,45 +64,50 @@ public class ReportServiceImpl implements ReportService {
 
         //header row
         Row headerRow = sheet.createRow(1);
-        headerRow.setHeightInPoints(40);
-        
+        headerRow.setHeightInPoints(40);        
         Cell headerCell; 
         
-        for (int i = 0; i < criterias.size() + 1; i++) { 
-        	
-        	if(i != 0) {   
+        for (int i = 0; i < criterias.size() + 3; i++) {         	
+        	if(i != 0 && i < criterias.size() + 1) {   
         		headerCell = headerRow.createCell(i);
         		headerCell.setCellValue(criterias.get(i - 1).getCriteriaName());
         		headerCell.setCellStyle(styles.get("header"));        		
+        	}else if(i == criterias.size() + 1) {
+        		headerCell = headerRow.createCell(i);
+        		headerCell.setCellValue("TOTAL");
+        		headerCell.setCellStyle(styles.get("formula"));
+        	}else if (i == criterias.size() + 2){
+        		headerCell = headerRow.createCell(i);
+        		headerCell.setCellValue("AVERAGE");
+        		headerCell.setCellStyle(styles.get("formula"));        		
         	}
-        	
-//        	if(i == criterias.size() + 2) {
-//        		headerCell.setCellValue("AVERAGE");
-//        		headerCell.setCellStyle(styles.get("formula"));
-//        	}else if (i != 0 && ){
-//        		headerCell.setCellValue(criterias.get(i - 1).getCriteriaName());
-//        		headerCell.setCellStyle(styles.get("header"));        		
-//        	}
         }
         
-        int rownum = 2;
-        
+        int rownum = 2;        
         for (int i = 0; i < entries.size(); i++) {
-            Row row = sheet.createRow(rownum++);
-            for (int j = 0; j < criterias.size() + 1; j++) {
-                Cell cell = row.createCell(j);
+            Row row = sheet.createRow(rownum++);            
+            CellAddress firstCell = null;            
+            CellAddress lastCell = null;            
+            for (int j = 0; j < criterias.size() + 3; j++) {
+                Cell cell = row.createCell(j);                
+
+                if(j == 1) {
+                	firstCell = cell.getAddress();
+                }else if(j == criterias.size()) {
+                	lastCell = cell.getAddress();
+                } 
                 
-//                if(j == 9){
-                    //the 10th cell contains sum over week days, e.g. SUM(C3:I3)
-//                    String ref = "C" +rownum+ ":I" + rownum;
-//                    cell.setCellFormula("SUM("+ref+")");
-//                    cell.setCellStyle(styles.get("formula"));
-//                } else if (j == 11){
-//                    cell.setCellFormula("J" +rownum+ "-K" + rownum);
-//                    cell.setCellStyle(styles.get("formula"));
-//                } else {
-                    cell.setCellStyle(styles.get("cell"));
-//                }                    
+                if(j == criterias.size() + 1) {
+                	String ref = firstCell +":"+ lastCell;
+                	cell.setCellFormula("SUM("+ref+")");
+                	cell.setCellStyle(styles.get("formula"));
+                }else if(j == criterias.size() + 2) {
+                	String ref = firstCell +":"+ lastCell;
+                	cell.setCellFormula("AVERAGE("+ref+")");
+                	cell.setCellStyle(styles.get("formula"));                
+                }else {
+                	cell.setCellStyle(styles.get("cell"));  
+                }                        
             }
         }
         
@@ -152,35 +154,33 @@ public class ReportServiceImpl implements ReportService {
         }        
         
        // Set Score per entry and criteria
-        for (int i = 0; i < entries.size(); i++) {
+        for (int i = 0; i < entries.size(); i++) {        	
         	Row row = sheet.getRow(2 + i);        	
-        	boolean scoreFlag = false;
+        	List<ScoreDTO> scores = scoreService.getScoreByEventIdAndEntryId(event.getId(), entries.get(i).getEntryId());
         	
         	for (int j = 0; j < criterias.size() + 1; j++) {        		
-        		if(scoreFlag) {break;}
-        		
-        		Cell cell = row.getCell(j);
-        		
+        		Cell cell = row.getCell(j);        		
         		if(j != 0) {            		
-            		CriteriaDTO criteria = criteriaService.getOne(criterias.get(j - 1).getCriteriaId());  
-    	              
-    	            ScoreDTO score = scoreService.getScoreByEntryIdAndEventId(entries.get(i).getEntryId(), event.getId());
-    	            
-//    	            if(score != null && criteria.getCriteriaId() == score.getCriteriaId()) {    	            	
-//    	            	System.out.println("-------- > ENTRY SCORE: " + score.getScore());
-//    	          	  	cell.setCellValue(score.getScore());
-//    	          	  	scoreFlag = true;
-//    	            }        			
+            		CriteriaDTO criteria = criteriaService.getOne(criterias.get(j - 1).getCriteriaId());              		
+            		double criteriaScore = 0;            		
+            		for(int x = 0; x < scores.size(); x++) {
+            			for(int y = 0; y < scores.get(x).getScores().size(); y++) {
+            				if(scores.get(x).getScores().get(y).getCriteriaId() == criteria.getCriteriaId()) {
+            					criteriaScore += scores.get(x).getScores().get(y).getScore();
+            					break;
+            				}
+            			}
+            		}            		
+            		cell.setCellValue(criteriaScore);    			
         		}        		
         	}        	
         }
 
         //finally set column widths, the width is measured in units of 1/256th of a character width
         sheet.setColumnWidth(0, 30*256); //30 characters wide
-        for (int i = 1; i < criterias.size() + 1; i++) {
+        for (int i = 1; i < criterias.size() + 3; i++) {
             sheet.setColumnWidth(i, 20*256);  //6 characters wide
         }
-//        sheet.setColumnWidth(10, 10*256); //10 characters wide	
         
         FileOutputStream fileOut = null;
 		
@@ -219,8 +219,6 @@ public class ReportServiceImpl implements ReportService {
         style.setFillForegroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         style.setFont(monthFont);
-//        style.setWrapText(true);
-        
         styles.put("header", style);
         
         style = wb.createCellStyle();
@@ -242,6 +240,7 @@ public class ReportServiceImpl implements ReportService {
         style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         style.setDataFormat(wb.createDataFormat().getFormat("0.00"));
+        style.setFont(monthFont);
         styles.put("formula", style);
 
         style = wb.createCellStyle();
@@ -250,6 +249,7 @@ public class ReportServiceImpl implements ReportService {
         style.setFillForegroundColor(IndexedColors.GREY_40_PERCENT.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         style.setDataFormat(wb.createDataFormat().getFormat("0.00"));
+        style.setFont(monthFont);
         styles.put("formula_2", style);
 		
 		return styles;
