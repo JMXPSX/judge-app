@@ -58,7 +58,7 @@ public class ReportServiceImpl implements ReportService {
         Row titleRow = sheet.createRow(0);
         titleRow.setHeightInPoints(45);
         Cell titleCell = titleRow.createCell(0);
-        titleCell.setCellValue("Event: " + event.getEventName());
+        titleCell.setCellValue("Event : " + event.getEventName());
         titleCell.setCellStyle(styles.get("title"));
         sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$L$1"));
 
@@ -67,19 +67,19 @@ public class ReportServiceImpl implements ReportService {
         headerRow.setHeightInPoints(40);        
         Cell headerCell; 
         
-        for (int i = 0; i < criterias.size() + 3; i++) {         	
-        	if(i != 0 && i < criterias.size() + 1) {   
-        		headerCell = headerRow.createCell(i);
+        for (int i = 0; i < criterias.size() + 3; i++) {   
+        	headerCell = headerRow.createCell(i);
+        	if(i != 0 && i < criterias.size() + 1) {
         		headerCell.setCellValue(criterias.get(i - 1).getCriteriaName());
         		headerCell.setCellStyle(styles.get("header"));        		
         	}else if(i == criterias.size() + 1) {
-        		headerCell = headerRow.createCell(i);
         		headerCell.setCellValue("TOTAL");
         		headerCell.setCellStyle(styles.get("formula"));
         	}else if (i == criterias.size() + 2){
-        		headerCell = headerRow.createCell(i);
         		headerCell.setCellValue("AVERAGE");
         		headerCell.setCellStyle(styles.get("formula"));        		
+        	}else {
+        		headerCell.setCellStyle(styles.get("cell"));  
         	}
         }
         
@@ -109,43 +109,7 @@ public class ReportServiceImpl implements ReportService {
                 	cell.setCellStyle(styles.get("cell"));  
                 }                        
             }
-        }
-        
-      //row with totals below
-//        Row sumRow = sheet.createRow(rownum++);
-//        sumRow.setHeightInPoints(35);
-//        Cell cell;
-//        cell = sumRow.createCell(0);
-//        cell.setCellStyle(styles.get("formula"));
-//        cell = sumRow.createCell(1);
-//        cell.setCellValue("Total Hrs:");
-//        cell.setCellStyle(styles.get("formula"));
-//
-//        for (int j = 2; j < 12; j++) {
-//            cell = sumRow.createCell(j);
-//            String ref = (char)('A' + j) + "3:" + (char)('A' + j) + "12";
-//            cell.setCellFormula("SUM(" + ref + ")");
-//            if(j >= 9) cell.setCellStyle(styles.get("formula_2"));
-//            else cell.setCellStyle(styles.get("formula"));
-//        }
-		
-//        rownum++;
-//        sumRow = sheet.createRow(rownum++);
-//        sumRow.setHeightInPoints(25);
-//        cell = sumRow.createCell(0);
-//        cell.setCellValue("Total Regular Hours");
-//        cell.setCellStyle(styles.get("formula"));
-//        cell = sumRow.createCell(1);
-//        cell.setCellFormula("L13");
-//        cell.setCellStyle(styles.get("formula_2"));
-//        sumRow = sheet.createRow(rownum++);
-//        sumRow.setHeightInPoints(25);
-//        cell = sumRow.createCell(0);
-//        cell.setCellValue("Total Overtime Hours");
-//        cell.setCellStyle(styles.get("formula"));
-//        cell = sumRow.createCell(1);
-//        cell.setCellFormula("K13");
-//        cell.setCellStyle(styles.get("formula_2")); 
+        }        
         
         // Set Entry Name on cell
         for (int i = 0; i < entries.size(); i++) {
@@ -204,10 +168,17 @@ public class ReportServiceImpl implements ReportService {
         Font titleFont = wb.createFont();
         titleFont.setFontHeightInPoints((short)18);
         titleFont.setBold(true);
+        
         style = wb.createCellStyle();
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setVerticalAlignment(VerticalAlignment.CENTER);
         style.setFont(titleFont);
+        style.setBorderRight(BorderStyle.THIN);
+        style.setRightBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderTop(BorderStyle.THIN);
+        style.setTopBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderBottom(BorderStyle.THIN);
+        style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
         styles.put("title", style);
         
         Font monthFont = wb.createFont();
@@ -219,6 +190,12 @@ public class ReportServiceImpl implements ReportService {
         style.setFillForegroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         style.setFont(monthFont);
+        style.setBorderRight(BorderStyle.THIN);
+        style.setRightBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderTop(BorderStyle.THIN);
+        style.setTopBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderBottom(BorderStyle.THIN);
+        style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
         styles.put("header", style);
         
         style = wb.createCellStyle();
@@ -226,8 +203,6 @@ public class ReportServiceImpl implements ReportService {
         style.setWrapText(true);
         style.setBorderRight(BorderStyle.THIN);
         style.setRightBorderColor(IndexedColors.BLACK.getIndex());
-        style.setBorderLeft(BorderStyle.THIN);
-        style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
         style.setBorderTop(BorderStyle.THIN);
         style.setTopBorderColor(IndexedColors.BLACK.getIndex());
         style.setBorderBottom(BorderStyle.THIN);
@@ -241,16 +216,13 @@ public class ReportServiceImpl implements ReportService {
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         style.setDataFormat(wb.createDataFormat().getFormat("0.00"));
         style.setFont(monthFont);
+        style.setBorderRight(BorderStyle.THIN);
+        style.setRightBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderTop(BorderStyle.THIN);
+        style.setTopBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderBottom(BorderStyle.THIN);
+        style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
         styles.put("formula", style);
-
-        style = wb.createCellStyle();
-        style.setAlignment(HorizontalAlignment.CENTER);
-        style.setVerticalAlignment(VerticalAlignment.CENTER);
-        style.setFillForegroundColor(IndexedColors.GREY_40_PERCENT.getIndex());
-        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        style.setDataFormat(wb.createDataFormat().getFormat("0.00"));
-        style.setFont(monthFont);
-        styles.put("formula_2", style);
 		
 		return styles;
 	}
