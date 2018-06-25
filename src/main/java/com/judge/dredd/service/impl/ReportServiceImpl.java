@@ -1,17 +1,27 @@
 package com.judge.dredd.service.impl;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
 import com.judge.dredd.dto.CriteriaDTO;
@@ -38,6 +48,8 @@ public class ReportServiceImpl implements ReportService {
 	
 	@Autowired
 	private ScoreService scoreService;
+	
+	private static String UPLOADED_FOLDER = "./reports/";
 
 	@Override
 	public String getReport(long eventId) {
@@ -147,9 +159,18 @@ public class ReportServiceImpl implements ReportService {
         }
         
         FileOutputStream fileOut = null;
-		
+        String message = null;
         try {
-        	fileOut = new FileOutputStream("Judge-app Report.xlsx");
+        	mkDir();
+        	
+        	String fileName = getFileName(event.getEventName());
+        	
+        	fileOut = new FileOutputStream(UPLOADED_FOLDER + fileName);
+        	
+        	
+        	
+        	
+        	
 			workbook.write(fileOut);
 			fileOut.close();
 			workbook.close();
@@ -160,7 +181,38 @@ public class ReportServiceImpl implements ReportService {
 		} 
 		
 		return "DOWNLOAD REPORT SUCCESS! " + entries;		
-	}	
+	}
+
+	@Override
+	public List<String> getAllReportNames() {
+		List<String> reportNames = new ArrayList();
+		File dir = new File(UPLOADED_FOLDER);
+		
+		for(File file : dir.listFiles()){
+			
+			if(!file.isDirectory()){
+				reportNames.add(file.getName());
+			}
+		}
+		
+		return reportNames;		
+	}
+	
+	@Override
+	public Resource getFile(String fileName) throws Exception {
+		try {
+			Path filePath = Paths.get(UPLOADED_FOLDER + fileName);
+			Resource resource = new UrlResource(filePath.toUri());
+			if(resource.exists()) {
+			    return resource;
+			}else {
+			    throw new Exception("File not found " + fileName);
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			throw new Exception("File not found " + fileName);
+		}
+	}
 	
 	private static Map<String, CellStyle> createStyles(Workbook wb) {
 		Map<String, CellStyle> styles = new HashMap<>();
@@ -227,4 +279,28 @@ public class ReportServiceImpl implements ReportService {
 		return styles;
 	}
 
+	private String mkDir() {
+		File file = new File(UPLOADED_FOLDER);
+	    if(!file.exists()){
+	    	file.mkdirs();
+	    }
+	    return file.getAbsolutePath()+"/";
+	}
+	
+	private String getFileName(String eventName) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
+	    Date date = new Date();  
+	    String fileDate = formatter.format(date);
+	    
+	    int cnt = 1;	    
+
+	    File newFileName = new File(eventName+fileDate+".xlsx");
+	    System.out.println("NEW FILE NAME : " + newFileName);
+	    while(newFileName.exists()) {
+	    	newFileName = new File(eventName+fileDate+"("+cnt+")"+".xlsx");
+			cnt++;
+	    }
+		return newFileName.getName();
+	}
+	
 }
