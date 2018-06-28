@@ -10,6 +10,6 @@ public interface ReportService {
 	
 	public List<String> getAllReportNames();
 	
-	public Resource getFile(String fileName) throws Exception;
+	public Resource getReportFile(String fileName) throws Exception;
 
 }

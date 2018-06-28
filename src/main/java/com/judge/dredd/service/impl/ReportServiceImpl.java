@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.poi.ss.util.CellAddress;
@@ -161,16 +162,9 @@ public class ReportServiceImpl implements ReportService {
         FileOutputStream fileOut = null;
         String message = null;
         try {
-        	mkDir();
-        	
-        	String fileName = getFileName(event.getEventName());
-        	
+        	mkDir();        	
+        	String fileName = getFileName(event.getEventName());        	
         	fileOut = new FileOutputStream(UPLOADED_FOLDER + fileName);
-        	
-        	
-        	
-        	
-        	
 			workbook.write(fileOut);
 			fileOut.close();
 			workbook.close();
@@ -199,7 +193,7 @@ public class ReportServiceImpl implements ReportService {
 	}
 	
 	@Override
-	public Resource getFile(String fileName) throws Exception {
+	public Resource getReportFile(String fileName) throws Exception {
 		try {
 			Path filePath = Paths.get(UPLOADED_FOLDER + fileName);
 			Resource resource = new UrlResource(filePath.toUri());
@@ -290,16 +284,27 @@ public class ReportServiceImpl implements ReportService {
 	private String getFileName(String eventName) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
 	    Date date = new Date();  
-	    String fileDate = formatter.format(date);
+	    String fileDate = formatter.format(date);	    
 	    
-	    int cnt = 1;	    
-
-	    File newFileName = new File(eventName+fileDate+".xlsx");
-	    System.out.println("NEW FILE NAME : " + newFileName);
-	    while(newFileName.exists()) {
-	    	newFileName = new File(eventName+fileDate+"("+cnt+")"+".xlsx");
-			cnt++;
-	    }
+	    int cnt = 0;
+	    List<String> reportNames = getAllReportNames();    	
+	    String pattern = "\\b"+eventName+fileDate+"\\b"; 
+    	Pattern p = Pattern.compile(pattern);
+    	for(int x = 0; x < reportNames.size(); x++) {
+    		Matcher m = p.matcher(reportNames.get(x));
+    		if(m.find()) {
+    			cnt++;
+    		}
+    	}
+    	
+    	File newFileName = null;
+    	
+    	if(cnt != 0) { 
+    		newFileName = new File(eventName+fileDate+"("+cnt+")"+".xlsx"); 
+		}else {
+			newFileName = new File(eventName+fileDate+".xlsx");
+		}
+    	
 		return newFileName.getName();
 	}
 	
