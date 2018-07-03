@@ -26,6 +26,11 @@ public class FileController {
 		return new ResponseEntity<>(fileService.upload(file), HttpStatus.OK);
 	}
 	
+	@PostMapping(value = "dredd/api/upload/entry/{entryId}")
+	public ResponseEntity<?> uploadEntryImage(@RequestParam("file") MultipartFile file, @PathVariable int entryId) {
+		return new ResponseEntity<>(fileService.uploadEntryImage(file, entryId), HttpStatus.OK);
+	}
+	
 //	@PostMapping(value = "dredd/api/loadFile/{fileName}")
 //	public ResponseEntity<?> loadFile(@PathVariable String fileName) {
 //		return new ResponseEntity<>(fileService.load(fileName), HttpStatus.OK);
@@ -41,6 +46,22 @@ public class FileController {
 		
 		try {
 			Resource resource = fileService.getFile(fileName);
+			
+			return ResponseEntity.ok()
+	                .contentType(MediaType.parseMediaType("application/octet-stream"))
+	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+	                .body(resource);
+			
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping(value = "dredd/api/getImage/event/{eventId}/entry/{entryId}")
+	public ResponseEntity<?> getFile(@PathVariable int eventId, @PathVariable int entryId) {
+		
+		try {
+			Resource resource = fileService.getEntryImage(eventId, entryId);
 			
 			return ResponseEntity.ok()
 	                .contentType(MediaType.parseMediaType("application/octet-stream"))

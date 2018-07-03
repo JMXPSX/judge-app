@@ -16,24 +16,31 @@ import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.judge.dredd.dto.EntryDTO;
+import com.judge.dredd.service.EntryService;
 import com.judge.dredd.service.FileService;
 
 @Service
 public class FileServiceImpl implements FileService {
 
 	private static String UPLOADED_FOLDER = "./uploads/";
+	private static String IMAGE_FOLDER = "./imgs/";
+	
+	@Autowired
+	private EntryService entryService;
 	
 	@Override
 	public String upload(MultipartFile file) {
 		String message = null;
 		try {
 			if(null != file && !file.isEmpty()){
-				mkDir();
+				mkDir(UPLOADED_FOLDER);
 				String fileName = getFileName(UPLOADED_FOLDER, file.getOriginalFilename());
 								
 				byte bytes[] = file.getBytes();
@@ -67,12 +74,12 @@ public class FileServiceImpl implements FileService {
 		return newFile.getName();
 	}
 	
-	public String mkDir(){
+	public String mkDir(String s){
 //		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
 //	    Date date = new Date();  
 //	    String folder = formatter.format(date); 
 		
-	    File file = new File(UPLOADED_FOLDER);
+	    File file = new File(s);
 	    if(!file.exists()){
 	    	file.mkdirs();
 	    }
@@ -130,7 +137,73 @@ public class FileServiceImpl implements FileService {
 		
 		return null;
 	}
+
+	@Override
+	public String uploadEntryImage(MultipartFile file, int entryId) {
+		String message = null;
+		long eventId = 0;
+		try {
+			EntryDTO entryDTO = entryService.getOne(entryId);
+			if (null == entryDTO) {
+				message = "entry " + entryId + " does not exists";
+			} else if (null == file || file.isEmpty()) {
+				message = "file is empty";
+			} else {
+				eventId = entryDTO.getEventId();
+
+				String dir = mkDir(IMAGE_FOLDER + "event"+eventId + "/");
+
+				byte bytes[] = file.getBytes();
+				String ext = file.getOriginalFilename().split(Pattern.quote("."))[1];
+				Path path = Paths.get(dir + entryId+"."+ext);
+
+				Files.write(path, bytes);
+				message = dir + entryId + " done.";
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			message = e.getMessage();
+		}
+		return message;
+	}
 	
-	
+	@Override
+	public Resource getEntryImage(int eventId, int entryId) throws Exception{
+		
+		String eventDir = IMAGE_FOLDER + "event"+eventId;
+		
+		String fileTarget = null;
+		File dir = new File(eventDir);
+		
+		for(File file : dir.listFiles()){
+			if(!file.isDirectory()){
+				String[] fName = file.getName().split(Pattern.quote("."));
+				if(String.valueOf(entryId).equals(fName[0])){
+					fileTarget = file.getName();
+					break;
+				}
+			}
+		}
+		
+		if(null == fileTarget){
+			throw new Exception("File not found!");
+		}
+		
+		String path = eventDir+"/"+fileTarget;
+		try {
+			Path filePath = Paths.get(path);
+			Resource resource = new UrlResource(filePath.toUri());
+			if(resource.exists()) {
+			    return resource;
+			}else {
+			    throw new Exception("File not found " + path);
+			}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new Exception("File not found " + path);
+		}
+	}
 
 }
