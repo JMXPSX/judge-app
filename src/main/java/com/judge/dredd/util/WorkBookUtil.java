@@ -6,17 +6,28 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.judge.dredd.dto.CategoryDTO;
 import com.judge.dredd.dto.CriteriaDTO;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EventDTO;
+import com.judge.dredd.service.CategoryService;
+import com.judge.dredd.service.CriteriaService;
+import com.judge.dredd.service.EntryService;
+import com.judge.dredd.service.EventService;
 
+@Service
 public class WorkBookUtil {
 	
 	public static final String EVENT_NAME ="EVENT_NAME";
@@ -37,6 +48,21 @@ public class WorkBookUtil {
 	private List<CriteriaDTO> criteriaDTOs;
 	
 	private List<EntryDTO> entryDTOs;
+	
+	@Autowired
+	private EventService eventService;
+	
+	@Autowired
+	private CategoryService categoryService;
+	
+	@Autowired
+	private CriteriaService criteriaService;
+		
+	@Autowired
+	private EntryService entryService;
+	
+	@Autowired
+	private EntityManager entityManager;
 	
 	public WorkBookUtil(Workbook workBook){
 		this.workBook = workBook;
@@ -128,6 +154,54 @@ public class WorkBookUtil {
 		criteriaDTOs.add(criteriaDTO);
 		return criteriaDTOs;
 	}
+	
+	public List<EntryDTO> populateEntryByCellRow(Row row){
+		if(null == entryDTOs){
+			entryDTOs = new ArrayList();
+		}
+		EntryDTO entryDTO = new EntryDTO();
+		for(Cell cell : row){
+			
+		}
+		entryDTOs.add(entryDTO);
+		return entryDTOs;
+	}
+	
+	@Transactional(propagation = Propagation.MANDATORY,
+			rollbackFor = Exception.class)
+	public void doProcess(){
+		try{
+			
+			eventDTO = eventService.addEvent(eventDTO);
+			
+			//amend categoryDTO
+			List<CategoryDTO> catDTOs = new ArrayList();
+			for(CategoryDTO c : categoryDTOs){
+				c.setEventId(eventDTO.getEventId());
+				catDTOs.add(categoryService.addCategory(c));
+			}
+			categoryDTOs = catDTOs;
+			
+			List<CriteriaDTO> criDTOs = new ArrayList();
+			for(CriteriaDTO c : criteriaDTOs){
+				c.setEventId(eventDTO.getEventId());
+				criDTOs.add(criteriaService.save(c));
+			}
+			criteriaDTOs = criDTOs;
+			
+			for(EntryDTO e : entryDTOs){
+				e.setCategoryId(e);
+				e.setEventId(eventDTO.getEventId());
+				entryService.addEntryWithMembers(e);
+			}
+			
+			
+			
+		}catch (Exception e){
+			
+		}
+	}
+	
 
 	public Workbook getWorkBook() {
 		return workBook;
