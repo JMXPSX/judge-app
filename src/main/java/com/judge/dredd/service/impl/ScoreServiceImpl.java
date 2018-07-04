@@ -176,7 +176,9 @@ public class ScoreServiceImpl implements ScoreService {
 		
 		System.out.println("select s.* from dredd.score s where s.event_detail_id = "+eventId+" and s.entry_id = "+entryId+" and s.judge_id = "+judgeId+" and s.criteria_id = "+criteriaId);
 		
-		Score score = scoreRepository.findScoreByEventIdAndEntryIdAndJudgeIdAndCriteriaId(eventId, entryId, judgeId, criteriaId);
+		Score score = scoreRepository.findScoreByEventIdAndEntryIdAndJudgeIdAndCriteriaId(eventId, entryId, judgeId, criteriaId);		
+		
+		System.out.println("--=========> SCORE " + score);
 		
 		if(null != score){
 			return dtoService.convertToDTO(score);

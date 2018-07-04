@@ -15,11 +15,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -28,7 +30,10 @@ import org.springframework.stereotype.Service;
 import com.judge.dredd.dto.CriteriaDTO;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.ScoreDTO;
+import com.judge.dredd.model.AppUser;
 import com.judge.dredd.model.Event;
+import com.judge.dredd.model.enums.UserType;
+import com.judge.dredd.repository.AppUserRepository;
 import com.judge.dredd.repository.EventRepository;
 import com.judge.dredd.service.CriteriaService;
 import com.judge.dredd.service.EntryService;
@@ -37,6 +42,9 @@ import com.judge.dredd.service.ScoreService;
 
 @Service
 public class ReportServiceImpl implements ReportService {
+	
+	@Autowired
+	private AppUserRepository appUserRepository;
 	
 	@Autowired
 	private EventRepository eventRepository;
@@ -57,107 +65,21 @@ public class ReportServiceImpl implements ReportService {
 		
 		Event event = eventRepository.findById(eventId).get();		
 		List<CriteriaDTO> criterias = criteriaService.getByEventDetailId(eventId);		
-		List<EntryDTO> entries = entryService.getAllEntriesByEventId(eventId);			
+		List<EntryDTO> entries = entryService.getAllEntriesByEventId(eventId);		
+		List<AppUser> userJudges = appUserRepository.findDistinctByEntries_Event_Id(event.getId());
+		userJudges = userJudges.stream().filter(judge -> judge.getUserType() == UserType.APP_ACADEME.getType()).collect(Collectors.toList());	
+		
 		Workbook workbook = new XSSFWorkbook();		
 		Map<String, CellStyle> styles = createStyles(workbook);
 		
-		Sheet sheet = workbook.createSheet("All");
-		PrintSetup printSetup = sheet.getPrintSetup();
-        printSetup.setLandscape(true);
-        sheet.setFitToPage(true);
-        sheet.setHorizontallyCenter(true);
-        
-        //title row
-        Row titleRow = sheet.createRow(0);
-        titleRow.setHeightInPoints(45);
-        Cell titleCell = titleRow.createCell(0);
-        titleCell.setCellValue("Event : " + event.getEventName());
-        titleCell.setCellStyle(styles.get("title"));
-        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$L$1"));
-
-        //header row
-        Row headerRow = sheet.createRow(1);
-        headerRow.setHeightInPoints(40);        
-        Cell headerCell; 
-        
-        for (int i = 0; i < criterias.size() + 3; i++) {   
-        	headerCell = headerRow.createCell(i);
-        	if(i != 0 && i < criterias.size() + 1) {
-        		headerCell.setCellValue(criterias.get(i - 1).getCriteriaName());
-        		headerCell.setCellStyle(styles.get("header"));        		
-        	}else if(i == criterias.size() + 1) {
-        		headerCell.setCellValue("TOTAL");
-        		headerCell.setCellStyle(styles.get("formula"));
-        	}else if (i == criterias.size() + 2){
-        		headerCell.setCellValue("AVERAGE");
-        		headerCell.setCellStyle(styles.get("formula"));        		
-        	}else {
-        		headerCell.setCellStyle(styles.get("cell"));  
-        	}
-        }
-        
-        int rownum = 2;        
-        for (int i = 0; i < entries.size(); i++) {
-            Row row = sheet.createRow(rownum++);            
-            CellAddress firstCell = null;            
-            CellAddress lastCell = null;            
-            for (int j = 0; j < criterias.size() + 3; j++) {
-                Cell cell = row.createCell(j);                
-
-                if(j == 1) {
-                	firstCell = cell.getAddress();
-                }else if(j == criterias.size()) {
-                	lastCell = cell.getAddress();
-                } 
-                
-                if(j == criterias.size() + 1) {
-                	String ref = firstCell +":"+ lastCell;
-                	cell.setCellFormula("SUM("+ref+")");
-                	cell.setCellStyle(styles.get("formula"));
-                }else if(j == criterias.size() + 2) {
-                	String ref = firstCell +":"+ lastCell;
-                	cell.setCellFormula("AVERAGE("+ref+")");
-                	cell.setCellStyle(styles.get("formula"));                
-                }else {
-                	cell.setCellStyle(styles.get("cell"));  
-                }                        
-            }
-        }        
-        
-        // Set Entry Name on cell
-        for (int i = 0; i < entries.size(); i++) {
-            Row row = sheet.getRow(2 + i);            
-            row.getCell(0).setCellValue(entries.get(i).getEntryName()); 
-        }        
-        
-       // Set Score per entry and criteria
-        for (int i = 0; i < entries.size(); i++) {        	
-        	Row row = sheet.getRow(2 + i);        	
-        	List<ScoreDTO> scores = scoreService.getScoreByEventIdAndEntryId(event.getId(), entries.get(i).getEntryId());
-        	
-        	for (int j = 0; j < criterias.size() + 1; j++) {        		
-        		Cell cell = row.getCell(j);        		
-        		if(j != 0) {            		
-            		CriteriaDTO criteria = criteriaService.getOne(criterias.get(j - 1).getCriteriaId());              		
-            		double criteriaScore = 0;            		
-            		for(int x = 0; x < scores.size(); x++) {
-            			for(int y = 0; y < scores.get(x).getScores().size(); y++) {
-            				if(scores.get(x).getScores().get(y).getCriteriaId() == criteria.getCriteriaId()) {
-            					criteriaScore += scores.get(x).getScores().get(y).getScore();
-            					break;
-            				}
-            			}
-            		}            		
-            		cell.setCellValue(criteriaScore);    			
-        		}        		
-        	}        	
-        }
-
-        //finally set column widths, the width is measured in units of 1/256th of a character width
-        sheet.setColumnWidth(0, 30*256); //30 characters wide
-        for (int i = 1; i < criterias.size() + 3; i++) {
-            sheet.setColumnWidth(i, 20*256);  //6 characters wide
-        }
+		Sheet allSheet = workbook.createSheet("All");		
+		generateSheet(event, criterias, entries, allSheet, styles, 0);  		
+			
+		for(int x = 0; x < userJudges.size(); x++) {			
+			List<EntryDTO> judgeEntries = entryService.getEntriesByEventIdAndUserId(eventId, userJudges.get(x).getUserId());
+			Sheet judgeSheet = workbook.createSheet(userJudges.get(x).getUsername());
+			generateSheet(event, criterias, judgeEntries, judgeSheet, styles, userJudges.get(x).getUserId());  			
+		}
         
         FileOutputStream fileOut = null;
         String message = null;
@@ -206,6 +128,196 @@ public class ReportServiceImpl implements ReportService {
 			e.printStackTrace();
 			throw new Exception("File not found " + fileName);
 		}
+	}
+
+	private String mkDir() {
+		File file = new File(UPLOADED_FOLDER);
+	    if(!file.exists()){
+	    	file.mkdirs();
+	    }
+	    return file.getAbsolutePath()+"/";
+	}
+	
+	private String getFileName(String eventName) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
+	    Date date = new Date();  
+	    String fileDate = formatter.format(date);	    
+	    
+	    int cnt = 0;
+	    List<String> reportNames = getAllReportNames();    	
+	    String pattern = "\\b"+eventName+fileDate+"\\b"; 
+    	Pattern p = Pattern.compile(pattern);
+    	for(int x = 0; x < reportNames.size(); x++) {
+    		Matcher m = p.matcher(reportNames.get(x));
+    		if(m.find()) {
+    			cnt++;
+    		}
+    	}
+    	
+    	File newFileName = null;
+    	
+    	if(cnt != 0) { 
+    		newFileName = new File(eventName+fileDate+"("+cnt+")"+".xlsx"); 
+		}else {
+			newFileName = new File(eventName+fileDate+".xlsx");
+		}
+    	
+		return newFileName.getName();
+	}
+	
+	private void generateSheet(Event event, List<CriteriaDTO> criterias, List<EntryDTO> entries,
+			Sheet sheet, Map<String, CellStyle> styles, long userId) {		
+
+		PrintSetup printSetup = sheet.getPrintSetup();
+        printSetup.setLandscape(true);
+        sheet.setFitToPage(true);
+        sheet.setHorizontallyCenter(true);
+        
+        //title row
+        Row titleRow = sheet.createRow(0);
+        titleRow.setHeightInPoints(45);
+        Cell titleCell = titleRow.createCell(0);
+        titleCell.setCellValue("Event : " + event.getEventName());
+        titleCell.setCellStyle(styles.get("title"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$L$1"));
+
+        //header row
+        Row headerRow = sheet.createRow(1);
+        headerRow.setHeightInPoints(40);        
+        Cell headerCell; 
+        
+        for (int i = 0; i < criterias.size() + 3; i++) {   
+        	headerCell = headerRow.createCell(i);
+        	if(i != 0 && i < criterias.size() + 1) {
+        		headerCell.setCellValue(criterias.get(i - 1).getCriteriaName());
+        		headerCell.setCellStyle(styles.get("header"));        		
+        	}else if(i == criterias.size() + 1) {
+        		headerCell.setCellValue("TOTAL");
+        		headerCell.setCellStyle(styles.get("formula"));
+        	}else if (i == criterias.size() + 2){
+        		headerCell.setCellValue("AVERAGE");
+        		headerCell.setCellStyle(styles.get("formula"));        		
+        	}else {
+        		headerCell.setCellStyle(styles.get("cell"));  
+        	}
+        }
+        
+        int rownum = 2;        
+        for (int i = 0; i < entries.size(); i++) {
+            Row row = sheet.createRow(rownum++);       
+            CellAddress firstCell = null;            
+            CellAddress lastCell = null;  
+            CellAddress valueCell = null;
+            
+            if(1 == criterias.size()) {
+            	
+            	for (int j = 0; j < criterias.size() + 3; j++) {
+            		
+            		Cell cell = row.createCell(j);
+            		
+            		if(j == 1) {
+            			valueCell = cell.getAddress();
+            		} 
+                	
+            		if(j == criterias.size() + 1) {
+                    	String ref = valueCell +":"+ valueCell;
+                    	cell.setCellFormula("SUM("+ref+")");
+                    	cell.setCellStyle(styles.get("formula"));
+                    }else if(j == criterias.size() + 2) {
+                    	String ref = valueCell +":"+ valueCell;
+                    	cell.setCellFormula("AVERAGE("+ref+")");
+                    	cell.setCellStyle(styles.get("formula"));                
+                    }else {
+                    	cell.setCellStyle(styles.get("cell"));  
+                    } 
+            		
+            	}
+            	
+            }else {
+            	
+            	for (int j = 0; j < criterias.size() + 3; j++) {
+                    Cell cell = row.createCell(j);                
+
+                    if(j == 1) {
+                    	firstCell = cell.getAddress();
+                    }else if(j == criterias.size()) {
+                    	lastCell = cell.getAddress();
+                    } 
+                    
+                    if(j == criterias.size() + 1) {
+                    	String ref = firstCell +":"+ lastCell;
+                    	cell.setCellFormula("SUM("+ref+")");
+                    	cell.setCellStyle(styles.get("formula"));
+                    }else if(j == criterias.size() + 2) {
+                    	String ref = firstCell +":"+ lastCell;
+                    	cell.setCellFormula("AVERAGE("+ref+")");
+                    	cell.setCellStyle(styles.get("formula"));                
+                    }else {
+                    	cell.setCellStyle(styles.get("cell"));  
+                    }                        
+                }
+            	
+            }
+            
+        }        
+        
+        // Set Entry Name on cell
+        for (int i = 0; i < entries.size(); i++) {
+            Row row = sheet.getRow(2 + i);  //XX          
+            row.getCell(0).setCellValue(entries.get(i).getEntryName()); 
+        }        
+        
+       // Set Score per entry and criteria
+        for (int i = 0; i < entries.size(); i++) {        	
+        	Row row = sheet.getRow(2 + i);  //XX	
+        	
+        	List<ScoreDTO> scores = scoreService.getScoreByEventIdAndEntryId(event.getId(), entries.get(i).getEntryId());
+        	
+        	for (int j = 0; j < criterias.size() + 1; j++) {        		
+        		Cell cell = row.getCell(j);        		
+        		if(j != 0) {            		
+            		CriteriaDTO criteria = criteriaService.getOne(criterias.get(j - 1).getCriteriaId());              		
+            		double criteriaScore = 0;
+            		
+            		if(userId != 0) {
+            			// Not working, comment out for the meantime
+//            			ScoreDTO score = scoreService.getScoresByEventIdAndEntryIdAndJudgeIdAndCriteriaId(event.getId(), entries.get(i).getEntryId(), userId, criteria.getCriteriaId());            			            			
+
+            			for(int x = 0; x < scores.size(); x++) {
+            				
+            				for(int y = 0; y < scores.get(x).getScores().size(); y++) {
+                				if(scores.get(x).getScores().get(y).getCriteriaId() == criteria.getCriteriaId() && scores.get(x).getJudgeId() == userId) {
+                					criteriaScore += scores.get(x).getScores().get(y).getScore();
+                					break;
+                				}
+                			}
+            				
+            			}
+            			
+            		}else {
+            			
+            			for(int x = 0; x < scores.size(); x++) {
+                			for(int y = 0; y < scores.get(x).getScores().size(); y++) {
+                				if(scores.get(x).getScores().get(y).getCriteriaId() == criteria.getCriteriaId()) {
+                					criteriaScore += scores.get(x).getScores().get(y).getScore();
+                					break;
+                				}
+                			}
+                		}
+
+            		}
+            		
+            		cell.setCellValue(criteriaScore);    			
+        		}        		
+        	}        	
+        }
+
+        //finally set column widths, the width is measured in units of 1/256th of a character width
+        sheet.setColumnWidth(0, 30*256); //30 characters wide 
+        for (int i = 1; i < criterias.size() + 3; i++) {
+            sheet.setColumnWidth(i, 20*256);  //6 characters wide 
+        }
+		
 	}
 	
 	private static Map<String, CellStyle> createStyles(Workbook wb) {
@@ -271,41 +383,6 @@ public class ReportServiceImpl implements ReportService {
         styles.put("formula", style);
 		
 		return styles;
-	}
-
-	private String mkDir() {
-		File file = new File(UPLOADED_FOLDER);
-	    if(!file.exists()){
-	    	file.mkdirs();
-	    }
-	    return file.getAbsolutePath()+"/";
-	}
-	
-	private String getFileName(String eventName) {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
-	    Date date = new Date();  
-	    String fileDate = formatter.format(date);	    
-	    
-	    int cnt = 0;
-	    List<String> reportNames = getAllReportNames();    	
-	    String pattern = "\\b"+eventName+fileDate+"\\b"; 
-    	Pattern p = Pattern.compile(pattern);
-    	for(int x = 0; x < reportNames.size(); x++) {
-    		Matcher m = p.matcher(reportNames.get(x));
-    		if(m.find()) {
-    			cnt++;
-    		}
-    	}
-    	
-    	File newFileName = null;
-    	
-    	if(cnt != 0) { 
-    		newFileName = new File(eventName+fileDate+"("+cnt+")"+".xlsx"); 
-		}else {
-			newFileName = new File(eventName+fileDate+".xlsx");
-		}
-    	
-		return newFileName.getName();
 	}
 	
 }
