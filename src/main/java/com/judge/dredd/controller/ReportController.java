@@ -22,7 +22,7 @@ public class ReportController {
 	@Autowired
 	private ReportService reportService;
 	
-	@GetMapping(value = "/report/{eventId}")
+	@GetMapping(value = "/report/getReport/{eventId}")
 	public ResponseEntity<?> getReport(@PathVariable long eventId){
 		return new ResponseEntity<>(reportService.getReport(eventId), HttpStatus.OK);
 	}
@@ -32,11 +32,11 @@ public class ReportController {
 		return new ResponseEntity<>(reportService.getAllReportNames(), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/report/getReport/{fileName}")
-	public ResponseEntity<?> getFile(@PathVariable String fileName) {
+	@GetMapping(value = "/report/getReportFile/{fileName}")
+	public ResponseEntity<?> getReportFile(@PathVariable String fileName) {
 		
 		try {
-			Resource resource = reportService.getFile(fileName);
+			Resource resource = reportService.getReportFile(fileName);
 			
 			return ResponseEntity.ok()
 	                .contentType(MediaType.parseMediaType("application/octet-stream"))
