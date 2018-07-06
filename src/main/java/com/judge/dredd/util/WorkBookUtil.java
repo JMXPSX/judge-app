@@ -214,6 +214,8 @@ public class WorkBookUtil {
 					m.setMemberType(memberType);
 					entryDTO.addMember(m);
 					memberType = "Team Member";
+					firstName = null;
+					lastName = null;
 				}
 			}
 		}		
@@ -240,7 +242,7 @@ public class WorkBookUtil {
 			prepareCategory(eventDTO.getEventId());
 			System.out.println("prepared categ>>>>>>>>>>>>>>>>>>>>>");
 			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(categoryDTOs));
-			
+			3
 			
 			List<CategoryDTO> catDTOs = new ArrayList();
 			for(CategoryDTO c : categoryDTOs){
