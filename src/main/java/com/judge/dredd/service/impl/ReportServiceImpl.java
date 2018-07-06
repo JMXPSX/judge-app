@@ -61,13 +61,17 @@ public class ReportServiceImpl implements ReportService {
 	private static String UPLOADED_FOLDER = "./reports/";
 
 	@Override
-	public String getReport(long eventId) {
+	public String getReport(long eventId, long userTypeParam) {
+		
+		UserType userType = UserType.getUserTypeById((int) userTypeParam);
+		
+		if(null == userType) return "Invalid User Type " + userTypeParam;
 		
 		Event event = eventRepository.findById(eventId).get();		
 		List<CriteriaDTO> criterias = criteriaService.getByEventDetailId(eventId);		
 		List<EntryDTO> entries = entryService.getAllEntriesByEventId(eventId);		
 		List<AppUser> userJudges = appUserRepository.findDistinctByEntries_Event_Id(event.getId());
-		userJudges = userJudges.stream().filter(judge -> judge.getUserType() == UserType.APP_ACADEME.getType()).collect(Collectors.toList());	
+		userJudges = userJudges.stream().filter(judge -> judge.getUserType() == userType.getId()).collect(Collectors.toList());	
 		
 		Workbook workbook = new XSSFWorkbook();		
 		Map<String, CellStyle> styles = createStyles(workbook);
@@ -96,7 +100,7 @@ public class ReportServiceImpl implements ReportService {
 			e.printStackTrace();
 		} 
 		
-		return "DOWNLOAD REPORT SUCCESS! " + entries;		
+		return "DOWNLOAD REPORT SUCCESS!";		
 	}
 
 	@Override
@@ -177,7 +181,7 @@ public class ReportServiceImpl implements ReportService {
         Row titleRow = sheet.createRow(0);
         titleRow.setHeightInPoints(45);
         Cell titleCell = titleRow.createCell(0);
-        titleCell.setCellValue("Event : " + event.getEventName());
+        titleCell.setCellValue(event.getEventName() + (userId != 0 ? " by " + appUserRepository.findById(userId).get().getUsername() : " Overall Score" ));
         titleCell.setCellStyle(styles.get("title"));
         sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$L$1"));
 

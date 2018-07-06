@@ -8,5 +8,18 @@ public enum UserType {
 	
 	private final int id;
 	UserType(int id) { this.id = id; }
-    public int getType() { return id; }
+    public int getId() { return id; }
+    
+    public static UserType getUserTypeById(int id) {
+    	
+    	for(UserType userType : values()) {
+    		if(userType.getId() == id) {
+    			return userType;
+    		}
+    		
+		}
+    	return null;
+    	
+    }
 }
+

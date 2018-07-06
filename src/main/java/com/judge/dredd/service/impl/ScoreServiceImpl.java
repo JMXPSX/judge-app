@@ -365,7 +365,7 @@ public class ScoreServiceImpl implements ScoreService {
 
 	@Override
 	public List<ScoreDTO> getAllScoresForSponsor(long eventId) {
-		List<Score> scores = scoreRepository.findByTabulator_event_id(eventId).stream().filter(score -> UserType.APP_SPONSOR.getType() != score.getTabulator().getJudge().getUserType()).collect(Collectors.toList());
+		List<Score> scores = scoreRepository.findByTabulator_event_id(eventId).stream().filter(score -> UserType.APP_SPONSOR.getId() != score.getTabulator().getJudge().getUserType()).collect(Collectors.toList());
 		
 		Map<Tabulator, List<Score>> mapulator = toScoreMap(scores);
 		
