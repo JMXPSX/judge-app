@@ -77,7 +77,7 @@ public class WorkBookUtil {
 		for (Row row: sheet) {
 			Cell cell = row.getCell(row.getFirstCellNum());
 			String cellValue = dataFormatter.formatCellValue(cell);
-			if(!CELL_EVENT_NAME.equalsIgnoreCase(cellValue)){
+			if(!CELL_EVENT_NAME.equalsIgnoreCase(cellValue) && "" != cellValue){
 				 populateEventByCellRow(row);
 			}
         }
@@ -89,7 +89,7 @@ public class WorkBookUtil {
 		for(Row row : sheet){
 			Cell cell = row.getCell(row.getFirstCellNum());
 			String cellValue = dataFormatter.formatCellValue(cell);
-			if(!CELL_CATEGORY_NAME.equalsIgnoreCase(cellValue)){
+			if(!CELL_CATEGORY_NAME.equalsIgnoreCase(cellValue) && "" != cellValue){
 				populateCategoryByCellRow(row, eventId);
 			}
 		}
@@ -101,7 +101,7 @@ public class WorkBookUtil {
 		for(Row row : sheet){
 			Cell cell = row.getCell(row.getFirstCellNum());
 			String cellValue = dataFormatter.formatCellValue(cell);
-			if(!CELL_CRITERIA_NAME.equalsIgnoreCase(cellValue)){
+			if(!CELL_CRITERIA_NAME.equalsIgnoreCase(cellValue) && "" != cellValue){
 				populateCriteriaByCellRow(row, eventId);
 			}
 		}
@@ -113,7 +113,8 @@ public class WorkBookUtil {
 		for(Row row : sheet){
 			Cell cell = row.getCell(row.getFirstCellNum());
 			String cellValue = dataFormatter.formatCellValue(cell);
-			if(!CELL_ENTRY_NAME.equalsIgnoreCase(cellValue)){
+			System.out.println("CELL VALUE " + cellValue);
+			if(!CELL_ENTRY_NAME.equalsIgnoreCase(cellValue) && "" != cellValue){
 				populateEntryByCellRow(row, eventId);
 			}
 		}
@@ -242,7 +243,7 @@ public class WorkBookUtil {
 			prepareCategory(eventDTO.getEventId());
 			System.out.println("prepared categ>>>>>>>>>>>>>>>>>>>>>");
 			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(categoryDTOs));
-			3
+			
 			
 			List<CategoryDTO> catDTOs = new ArrayList();
 			for(CategoryDTO c : categoryDTOs){
@@ -276,10 +277,8 @@ public class WorkBookUtil {
 				entryService.addEntryWithMembers(e);
 			}
 			
-			System.out.println("done prepareCriteria event>>>>>>>>>>>>>>>>>>>>>");
-			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(entryDTOs));
-			
-			
+			System.out.println("done prepare entries>>>>>>>>>>>>>>>>>>>>>");
+			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(entryDTOs));	
 			
 		}catch (Exception e){
 			e.printStackTrace();
