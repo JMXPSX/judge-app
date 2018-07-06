@@ -8,7 +8,7 @@ public interface CategoryService {
 
 	public List<CategoryDTO> getCategoriesByEvent (long eventId);
 	
-	public CategoryDTO addCategory(CategoryDTO categoryDTO);
+	public CategoryDTO addCategory(CategoryDTO categoryDTO) throws Exception;
 	
 	public List<CategoryDTO> getCategoriesByUser (long appUserId);
 }

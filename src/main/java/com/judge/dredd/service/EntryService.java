@@ -7,7 +7,7 @@ import com.judge.dredd.dto.EntryJudgeDTO;
 
 public interface EntryService {
 	EntryDTO getOne(long id);
-	EntryDTO save(EntryDTO entryDTO);
+	EntryDTO save(EntryDTO entryDTO) throws Exception;
 	void delete(long id);
 	List<EntryDTO> getAll();
 	
@@ -17,7 +17,7 @@ public interface EntryService {
 	
 	public List<EntryDTO> getEntriesByEventIdAndUserId(long eventId, long userId);
 	
-	public EntryDTO addEntryWithMembers(EntryDTO entryDTO);
+	public EntryDTO addEntryWithMembers(EntryDTO entryDTO) throws Exception;
 	
 	String assignJudges(long entryId, List<Long> judges);
 	

@@ -6,7 +6,7 @@ import com.judge.dredd.dto.CriteriaDTO;
 
 public interface CriteriaService {
 	CriteriaDTO getOne(long id);
-	CriteriaDTO save(CriteriaDTO criteriaDTO);
+	CriteriaDTO save(CriteriaDTO criteriaDTO) throws Exception;
 	void delete(long id);
 	List<CriteriaDTO> getAll();
 	

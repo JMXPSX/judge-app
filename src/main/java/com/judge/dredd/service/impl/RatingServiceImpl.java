@@ -22,8 +22,8 @@ public class RatingServiceImpl implements RatingService {
 	private DtoService dtoService;
 
 	@Override
-	public String update(RateDTO rateDTO) {
-		Tabulator t = tabulatorRepository.findById(rateDTO.getTabulatorId()).get();
+	public String update(RateDTO rateDTO) throws Exception {
+		Tabulator t = tabulatorRepository.findById(rateDTO.getTabulatorId()).orElseThrow(() -> new Exception("Tabulator id "+rateDTO.getTabulatorId()+" not found"));
 		t.setRateValue(rateDTO.getRateValue());
 		tabulatorRepository.save(t);
 		return "done";
@@ -46,8 +46,6 @@ public class RatingServiceImpl implements RatingService {
 		List<Tabulator> tabulators = tabulatorRepository.findByEvent_IdAndJudge_userId(eventId, appuserId);
 		tabulators.forEach(tabulator -> dtos.add(dtoService.convertToDTO(tabulator)));
 		return dtos;
-	}
-	
-	
+	}	
 
 }

@@ -37,10 +37,10 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public CategoryDTO addCategory(CategoryDTO categoryDTO) {
-		Category c =  dtoService.convertToModel(categoryDTO);
+	public CategoryDTO addCategory(CategoryDTO categoryDTO) throws Exception {
+		Event e = eventRepository.findById(categoryDTO.getEventId()).orElseThrow(() ->new Exception("Event id "+categoryDTO.getEventId()+" not found"));
 		
-		Event e = eventRepository.findById(categoryDTO.getEventId()).get();
+		Category c =  dtoService.convertToModel(categoryDTO);
 		c.setEvent(e);
 		c = categoryRepository.save(c);
 		return dtoService.convertToDTO(c);

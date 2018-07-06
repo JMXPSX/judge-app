@@ -31,6 +31,10 @@ public class CommentsController {
 	
 	@PostMapping(value = "/dredd/api/comments")
 	public ResponseEntity<?> addComments (@RequestBody CommentsDTO commentsDTO){
-		return new ResponseEntity<>(commentsService.addComment(commentsDTO), HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(commentsService.addComment(commentsDTO), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

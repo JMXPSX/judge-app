@@ -13,6 +13,7 @@ import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,21 +23,27 @@ import com.judge.dredd.dto.CategoryDTO;
 import com.judge.dredd.dto.CriteriaDTO;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EventDTO;
+import com.judge.dredd.dto.MemberDTO;
 import com.judge.dredd.service.CategoryService;
 import com.judge.dredd.service.CriteriaService;
 import com.judge.dredd.service.EntryService;
 import com.judge.dredd.service.EventService;
 
 @Service
+@Transactional
 public class WorkBookUtil {
 	
-	public static final String EVENT_NAME ="EVENT_NAME";
-	public static final String EVENT_START ="Event name";
-	public static final String EVENT_END ="Event name";
+	public static final String SHEET_EVENT="Event";
+	public static final String SHEET_CATEGORY="Category";
+	public static final String SHEET_CRITERIA="Criteria";
+	public static final String SHEET_ENTRY="Entry";
 	
-	public static final String CATEGORY_NAME ="Event name";
-	public static final String CATEGORY_DESCRIPTION ="Event name";
+	public static final String CELL_EVENT_NAME ="EVENT_NAME";
+	public static final String CELL_CATEGORY_NAME ="CATEGORY_NAME";
+	public static final String CELL_CRITERIA_NAME ="CRITERIA_NAME";
 	
+	public static final String CELL_ENTRY_NAME="ENTRY_NAME";
+		
 	DataFormatter dataFormatter = new DataFormatter();
 
 	private Workbook workBook;
@@ -64,26 +71,52 @@ public class WorkBookUtil {
 	@Autowired
 	private EntityManager entityManager;
 	
-	public WorkBookUtil(Workbook workBook){
-		this.workBook = workBook;
+	private void prepareEvent(){
+		eventDTO = new EventDTO();
+		Sheet sheet = workBook.getSheet(SHEET_EVENT);
+		for (Row row: sheet) {
+			Cell cell = row.getCell(row.getFirstCellNum());
+			String cellValue = dataFormatter.formatCellValue(cell);
+			if(!CELL_EVENT_NAME.equalsIgnoreCase(cellValue)){
+				 populateEventByCellRow(row);
+			}
+        }
 	}
 	
-	public void prepareEvent(){
-		Sheet sheet = workBook.getSheet("Event");
-		eventDTO = new EventDTO();
-		for (Row row: sheet) {
-            for(Cell cell: row) {
-                String cellValue = dataFormatter.formatCellValue(cell);
-                System.out.print(cellValue + "\t");
-                if(EVENT_NAME.equalsIgnoreCase(cellValue)){
-                	break;
-                }else{
-                	populateEventByCellRow(row);
-                }
-                
-            }
-            System.out.println();
-        }
+	private void prepareCategory(long eventId){
+		categoryDTOs = new ArrayList<>();
+		Sheet sheet = workBook.getSheet(SHEET_CATEGORY);
+		for(Row row : sheet){
+			Cell cell = row.getCell(row.getFirstCellNum());
+			String cellValue = dataFormatter.formatCellValue(cell);
+			if(!CELL_CATEGORY_NAME.equalsIgnoreCase(cellValue)){
+				populateCategoryByCellRow(row, eventId);
+			}
+		}
+	}
+	
+	private void prepareCriteria(long eventId){
+		criteriaDTOs = new ArrayList<>(); 
+		Sheet sheet = workBook.getSheet(SHEET_CRITERIA);
+		for(Row row : sheet){
+			Cell cell = row.getCell(row.getFirstCellNum());
+			String cellValue = dataFormatter.formatCellValue(cell);
+			if(!CELL_CRITERIA_NAME.equalsIgnoreCase(cellValue)){
+				populateCriteriaByCellRow(row, eventId);
+			}
+		}
+	}
+	
+	private void prepareEntries(long eventId) throws Exception{
+		entryDTOs = new ArrayList<>();
+		Sheet sheet = workBook.getSheet(SHEET_ENTRY);
+		for(Row row : sheet){
+			Cell cell = row.getCell(row.getFirstCellNum());
+			String cellValue = dataFormatter.formatCellValue(cell);
+			if(!CELL_ENTRY_NAME.equalsIgnoreCase(cellValue)){
+				populateEntryByCellRow(row, eventId);
+			}
+		}
 	}
 	
 	public String cellToString(Cell cell){
@@ -119,10 +152,7 @@ public class WorkBookUtil {
 		return eventDTO;
 	}
 	
-	public List<CategoryDTO> populateCategoryByCellRow(Row row){
-		if(null == categoryDTOs){
-			categoryDTOs = new ArrayList<>();
-		}
+	public List<CategoryDTO> populateCategoryByCellRow(Row row, long eventId){
 		CategoryDTO categoryDTO = new CategoryDTO();
 		for(Cell cell: row) {
 			if(null == categoryDTO.getCategoryName()){
@@ -131,14 +161,12 @@ public class WorkBookUtil {
 				categoryDTO.setCategoryDescription(cellToString(cell));
 			}
 		}
+		categoryDTO.setEventId(eventId);
 		categoryDTOs.add(categoryDTO);
 		return categoryDTOs;
 	}
 	
-	public List<CriteriaDTO> populateCriteriaByCellRow(Row row){
-		if(null == criteriaDTOs){
-			criteriaDTOs = new ArrayList();
-		}
+	public List<CriteriaDTO> populateCriteriaByCellRow(Row row, long eventId){
 		CriteriaDTO criteriaDTO = new CriteriaDTO();
 		for(Cell cell: row){
 			if(null == criteriaDTO.getCriteriaName()){
@@ -151,54 +179,115 @@ public class WorkBookUtil {
 				criteriaDTO.setMaxValue(cellToInteger(cell));
 			}
 		}
+		criteriaDTO.setEventId(eventId);
 		criteriaDTOs.add(criteriaDTO);
 		return criteriaDTOs;
 	}
 	
-	public List<EntryDTO> populateEntryByCellRow(Row row){
-		if(null == entryDTOs){
-			entryDTOs = new ArrayList();
-		}
+	public List<EntryDTO> populateEntryByCellRow(Row row, long eventId) throws Exception{
 		EntryDTO entryDTO = new EntryDTO();
+		
+		String firstName = null;
+		String lastName = null;
+		String memberType = "Team Leader";
+		
 		for(Cell cell : row){
-			
-		}
+			String s = cellToString(cell);
+			if(null == entryDTO.getEntryName()){
+				entryDTO.setEntryName(s);
+			}else if(null == entryDTO.getEntryDescription()){
+				entryDTO.setEntryDescription(s);
+			}else if(null == entryDTO.getCategoryId()){
+				CategoryDTO cat = categoryDTOs.stream().filter(c -> c.getCategoryName().equalsIgnoreCase(s)).findFirst().orElseThrow(() -> new Exception("no category found: "+s));
+				entryDTO.setCategoryId(cat.getCategoryId());
+			}else{
+				if(null == firstName){
+					firstName = s;
+				}else if(null == lastName){
+					lastName = s;
+				}
+					
+				if(null != firstName && null != lastName){
+					MemberDTO m = new MemberDTO();
+					m.setFirstName(firstName);
+					m.setLastName(lastName);
+					m.setMemberType(memberType);
+					entryDTO.addMember(m);
+					memberType = "Team Member";
+				}
+			}
+		}		
+		entryDTO.setEventId(eventId);
 		entryDTOs.add(entryDTO);
 		return entryDTOs;
 	}
 	
-	@Transactional(propagation = Propagation.MANDATORY,
-			rollbackFor = Exception.class)
-	public void doProcess(){
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void doProcess(Workbook workBook) throws Exception{
 		try{
 			
-			eventDTO = eventService.addEvent(eventDTO);
+			setWorkBook(workBook); 
 			
-			//amend categoryDTO
+			System.out.println("do process start>>>>>>>>>>>>>>>>>>>");
+			prepareEvent();
+			System.out.println("prepared event>>>>>>>>>>>>>>>>>>>>>");
+			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(eventDTO));
+			
+			eventDTO = eventService.addEvent(eventDTO);
+			System.out.println("done insert event>>>>>>>>>>>>>>>>>>>>>");
+			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(eventDTO));
+			
+			prepareCategory(eventDTO.getEventId());
+			System.out.println("prepared categ>>>>>>>>>>>>>>>>>>>>>");
+			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(categoryDTOs));
+			
+			
 			List<CategoryDTO> catDTOs = new ArrayList();
 			for(CategoryDTO c : categoryDTOs){
-				c.setEventId(eventDTO.getEventId());
 				catDTOs.add(categoryService.addCategory(c));
 			}
 			categoryDTOs = catDTOs;
 			
+			System.out.println("done categ event>>>>>>>>>>>>>>>>>>>>>");
+			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(categoryDTOs));
+			
+			prepareCriteria(eventDTO.getEventId());		
+			
+			System.out.println("prepareCriteria>>>>>>>>>>>>>>>>>>>>>");
+			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(criteriaDTOs));
+			
 			List<CriteriaDTO> criDTOs = new ArrayList();
 			for(CriteriaDTO c : criteriaDTOs){
-				c.setEventId(eventDTO.getEventId());
 				criDTOs.add(criteriaService.save(c));
 			}
 			criteriaDTOs = criDTOs;
 			
+			System.out.println("done prepareCriteria event>>>>>>>>>>>>>>>>>>>>>");
+			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(categoryDTOs));
+			
+			prepareEntries(eventDTO.getEventId());	
+			
+			System.out.println("prepareEntries>>>>>>>>>>>>>>>>>>>>>");
+			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(entryDTOs));
+			
 			for(EntryDTO e : entryDTOs){
-				e.setCategoryId(e);
-				e.setEventId(eventDTO.getEventId());
 				entryService.addEntryWithMembers(e);
 			}
+			
+			System.out.println("done prepareCriteria event>>>>>>>>>>>>>>>>>>>>>");
+			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(entryDTOs));
 			
 			
 			
 		}catch (Exception e){
-			
+			e.printStackTrace();
+			throw e;
+		} finally {
+			workBook = null;
+			eventDTO = null;
+			categoryDTOs = null;
+			criteriaDTOs = null;
+			entryDTOs = null;
 		}
 	}
 	

@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,10 @@ import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EntryJudgeDTO;
 import com.judge.dredd.dto.MemberDTO;
 import com.judge.dredd.model.AppUser;
+import com.judge.dredd.model.Category;
 import com.judge.dredd.model.Criteria;
 import com.judge.dredd.model.Entry;
+import com.judge.dredd.model.Event;
 import com.judge.dredd.model.Member;
 import com.judge.dredd.model.Score;
 import com.judge.dredd.model.Tabulator;
@@ -25,6 +26,7 @@ import com.judge.dredd.repository.AppUserRepository;
 import com.judge.dredd.repository.CategoryRepository;
 import com.judge.dredd.repository.CriteriaRepository;
 import com.judge.dredd.repository.EntryRepository;
+import com.judge.dredd.repository.EventRepository;
 import com.judge.dredd.repository.MemberRepository;
 import com.judge.dredd.repository.ScoreRepository;
 import com.judge.dredd.repository.TabulatorRepository;
@@ -38,6 +40,9 @@ public class EntryServiceImpl implements EntryService {
 
 	@Autowired
 	private EntryRepository entryRepository;
+	
+	@Autowired
+	private EventRepository eventRepository;
 
 	@Autowired
 	private MemberRepository memberRepository;
@@ -69,13 +74,32 @@ public class EntryServiceImpl implements EntryService {
 	}
 
 	@Override
-	public EntryDTO save(EntryDTO entryDTO) {
+	public EntryDTO save(EntryDTO entryDTO) throws Exception {
+		
+		Event e = eventRepository.findById(entryDTO.getEventId()).get();
+		
+		if(null == e){
+			throw new Exception("event id "+entryDTO.getEventId()+" not found");
+		}
+		
+		Category c = categoryRepository.findByCategoryIdAndEvent_id(entryDTO.getCategoryId(), e.getId());
+		
+		if(null == c){
+			throw new Exception("Category id "+entryDTO.getCategoryId()+" not found");
+		}
+		
 
 		Entry obj = dtoService.convertToModel(entryDTO);
+		obj.setEvent(e);
+		obj.setCategory(c);
 		obj = entryRepository.save(obj);
 
 		List<MemberDTO> members = entryDTO.getMembers();
-		members.forEach(member -> memberRepository.save(dtoService.convertToModel(member)));
+		for(MemberDTO member : members){
+			Member m = dtoService.convertToModel(member);
+			m.setEntry(obj);
+			memberRepository.save(m);
+		}		
 
 		return dtoService.convertToDTO(obj);
 	}
@@ -136,7 +160,15 @@ public class EntryServiceImpl implements EntryService {
 	}
 
 	@Override
-	public EntryDTO addEntryWithMembers(EntryDTO entryDTO) {
+	public EntryDTO addEntryWithMembers(EntryDTO entryDTO) throws Exception {
+		Event e = eventRepository.findById(entryDTO.getEventId()).orElseThrow(() -> new Exception("Entry id "+entryDTO.getEntryId()+" not found"));
+		
+		Category c = categoryRepository.findByCategoryIdAndEvent_id(entryDTO.getCategoryId(), e.getId());
+		if(c == null){
+			throw new Exception("Category id "+entryDTO.getCategoryId()+" not found");
+		}
+				
+		
 		Entry obj = dtoService.convertToModel(entryDTO);
 		
 		final Entry objf = entryRepository.save(obj);

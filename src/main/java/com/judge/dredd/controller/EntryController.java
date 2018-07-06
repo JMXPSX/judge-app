@@ -38,7 +38,11 @@ public class EntryController {
 	
 	@PostMapping(value = "dredd/api/entry")
 	public ResponseEntity<?> addEntry (@RequestBody EntryDTO entryDTO){
-		return new ResponseEntity<>(entryService.addEntryWithMembers(entryDTO), HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(entryService.addEntryWithMembers(entryDTO), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@PostMapping(value = "dredd/api/entries/{entryId}/category/{categoryId}/judges")

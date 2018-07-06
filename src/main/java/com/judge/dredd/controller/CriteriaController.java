@@ -22,7 +22,11 @@ public class CriteriaController {
 	
 	@PostMapping("/dredd/api/criteria")
 	public ResponseEntity<?> addCriteria (@RequestBody CriteriaDTO criteriaDTO){
-		return new ResponseEntity<>(criteriaService.save(criteriaDTO), HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(criteriaService.save(criteriaDTO), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@GetMapping("/dredd/api/criteria/{id}")

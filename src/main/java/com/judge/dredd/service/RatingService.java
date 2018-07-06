@@ -6,7 +6,7 @@ import com.judge.dredd.dto.RateDTO;
 
 public interface RatingService {
 
-	public String update(RateDTO rateDTO);
+	public String update(RateDTO rateDTO) throws Exception;
 	
 	public RateDTO getRating(long eventId, long entryId, long appuserId);
 	

@@ -1,12 +1,13 @@
 package com.judge.dredd.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EntryDTO {
 
 	private Long entryId;
 	private Long eventId;
-	private long categoryId;
+	private Long categoryId;
 	
 	private String entryName;
 	private String entryDescription;
@@ -31,11 +32,11 @@ public class EntryDTO {
 		this.eventId = eventId;
 	}
 
-	public long getCategoryId() {
+	public Long getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(long categoryId) {
+	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
 	}
 
@@ -69,6 +70,13 @@ public class EntryDTO {
 
 	public void setDone(boolean isDone) {
 		this.isDone = isDone;
+	}
+	
+	public void addMember(MemberDTO m){
+		if(null == getMembers()){
+			setMembers(new ArrayList<>());
+		}
+		getMembers().add(m);
 	}
 
 	@Override

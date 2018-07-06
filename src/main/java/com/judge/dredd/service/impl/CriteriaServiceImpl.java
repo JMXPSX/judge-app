@@ -37,14 +37,10 @@ public class CriteriaServiceImpl implements CriteriaService {
 	}
 
 	@Override
-	public CriteriaDTO save(CriteriaDTO criteriaDTO) {
+	public CriteriaDTO save(CriteriaDTO criteriaDTO) throws Exception {
 		
-		Event e = eventRepository.findById(criteriaDTO.getEventId()).get();
-		
-		if(null == e){
-			//throw new Exception("event id: "+criteriaDTO.getEventId()+" not found");
-		}
-		
+		Event e = eventRepository.findById(criteriaDTO.getEventId()).orElseThrow(() -> new Exception("event id: "+criteriaDTO.getEventId()+" not found"));
+				
 		Criteria obj = dtoService.convertToModel(criteriaDTO);
 		
 		obj.setEvents(e);

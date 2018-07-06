@@ -21,11 +21,5 @@ public class WorkBookUtilTest {
 		Path path = Paths.get(UPLOADED_FOLDER + fileName);
 		File file = path.toFile();
 		Workbook workBook = WorkbookFactory.create(file);
-		
-		WorkBookUtil w = new WorkBookUtil(workBook);
-		w.prepareEvent();
-		System.out.println(w.getEventDTO().getEventName());
-		System.out.println(w.getEventDTO().getStartDate());
-		System.out.println(w.getEventDTO().getEndDate());
 	}
 }

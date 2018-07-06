@@ -10,6 +10,6 @@ public interface CommentsService {
 	
 	public List<CommentsDTO> findCommentsByEntryId(long entryId);
 	
-	public CommentsDTO addComment(CommentsDTO commentsDTO);
+	public CommentsDTO addComment(CommentsDTO commentsDTO) throws Exception;
 	
 }

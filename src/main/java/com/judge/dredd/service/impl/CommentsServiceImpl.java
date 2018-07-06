@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import com.judge.dredd.dto.CommentsDTO;
 import com.judge.dredd.dto.UserDTO;
 import com.judge.dredd.model.Comments;
+import com.judge.dredd.model.Entry;
 import com.judge.dredd.repository.CommentsRepository;
+import com.judge.dredd.repository.EntryRepository;
 import com.judge.dredd.service.AppUserService;
 import com.judge.dredd.service.CommentsService;
 import com.judge.dredd.service.DtoService;
@@ -26,6 +28,9 @@ public class CommentsServiceImpl implements CommentsService {
 	
 	@Autowired
 	private AppUserService appUserService;
+	
+	@Autowired
+	private EntryRepository entryRepository;
 	
 	@Override
 	public CommentsDTO updateComments(CommentsDTO notesDTO) {
@@ -50,12 +55,15 @@ public class CommentsServiceImpl implements CommentsService {
 	}
 
 	@Override
-	public CommentsDTO addComment(CommentsDTO commentsDTO) {
+	public CommentsDTO addComment(CommentsDTO commentsDTO) throws Exception {
 		Comments c;
 		
 		//check if existing
 		List<Comments> exisitngComments = commentsRepository.findByEntry_entryIdAndAppUser_userIdAndComment(commentsDTO.getEntryId(), commentsDTO.getUserId(), commentsDTO.getComment());
 		if(0 == exisitngComments.size()){
+			
+			Entry e = entryRepository.findById(commentsDTO.getEntryId()).orElseThrow(() ->new Exception("Entry id "+commentsDTO.getEntryId()+" not found"));
+						
 			//if not, add it
 			c = dtoService.convertToModel(commentsDTO);
 			UserDTO user = appUserService.getOne(commentsDTO.getUserId());

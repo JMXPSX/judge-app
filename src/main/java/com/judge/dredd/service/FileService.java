@@ -1,5 +1,6 @@
 package com.judge.dredd.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.core.io.Resource;
@@ -17,5 +18,5 @@ public interface FileService {
 	
 	public Resource getFile(String fileName) throws Exception;
 	
-	public String load(String fileName);
+	public String load(String fileName) throws IOException;
 }

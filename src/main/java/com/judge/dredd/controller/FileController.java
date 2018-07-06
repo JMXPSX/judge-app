@@ -1,5 +1,7 @@
 package com.judge.dredd.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -31,10 +33,15 @@ public class FileController {
 		return new ResponseEntity<>(fileService.uploadEntryImage(file, entryId), HttpStatus.OK);
 	}
 	
-//	@PostMapping(value = "dredd/api/loadFile/{fileName}")
-//	public ResponseEntity<?> loadFile(@PathVariable String fileName) {
-//		return new ResponseEntity<>(fileService.load(fileName), HttpStatus.OK);
-//	}
+	@PostMapping(value = "dredd/api/loadFile/{fileName}")
+	public ResponseEntity<?> loadFile(@PathVariable String fileName) {
+		try {
+			return new ResponseEntity<>(fileService.load(fileName), HttpStatus.OK);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	
 	@GetMapping(value = "dredd/api/getAllFileNames")
 	public ResponseEntity<?> getAllFileNames() {

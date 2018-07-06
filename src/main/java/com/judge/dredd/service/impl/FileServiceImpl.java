@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.service.EntryService;
 import com.judge.dredd.service.FileService;
+import com.judge.dredd.util.WorkBookUtil;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -34,6 +35,9 @@ public class FileServiceImpl implements FileService {
 	
 	@Autowired
 	private EntryService entryService;
+	
+	@Autowired
+	private WorkBookUtil workBookUtil;
 	
 	@Override
 	public String upload(MultipartFile file) {
@@ -118,24 +122,27 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public String load(String fileName) {
+	public String load(String fileName) throws IOException {
+		Workbook workBook = null;
+		
 		try {
 			Path path = Paths.get(UPLOADED_FOLDER + fileName);
 			File file = path.toFile();
 			
-			Workbook workBook = WorkbookFactory.create(file);
-		} catch (EncryptedDocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			System.out.println("FILE READ>>>>>>>>>>>>>>>>>"+file.getName());
+			
+			workBook = WorkbookFactory.create(file);
+			workBookUtil.doProcess(workBook);			
 		
-		return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} finally{
+			if(null != workBook){
+					workBook.close();
+			}
+		}
+		return "done";
 	}
 
 	@Override

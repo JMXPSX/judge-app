@@ -23,7 +23,11 @@ public class RatingController {
 
 	@PutMapping(value = "/rate")
 	public ResponseEntity<?> setRating (@RequestBody RateDTO rateDTO){
-		return new ResponseEntity<>(ratingService.update(rateDTO), HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(ratingService.update(rateDTO), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@GetMapping(value = "/rate/event/{eventId}/entry/{entryId}/judge/{appuserId}")

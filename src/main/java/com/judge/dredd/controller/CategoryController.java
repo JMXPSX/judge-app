@@ -25,7 +25,12 @@ public class CategoryController {
 	
 	@PostMapping("/dredd/api/category/")
 	public ResponseEntity<?> createCategory (@RequestBody CategoryDTO categoryDTO){
-		return new ResponseEntity<>(categoryService.addCategory(categoryDTO), HttpStatus.OK);
+		try{
+			return new ResponseEntity<>(categoryService.addCategory(categoryDTO), HttpStatus.OK);
+		} catch (Exception e){
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 	}
 	
 	@GetMapping("/dredd/api/category/user/{appUserId}")
