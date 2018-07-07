@@ -174,9 +174,9 @@ public class WorkBookUtil {
 				criteriaDTO.setCriteriaName(cellToString(cell));
 			}else if (null == criteriaDTO.getCriteriaDescription()){
 				criteriaDTO.setCriteriaDescription(cellToString(cell));
-			}else if (0 == criteriaDTO.getMinValue()){
+			}else if (null == criteriaDTO.getMinValue()){
 				criteriaDTO.setMinValue(cellToInteger(cell));
-			}else if (0 == criteriaDTO.getMaxValue()){
+			}else if (null == criteriaDTO.getMaxValue()){
 				criteriaDTO.setMaxValue(cellToInteger(cell));
 			}
 		}
