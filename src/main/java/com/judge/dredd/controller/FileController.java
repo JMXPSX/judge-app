@@ -37,7 +37,7 @@ public class FileController {
 	public ResponseEntity<?> loadFile(@PathVariable String fileName) {
 		try {
 			return new ResponseEntity<>(fileService.load(fileName), HttpStatus.OK);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

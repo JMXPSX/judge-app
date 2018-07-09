@@ -227,58 +227,34 @@ public class WorkBookUtil {
 	
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void doProcess(Workbook workBook) throws Exception{
+		String eventId="eventId=";
+		
 		try{
 			
 			setWorkBook(workBook); 
-			
-			System.out.println("do process start>>>>>>>>>>>>>>>>>>>");
 			prepareEvent();
-			System.out.println("prepared event>>>>>>>>>>>>>>>>>>>>>");
-			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(eventDTO));
-			
 			eventDTO = eventService.addEvent(eventDTO);
-			System.out.println("done insert event>>>>>>>>>>>>>>>>>>>>>");
-			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(eventDTO));
 			
 			prepareCategory(eventDTO.getEventId());
-			System.out.println("prepared categ>>>>>>>>>>>>>>>>>>>>>");
-			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(categoryDTOs));
-			
-			
 			List<CategoryDTO> catDTOs = new ArrayList();
 			for(CategoryDTO c : categoryDTOs){
 				catDTOs.add(categoryService.addCategory(c));
 			}
 			categoryDTOs = catDTOs;
 			
-			System.out.println("done categ event>>>>>>>>>>>>>>>>>>>>>");
-			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(categoryDTOs));
-			
 			prepareCriteria(eventDTO.getEventId());		
-			
-			System.out.println("prepareCriteria>>>>>>>>>>>>>>>>>>>>>");
-			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(criteriaDTOs));
-			
 			List<CriteriaDTO> criDTOs = new ArrayList();
 			for(CriteriaDTO c : criteriaDTOs){
 				criDTOs.add(criteriaService.save(c));
 			}
 			criteriaDTOs = criDTOs;
 			
-			System.out.println("done prepareCriteria event>>>>>>>>>>>>>>>>>>>>>");
-			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(categoryDTOs));
-			
-			prepareEntries(eventDTO.getEventId());	
-			
-			System.out.println("prepareEntries>>>>>>>>>>>>>>>>>>>>>");
-			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(entryDTOs));
-			
+			prepareEntries(eventDTO.getEventId());
+			List<EntryDTO> entDTOs = new ArrayList();
 			for(EntryDTO e : entryDTOs){
-				entryService.addEntryWithMembers(e);
+				entDTOs.add(entryService.addEntryWithMembers(e));
 			}
-			
-			System.out.println("done prepare entries>>>>>>>>>>>>>>>>>>>>>");
-			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(entryDTOs));	
+			entryDTOs = entDTOs;
 			
 		}catch (Exception e){
 			e.printStackTrace();
@@ -307,6 +283,30 @@ public class WorkBookUtil {
 
 	public void setEventDTO(EventDTO eventDTO) {
 		this.eventDTO = eventDTO;
+	}
+
+	public List<CategoryDTO> getCategoryDTOs() {
+		return categoryDTOs;
+	}
+
+	public void setCategoryDTOs(List<CategoryDTO> categoryDTOs) {
+		this.categoryDTOs = categoryDTOs;
+	}
+
+	public List<CriteriaDTO> getCriteriaDTOs() {
+		return criteriaDTOs;
+	}
+
+	public void setCriteriaDTOs(List<CriteriaDTO> criteriaDTOs) {
+		this.criteriaDTOs = criteriaDTOs;
+	}
+
+	public List<EntryDTO> getEntryDTOs() {
+		return entryDTOs;
+	}
+
+	public void setEntryDTOs(List<EntryDTO> entryDTOs) {
+		this.entryDTOs = entryDTOs;
 	}
 	
 	

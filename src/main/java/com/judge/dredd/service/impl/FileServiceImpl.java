@@ -122,27 +122,25 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public String load(String fileName) throws IOException {
+	public List<EntryDTO> load(String fileName) throws Exception {
 		Workbook workBook = null;
 		
 		try {
 			Path path = Paths.get(UPLOADED_FOLDER + fileName);
 			File file = path.toFile();
 			
-			System.out.println("FILE READ>>>>>>>>>>>>>>>>>"+file.getName());
-			
 			workBook = WorkbookFactory.create(file);
-			workBookUtil.doProcess(workBook);			
+			workBookUtil.doProcess(workBook);
 		
 		} catch (Exception e) {
 			e.printStackTrace();
-			return e.getMessage();
+			throw e;
 		} finally{
 			if(null != workBook){
 					workBook.close();
 			}
 		}
-		return "done";
+		return workBookUtil.getEntryDTOs();
 	}
 
 	@Override

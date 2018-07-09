@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.judge.dredd.dto.EntryDTO;
+
 public interface FileService {
 
 	public String upload(MultipartFile file);
@@ -18,5 +20,5 @@ public interface FileService {
 	
 	public Resource getFile(String fileName) throws Exception;
 	
-	public String load(String fileName) throws IOException;
+	public List<EntryDTO> load(String fileName) throws Exception;
 }
