@@ -4,12 +4,11 @@ import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.judge.dredd.dto.CommentsDTO;
 
@@ -25,6 +24,7 @@ public class PushController {
 
 	int index = 0;
 
+	@SuppressWarnings("deprecation")
 	@MessageMapping("/comment")
 //	@SendTo("/topic/comments")
 //	@SubscribeMapping("/topic/comments")
@@ -44,5 +44,24 @@ public class PushController {
 		webSocket.convertAndSend("/notification", comments);
 		return comments;
 	}
+	
+	@SuppressWarnings("deprecation")
+	@GetMapping("/dredd/api/push")
+	public CommentsDTO testPush() throws Exception {
+		CommentsDTO comments = new CommentsDTO();
+		comments.setComment(words[index]);
+		comments.setUserId(array[index]);
+		comments.setCommentDate(new Date(0, 10, 2018));
+//		System.out.println(comments);
+		if (index == 3) {
+			index = 0;
+		} else {
+			index++;
+		}
+		
+		webSocket.convertAndSend("/notification", comments);
+		return comments;
+	}
+	
 
 }
