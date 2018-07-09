@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.judge.dredd.dto.UserDTO;
+import com.judge.dredd.dto.UserTypeDTO;
 import com.judge.dredd.model.AppUser;
-import com.judge.dredd.model.Entry;
+import com.judge.dredd.model.enums.UserType;
 import com.judge.dredd.repository.AppUserRepository;
 import com.judge.dredd.repository.EntryRepository;
 import com.judge.dredd.service.AppUserService;
@@ -120,6 +121,19 @@ public class AppUserServiceImpl implements AppUserService{
 		}
 		
 		return dtoService.convertToDTO(au);
+	}
+
+	@Override
+	public List<UserTypeDTO> getUserTypes() {
+		List<UserTypeDTO> l = new ArrayList();
+		for(UserType userType : UserType.values()) {
+			UserTypeDTO dto = new UserTypeDTO();
+			dto.setKey(userType.name());
+			dto.setValue(String.valueOf(userType.getId()));
+			l.add(dto);
+    		
+		}
+		return l;
 	}
 
 

@@ -49,9 +49,9 @@ public class UserController {
 		return new ResponseEntity<>("not yet implemented", HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/users/usertype/{userType}")
-	public ResponseEntity<?> getAllUsersByType (@PathVariable int userType){
-		return new ResponseEntity<>("not yet implemented", HttpStatus.OK);
+	@GetMapping(value = "/users/usertypes")
+	public ResponseEntity<?> getUserTypes (){
+		return new ResponseEntity<>(systemUserService.getUserTypes(), HttpStatus.OK);
 	}
 	
 	
