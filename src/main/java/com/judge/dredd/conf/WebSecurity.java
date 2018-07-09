@@ -11,8 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.judge.dredd.repository.AppUserRepository;
 
-import springfox.documentation.swagger2.web.Swagger2Controller;
-
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurity extends WebSecurityConfigurerAdapter {
@@ -34,6 +32,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		        .antMatchers("/swagger-ui.html#/**").authenticated()
 		        .antMatchers("/v2/api-docs/**").hasRole("ADMIN")
 		        .antMatchers("/v2/api-docs/**").authenticated()
+		    	.antMatchers("/stomp/**").permitAll()
 		        .antMatchers("/public/**").permitAll()
         		.antMatchers("/login").permitAll()
                 .antMatchers("/dredd/api/**").authenticated().and()
