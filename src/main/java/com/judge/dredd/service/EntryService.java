@@ -28,4 +28,6 @@ public interface EntryService {
 	public String assignUserToEntry(long entryId, long appUserId);
 	
 	public String assignJudges(List<EntryJudgeDTO> params);
+	
+//	String removeJudge(long entryId, long judgeId);
 }
