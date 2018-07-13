@@ -34,6 +34,7 @@ import com.judge.dredd.model.AppUser;
 import com.judge.dredd.model.Event;
 import com.judge.dredd.model.enums.UserType;
 import com.judge.dredd.repository.AppUserRepository;
+import com.judge.dredd.repository.CategoryRepository;
 import com.judge.dredd.repository.EventRepository;
 import com.judge.dredd.service.CriteriaService;
 import com.judge.dredd.service.EntryService;
@@ -48,6 +49,9 @@ public class ReportServiceImpl implements ReportService {
 	
 	@Autowired
 	private EventRepository eventRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
 	@Autowired
 	private CriteriaService criteriaService;
@@ -190,76 +194,87 @@ public class ReportServiceImpl implements ReportService {
         headerRow.setHeightInPoints(40);        
         Cell headerCell; 
         
-        for (int i = 0; i < criterias.size() + 3; i++) {   
+        for (int i = 0; i < criterias.size() + 4; i++) {   
         	headerCell = headerRow.createCell(i);
-        	if(i != 0 && i < criterias.size() + 1) {
-        		headerCell.setCellValue(criterias.get(i - 1).getCriteriaName());
+        	
+        	if(i == 1) {
+        		headerCell.setCellValue("CATEGORY");
+        		headerCell.setCellStyle(styles.get("formula"));   
+        	}else if(i != 0 && i < criterias.size() + 2) {
+        		headerCell.setCellValue(criterias.get(i - 2).getCriteriaName());
         		headerCell.setCellStyle(styles.get("header"));        		
-        	}else if(i == criterias.size() + 1) {
+        	}else if(i == criterias.size() + 2) {
         		headerCell.setCellValue("TOTAL");
         		headerCell.setCellStyle(styles.get("formula"));
-        	}else if (i == criterias.size() + 2){
+        	}else if (i == criterias.size() + 3){
         		headerCell.setCellValue("AVERAGE");
         		headerCell.setCellStyle(styles.get("formula"));        		
         	}else {
-        		headerCell.setCellStyle(styles.get("cell"));  
+        		headerCell.setCellStyle(styles.get("cell"));
         	}
+        	
         }
         
         int rownum = 2;        
         for (int i = 0; i < entries.size(); i++) {
             Row row = sheet.createRow(rownum++);       
-            CellAddress firstCell = null;            
-            CellAddress lastCell = null;  
-            CellAddress valueCell = null;
+//            CellAddress firstCell = null;            
+//            CellAddress lastCell = null;  
+//            CellAddress valueCell = null;
             
             if(1 == criterias.size()) {
             	
-            	for (int j = 0; j < criterias.size() + 3; j++) {
-            		
-            		Cell cell = row.createCell(j);
-            		
-            		if(j == 1) {
-            			valueCell = cell.getAddress();
-            		} 
-                	
-            		if(j == criterias.size() + 1) {
-                    	String ref = valueCell +":"+ valueCell;
-                    	cell.setCellFormula("SUM("+ref+")");
-                    	cell.setCellStyle(styles.get("formula"));
-                    }else if(j == criterias.size() + 2) {
-                    	String ref = valueCell +":"+ valueCell;
-                    	cell.setCellFormula("AVERAGE("+ref+")");
-                    	cell.setCellStyle(styles.get("formula"));                
-                    }else {
-                    	cell.setCellStyle(styles.get("cell"));  
-                    } 
-            		
-            	}
+            	fillScoreCell(criterias, row, styles, true);
+            	
+//            	for (int j = 0; j < criterias.size() + 3; j++) {
+//            		
+//            		Cell cell = row.createCell(j);
+//            		
+//            		if(j == 1) {
+//            			valueCell = cell.getAddress();
+//            		} 
+//                	
+//            		if(j == criterias.size() + 1) {
+//                    	String ref = valueCell +":"+ valueCell;
+//                    	cell.setCellFormula("SUM("+ref+")");
+//                    	cell.setCellStyle(styles.get("formula"));
+//                    }else if(j == criterias.size() + 2) {
+//                    	String ref = valueCell +":"+ valueCell;
+//                    	cell.setCellFormula("AVERAGE("+ref+")");
+//                    	cell.setCellStyle(styles.get("formula"));                
+//                    }else {
+//                    	cell.setCellStyle(styles.get("cell"));  
+//                    } 
+//            		
+//            	}
             	
             }else {
             	
-            	for (int j = 0; j < criterias.size() + 3; j++) {
-                    Cell cell = row.createCell(j);                
-
-                    if(j == 1) {
-                    	firstCell = cell.getAddress();
-                    }else if(j == criterias.size()) {
-                    	lastCell = cell.getAddress();
-                    } 
-                    
-                    if(j == criterias.size() + 1) {
-                    	String ref = firstCell +":"+ lastCell;
-                    	cell.setCellFormula("SUM("+ref+")");
-                    	cell.setCellStyle(styles.get("formula"));
-                    }else if(j == criterias.size() + 2) {
-                    	String ref = firstCell +":"+ lastCell;
-                    	cell.setCellFormula("AVERAGE("+ref+")");
-                    	cell.setCellStyle(styles.get("formula"));                
-                    }else {
-                    	cell.setCellStyle(styles.get("cell"));  
-                    }                        
-                }
+            	fillScoreCell(criterias, row, styles, false);
+            	
+//            	for (int j = 0; j < criterias.size() + 3; j++) {
+//            		
+//                    Cell cell = row.createCell(j);                
+//
+//                    if(j == 1) {
+//                    	firstCell = cell.getAddress();
+//                    }else if(j == criterias.size()) {
+//                    	lastCell = cell.getAddress();
+//                    } 
+//                    
+//                    if(j == criterias.size() + 1) {
+//                    	String ref = firstCell +":"+ lastCell;
+//                    	cell.setCellFormula("SUM("+ref+")");
+//                    	cell.setCellStyle(styles.get("formula"));
+//                    }else if(j == criterias.size() + 2) {
+//                    	String ref = firstCell +":"+ lastCell;
+//                    	cell.setCellFormula("AVERAGE("+ref+")");
+//                    	cell.setCellStyle(styles.get("formula"));                
+//                    }else {
+//                    	cell.setCellStyle(styles.get("cell"));  
+//                    }  
+//                    
+//                }
             	
             }
             
@@ -267,20 +282,42 @@ public class ReportServiceImpl implements ReportService {
         
         // Set Entry Name on cell
         for (int i = 0; i < entries.size(); i++) {
-            Row row = sheet.getRow(2 + i);  //XX          
+            Row row = sheet.getRow(2 + i);      
             row.getCell(0).setCellValue(entries.get(i).getEntryName()); 
-        }        
+        }
         
-       // Set Score per entry and criteria
-        for (int i = 0; i < entries.size(); i++) {        	
-        	Row row = sheet.getRow(2 + i);  //XX	
+//        ----- Merge Category in Progress -----
+        
+        Cell firstMergeCell , lastMergeCell = null;
+        
+        int firstRowNum = 0;
+        
+        // Set Score per entry and criteria
+        for (int i = 0; i < entries.size(); i++) {
+        	String categoryFirstName = null;
+        	String categoryNextName = null;
+        	String categoryName = null;
+        	
+        	Row row = sheet.getRow(2 + i);    
+
+        	categoryName =  categoryRepository.findByCategoryIdAndEvent_id(entries.get(i).getCategoryId(), event.getId()).getName();
+        	
+        	if(i == 0) {
+        		categoryName = categoryFirstName = categoryNextName = categoryRepository.findByCategoryIdAndEvent_id(entries.get(i).getCategoryId(), event.getId()).getName();
+        		firstRowNum = row.getRowNum();
+        	}
+        	
+//        	----- Merge Category in Progress -----
         	
         	List<ScoreDTO> scores = scoreService.getScoreByEventIdAndEntryId(event.getId(), entries.get(i).getEntryId());
         	
-        	for (int j = 0; j < criterias.size() + 1; j++) {        		
-        		Cell cell = row.getCell(j);        		
-        		if(j != 0) {            		
-            		CriteriaDTO criteria = criteriaService.getOne(criterias.get(j - 1).getCriteriaId());              		
+        	for (int j = 0; j < criterias.size() + 2; j++) {        		
+        		Cell cell = row.getCell(j); 
+        		
+        		if(j == 1) cell.setCellValue(categoryName);
+        		
+        		if(j > 1) {            		
+            		CriteriaDTO criteria = criteriaService.getOne(criterias.get(j - 2).getCriteriaId());              		
             		double criteriaScore = 0;
             		
             		if(userId != 0) {
@@ -318,8 +355,46 @@ public class ReportServiceImpl implements ReportService {
 
         //finally set column widths, the width is measured in units of 1/256th of a character width
         sheet.setColumnWidth(0, 30*256); //30 characters wide 
-        for (int i = 1; i < criterias.size() + 3; i++) {
+        for (int i = 1; i < criterias.size() + 4; i++) {
             sheet.setColumnWidth(i, 20*256);  //6 characters wide 
+        }
+		
+	}
+	
+	private void fillScoreCell (List<CriteriaDTO> criteriasParam, Row rowParam, Map<String, CellStyle> stylesParam, 
+			boolean isSingleCriteria) {
+		CellAddress firstCell = null;            
+        CellAddress lastCell = null;  
+        CellAddress valueCell = null;
+		
+		for (int j = 0; j < criteriasParam.size() + 4; j++) {
+    		
+            Cell cell = rowParam.createCell(j);   
+            
+            if(isSingleCriteria) {
+        		if(j == 1) {
+	    			valueCell = cell.getAddress();
+	    		}
+            }else {
+            	if(j == 1) {
+                	firstCell = cell.getAddress();
+                }else if(j == criteriasParam.size()) {
+                	lastCell = cell.getAddress();
+                } 
+            }
+            
+            if(j == criteriasParam.size() + 2) {
+            	String ref = isSingleCriteria ? valueCell +":"+ valueCell : firstCell +":"+ lastCell;
+            	cell.setCellFormula("SUM("+ref+")");
+            	cell.setCellStyle(stylesParam.get("formula"));
+            }else if(j == criteriasParam.size() + 3) {
+            	String ref = isSingleCriteria ? valueCell +":"+ valueCell : firstCell +":"+ lastCell;
+            	cell.setCellFormula("AVERAGE("+ref+")");
+            	cell.setCellStyle(stylesParam.get("formula"));                
+            }else {
+            	cell.setCellStyle(stylesParam.get("cell"));  
+            }  
+            
         }
 		
 	}
@@ -340,7 +415,7 @@ public class ReportServiceImpl implements ReportService {
         style.setBorderTop(BorderStyle.THIN);
         style.setTopBorderColor(IndexedColors.BLACK.getIndex());
         style.setBorderBottom(BorderStyle.THIN);
-        style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBottomBorderColor(IndexedColors.BLACK.getIndex());        
         styles.put("title", style);
         
         Font monthFont = wb.createFont();
@@ -385,6 +460,8 @@ public class ReportServiceImpl implements ReportService {
         style.setBorderBottom(BorderStyle.THIN);
         style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
         styles.put("formula", style);
+        
+        
 		
 		return styles;
 	}
