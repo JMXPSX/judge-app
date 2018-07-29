@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.DreddApp;
 import com.google.common.collect.Lists;
-import com.judge.dredd.DreddApp;
 import com.judge.dredd.dto.EntryDTO;
 import com.judge.dredd.dto.EntryJudgeDTO;
 import com.judge.dredd.dto.MemberDTO;

@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.DreddApp;
 import com.judge.dredd.model.AppUser;
 import com.judge.dredd.model.Category;
 import com.judge.dredd.model.Criteria;

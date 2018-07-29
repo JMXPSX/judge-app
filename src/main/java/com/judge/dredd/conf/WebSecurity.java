@@ -35,6 +35,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		    	.antMatchers("/stomp/**").permitAll()
 		        .antMatchers("/public/**").permitAll()
         		.antMatchers("/login").permitAll()
+        		.antMatchers("/vote/**").authenticated()
                 .antMatchers("/dredd/api/**").authenticated().and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager(),userRepository))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
