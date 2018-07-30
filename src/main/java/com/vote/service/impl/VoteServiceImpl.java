@@ -3,7 +3,10 @@ package com.vote.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
@@ -29,6 +32,9 @@ public class VoteServiceImpl implements VoteService{
 	
 	@Autowired
 	private BoothRepository boothRepository;
+	
+	@Inject
+	private SimpMessagingTemplate webSocket;
 	
 	@Override
 	public String vote(long eventId, long participantId, long boothId) {
@@ -116,6 +122,7 @@ public class VoteServiceImpl implements VoteService{
 			voteDTO.setMessage(e.getMessage());
 		}
 		
+		webSocket.convertAndSend("/vote/result", voteDTO);
 
 		return voteDTO;
 	}
