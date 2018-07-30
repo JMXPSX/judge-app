@@ -19,7 +19,7 @@ public class VoteController {
 	@PostMapping("/vote/event/{eventId}/id/{participantId}/entry/{boothId}")
 	public ResponseEntity<?> vote (@RequestParam long eventId, @RequestParam long participantId, @RequestParam long boothId){
 		String msg = voteService.vote(eventId, participantId, boothId);
-		
+		voteService.getResults(eventId);
 		return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
 				
 	}
