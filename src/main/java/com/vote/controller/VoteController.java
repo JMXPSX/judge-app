@@ -16,13 +16,16 @@ public class VoteController {
 	@Autowired
 	private VoteService voteService;
 	
-	@PostMapping("/vote/event/{eventId}/id/{participantId}/entry/{boothId}")
-	public ResponseEntity<?> vote (@RequestParam long eventId, @RequestParam long participantId, @RequestParam long boothId){
-		String msg = voteService.vote(eventId, participantId, boothId);
+	@PostMapping("/vote/event/{eventId}/id/{participantId}/entry/boothId={boothIds}")
+	public ResponseEntity<?> vote (@RequestParam long eventId, @RequestParam long participantId, @RequestParam String boothIds){
+		String msg = voteService.vote(eventId, participantId, boothIds);
 		if("done".equalsIgnoreCase(msg)){
 			voteService.getResults(eventId);
+			return new ResponseEntity<>(msg, HttpStatus.OK);
+		}else{
+			return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+		
 				
 	}
 	

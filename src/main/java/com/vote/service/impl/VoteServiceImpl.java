@@ -1,10 +1,14 @@
 package com.vote.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,8 @@ import com.vote.service.VoteService;
 
 @Service
 public class VoteServiceImpl implements VoteService{
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(VoteServiceImpl.class);
 
 	@Autowired
 	private ParticipantRepository participantRepository;
@@ -37,7 +43,7 @@ public class VoteServiceImpl implements VoteService{
 	private SimpMessagingTemplate webSocket;
 	
 	@Override
-	public String vote(long eventId, long participantId, long boothId) {
+	public String vote(long eventId, long participantId, String boothIds) {
 		// validate event;
 		if(9 != eventId){
 			return "invalid event id: "+eventId;
@@ -50,26 +56,64 @@ public class VoteServiceImpl implements VoteService{
 		}
 		
 		//validate booth
-		Booth boothModel = boothRepository.findById(boothId).orElse(null);
-		if(null == boothModel){
-			return "Booth: "+boothId+" not found";
+		String[] booths = boothIds.split(",");
+		
+		if(booths.length != 3){
+			return "invalid booths :"+boothIds;
 		}
 		
-		//check votes
-		List<Vote> votes = voteRepository.findByParticipant_participantId(participant.getParticipantId());
-		if(votes.size() >= 3){
-			return "exceeded vote capacity";
-			
-		}else if (null != votes.stream().filter(vote -> vote.getBooth().getBoothId() == boothId).findFirst().orElse(null)){
-			return "participant "+participantId+" already voted for booth "+boothId;
-		}else{
-			Vote model = new Vote();
-			model.setBooth(boothModel);
-			model.setParticipant(participant);
-			model.setEventId(eventId);
-			model.setDate(new Date());
-			voteRepository.save(model);
+		List<Long> ids = new ArrayList<>();
+		try{
+			for(String s : booths){
+				ids.add(Long.parseLong(s));
+			}
+			LOGGER.info("participantId: "+ participantId +" BOOTHS : "+Arrays.toString(ids.toArray()));
+		}catch (Exception e){
+			return "unparsable boothIds: "+boothIds;
 		}
+		
+		List<Vote> models = new ArrayList();
+		Date now = new Date();
+		
+		for(long boothId : ids){
+			Booth boothModel = boothRepository.findById(boothId).orElse(null);
+			if(null == boothModel){
+				return "Booth: "+boothId+" not found";
+			}
+			
+			//check votes
+			List<Vote> votes = voteRepository.findByParticipant_participantId(participant.getParticipantId());
+			LOGGER.info("votes size: "+votes.size());
+			if(votes.size() != 0){ //put 0 to DB
+				return "exceeded vote capacity";
+				
+			}else if (null != votes.stream().filter(vote -> vote.getBooth().getBoothId() == boothId).findFirst().orElse(null)){
+				return "participant "+participantId+" already voted for booth "+boothId;
+			}else{
+				Vote model = new Vote();
+				model.setBooth(boothModel);
+				model.setParticipant(participant);
+				model.setEventId(eventId);
+				model.setDate(now);
+				
+				if (null == models.stream().filter(m -> m.getBooth().getBoothId() == boothId).findFirst().orElse(null)){
+					models.add(model);
+				}else{
+					return "duplicate booths";
+				}
+			}
+		}
+		
+		if(models.size() == 3){
+			voteRepository.saveAll(models);
+		}else{
+			return "voting failed";
+		}
+		
+		
+		
+		
+		
 		
 		
 		return "done";
