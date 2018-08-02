@@ -13,6 +13,8 @@ public class BoothDTO {
 	private String description;
 	
 	private int total;
+	
+	private int order; 
 
 	public long getBoothId() {
 		return boothId;
@@ -60,6 +62,14 @@ public class BoothDTO {
 
 	public void setTotal(int total) {
 		this.total = total;
+	}
+
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
 	}
 	
 	

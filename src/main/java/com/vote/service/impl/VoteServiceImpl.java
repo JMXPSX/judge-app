@@ -134,6 +134,7 @@ public class VoteServiceImpl implements VoteService{
 				booth.setBoothIg(b.getBoothIg());
 				booth.setDescription(b.getBoothDesc());
 				booth.setBoothId(b.getBoothId());
+				booth.setOrder(b.getOrder());
 				voteDTO.add(booth);
 			}
 			

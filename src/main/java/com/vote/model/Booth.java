@@ -23,6 +23,8 @@ public class Booth {
 	private String boothTt;
 	
 	private String boothDesc;
+	
+	private int order;
 
 	public Long getBoothId() {
 		return boothId;
@@ -62,6 +64,14 @@ public class Booth {
 
 	public void setBoothDesc(String boothDesc) {
 		this.boothDesc = boothDesc;
+	}
+
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
 	}
 
 		
