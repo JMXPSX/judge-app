@@ -124,6 +124,7 @@ public class VoteServiceImpl implements VoteService{
 
 		VoteDTO voteDTO = new VoteDTO();
 		
+		boolean isExec = false;
 		
 		try{
 			List<Booth> booths = Lists.newArrayList(boothRepository.findAll());
@@ -140,6 +141,8 @@ public class VoteServiceImpl implements VoteService{
 			
 			List<Vote> votes = voteRepository.findByEventId(eventId);
 			
+			
+			
 			for(Vote vote : votes){
 				Participant p1 = vote.getParticipant(); 
 				
@@ -153,6 +156,8 @@ public class VoteServiceImpl implements VoteService{
 						||"1".equalsIgnoreCase(p1.getLevel())
 						||"ACCENTURE LEADERSHIP".equals(p1.getLevel())
 						||"VIP Guest".equalsIgnoreCase(p1.getIg())){
+					
+					isExec = true;
 				
 					BoothDTO booth = voteDTO.getTally().stream().filter( b -> b.getBoothId() == vote.getBooth().getBoothId()).findFirst().orElse(null);
 					if(null != booth){
@@ -181,7 +186,10 @@ public class VoteServiceImpl implements VoteService{
 			voteDTO.setMessage(e.getMessage());
 		}
 		
-		webSocket.convertAndSend("/vote/result", voteDTO);
+		if(isExec){
+			webSocket.convertAndSend("/vote/result", voteDTO);
+		}
+		
 
 		return voteDTO;
 	}
