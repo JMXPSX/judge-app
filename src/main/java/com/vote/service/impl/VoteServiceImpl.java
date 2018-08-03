@@ -178,6 +178,8 @@ public class VoteServiceImpl implements VoteService{
 						voteDTO.setDate(vote.getDate());
 					}
 					
+				}else{
+					isExec = false;
 				}
 											
 			}
