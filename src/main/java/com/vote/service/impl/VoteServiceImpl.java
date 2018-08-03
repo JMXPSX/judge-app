@@ -141,26 +141,40 @@ public class VoteServiceImpl implements VoteService{
 			List<Vote> votes = voteRepository.findByEventId(eventId);
 			
 			for(Vote vote : votes){
+				Participant p1 = vote.getParticipant(); 
 				
-				BoothDTO booth = voteDTO.getTally().stream().filter( b -> b.getBoothId() == vote.getBooth().getBoothId()).findFirst().orElse(null);
-				if(null != booth){
-					booth.setTotal(booth.getTotal() + 1);
-					voteDTO.getTally().remove(booth);
-					voteDTO.add(booth);
-				}
+				if("7".equalsIgnoreCase(p1.getLevel())
+						||"6".equalsIgnoreCase(p1.getLevel())
+						||"5".equalsIgnoreCase(p1.getLevel())
+						||"4".equalsIgnoreCase(p1.getLevel())
+						||"3".equalsIgnoreCase(p1.getLevel())
+						||"2".equalsIgnoreCase(p1.getLevel())
+						||"1".equalsIgnoreCase(p1.getLevel())
+						||"1".equalsIgnoreCase(p1.getLevel())
+						||"ACCENTURE LEADERSHIP".equals(p1.getLevel())
+						||"VIP Guest".equalsIgnoreCase(p1.getIg())){
 				
-				if(null == voteDTO.getDate() || voteDTO.getDate().before(vote.getDate())){
-					ParticipantDTO p = new ParticipantDTO();
-					p.setEid(vote.getParticipant().getEid());
-					p.setFirstName(vote.getParticipant().getFirstName());
-					p.setLastName(vote.getParticipant().getLastName());
-					p.setIg(vote.getParticipant().getIg());
-					p.setLevel(vote.getParticipant().getLevel());
-					p.setParticipantId(vote.getParticipant().getParticipantId());
-					voteDTO.setParticipant(p);
-					voteDTO.setDate(vote.getDate());
+					BoothDTO booth = voteDTO.getTally().stream().filter( b -> b.getBoothId() == vote.getBooth().getBoothId()).findFirst().orElse(null);
+					if(null != booth){
+						booth.setTotal(booth.getTotal() + 1);
+						voteDTO.getTally().remove(booth);
+						voteDTO.add(booth);
+					}
+					
+					if(null == voteDTO.getDate() || voteDTO.getDate().before(vote.getDate())){
+						ParticipantDTO p = new ParticipantDTO();
+						p.setEid(vote.getParticipant().getEid());
+						p.setFirstName(vote.getParticipant().getFirstName());
+						p.setLastName(vote.getParticipant().getLastName());
+						p.setIg(vote.getParticipant().getIg());
+						p.setLevel(vote.getParticipant().getLevel());
+						p.setParticipantId(vote.getParticipant().getParticipantId());
+						voteDTO.setParticipant(p);
+						voteDTO.setDate(vote.getDate());
+					}
+					
 				}
-							
+											
 			}
 		} catch (Exception e){
 			e.printStackTrace();
