@@ -22,9 +22,9 @@ public class ReportController {
 	@Autowired
 	private ReportService reportService;
 	
-	@GetMapping(value = "/report/getReport/{eventId}/userType/{userType}")
-	public ResponseEntity<?> getReport(@PathVariable long eventId, @PathVariable long userType){
-		return new ResponseEntity<>(reportService.getReport(eventId, userType), HttpStatus.OK);
+	@GetMapping(value = "/report/generateReport/{eventId}/userType/{userType}")
+	public ResponseEntity<?> generateReport(@PathVariable long eventId, @PathVariable long userType){
+		return new ResponseEntity<>(reportService.generateReport(eventId, userType), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/report/getAllReportNames")

@@ -65,7 +65,7 @@ public class ReportServiceImpl implements ReportService {
 	private static String UPLOADED_FOLDER = "./reports/";
 
 	@Override
-	public String getReport(long eventId, long userTypeParam) {
+	public String generateReport(long eventId, long userTypeParam) {
 		
 		UserType userType = UserType.getUserTypeById((int) userTypeParam);
 		
@@ -90,10 +90,10 @@ public class ReportServiceImpl implements ReportService {
 		}
         
         FileOutputStream fileOut = null;
-        String message = null;
+        String fileName = null;
         try {
         	mkDir();        	
-        	String fileName = getFileName(event.getEventName());        	
+        	fileName = getFileName(event.getEventName());        	
         	fileOut = new FileOutputStream(UPLOADED_FOLDER + fileName);
 			workbook.write(fileOut);
 			fileOut.close();
@@ -104,7 +104,7 @@ public class ReportServiceImpl implements ReportService {
 			e.printStackTrace();
 		} 
 		
-		return "DOWNLOAD REPORT SUCCESS!";		
+		return fileName;		
 	}
 
 	@Override

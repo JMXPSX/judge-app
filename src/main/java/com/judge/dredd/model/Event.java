@@ -41,6 +41,10 @@ public class Event {
 	@ManyToOne(cascade = CascadeType.MERGE, targetEntity = AppUser.class)
     @JoinColumn(name = "user_id")
 	private AppUser appUser;
+	
+//	@ManyToOne(cascade = CascadeType.MERGE, targetEntity = Settings.class)
+//    @JoinColumn(name = "settings_id")
+//	public List<Settings> settings;
     
 	public Event() {
 		// TODO Auto-generated constructor stub

@@ -28,14 +28,8 @@ public class EventController {
 		return new ResponseEntity<>(eventService.addEvent(eventDTO), HttpStatus.OK);
 	}
 	
-//	@GetMapping("/dredd/api/mainevent/{eventId}/{judgeId}")
-//	public ResponseEntity<?> getDisplayData (@PathVariable long eventId, @PathVariable long judgeId){
-//		return new ResponseEntity<>(eventService.getAllForDisplay(eventId, judgeId), HttpStatus.OK);
-//	}
-	
-//	@GetMapping(value = "/dredd/api/mainevent/summary/{eventId}")
-//	public ResponseEntity<?> getFinalizedScoreSummary (@PathVariable long eventId){
-//		return new ResponseEntity<>(eventService.getFinalizedScoreSummary(eventId), HttpStatus.OK);
-//	}
-	
+	@GetMapping("/dredd/api/all/events/")
+	public ResponseEntity<?> getAllEvents (){
+		return new ResponseEntity<>(eventService.getAllEvents(), HttpStatus.OK);
+	}	
 }

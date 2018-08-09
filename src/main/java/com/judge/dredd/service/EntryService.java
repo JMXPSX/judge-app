@@ -9,7 +9,7 @@ public interface EntryService {
 	EntryDTO getOne(long id);
 	EntryDTO save(EntryDTO entryDTO) throws Exception;
 	void delete(long id);
-	List<EntryDTO> getAll();
+	public List<EntryDTO> getAll();
 	
 	public List<EntryDTO> getAllEntriesByEventId(long eventId);
 	

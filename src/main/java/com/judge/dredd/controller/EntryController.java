@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,6 +58,11 @@ public class EntryController {
 	@PostMapping(value = "dredd/api/entries/assignjudgestoentries")
 	public ResponseEntity<?> assignJudgesToEntries(@RequestBody List<EntryJudgeDTO> params){
 		return new ResponseEntity<>(entryService.assignJudges(params), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "dredd/api/all/entry")
+	public ResponseEntity<?> getAllEntries (){
+		return new ResponseEntity<>(entryService.getAll(), HttpStatus.OK);
 	}
 	
 //	@PutMapping(value = "dredd/api/removejudge/{entryId}/judge/{judgeId}")

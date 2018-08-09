@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
 import com.judge.dredd.dto.EventDTO;
 import com.judge.dredd.model.Event;
 import com.judge.dredd.repository.EventRepository;
@@ -35,5 +36,13 @@ public class EventServiceImpl implements EventService{
 		Event e = dtoService.convertToModel(eventDTO);
 		e = eventRepository.save(e);
 		return dtoService.convertToDTO(e);
+	}
+
+	@Override
+	public List<EventDTO> getAllEvents() {
+		List<EventDTO> dtos = new ArrayList();
+		List<Event> events = Lists.newArrayList(eventRepository.findAll());
+		events.forEach(event -> dtos.add(dtoService.convertToDTO(event)));
+		return dtos;
 	}	
 }

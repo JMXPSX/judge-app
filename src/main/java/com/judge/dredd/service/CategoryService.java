@@ -11,4 +11,6 @@ public interface CategoryService {
 	public CategoryDTO addCategory(CategoryDTO categoryDTO) throws Exception;
 	
 	public List<CategoryDTO> getCategoriesByUser (long appUserId);
+	
+	public List<CategoryDTO> getAllCategories();
 }

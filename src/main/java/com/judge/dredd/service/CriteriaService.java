@@ -11,4 +11,5 @@ public interface CriteriaService {
 	List<CriteriaDTO> getAll();
 	
 	List<CriteriaDTO> getByEventDetailId(long eventId);
+	List<CriteriaDTO> getAllCriteria();
 }

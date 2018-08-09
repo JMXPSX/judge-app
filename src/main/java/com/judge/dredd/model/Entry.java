@@ -28,6 +28,8 @@ public class Entry {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long entryId;
 	
+	private String teamName;
+	
 	private String entryName;
 	
 	@Lob
@@ -55,6 +57,9 @@ public class Entry {
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
+	
+	private long entryOrder;
+	
 		
 	public Entry() {}
 	
@@ -124,4 +129,21 @@ public class Entry {
 		this.category = category;
 	}
 
+	public String getTeamName() {
+		return teamName;
+	}
+
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
+	}
+
+	public long getEntryOrder() {
+		return entryOrder;
+	}
+
+	public void setEntryOrder(long entryOrder) {
+		this.entryOrder = entryOrder;
+	}
+	
+	
 }

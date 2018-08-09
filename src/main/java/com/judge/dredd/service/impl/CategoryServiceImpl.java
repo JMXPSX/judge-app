@@ -6,12 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
 import com.judge.dredd.dto.CategoryDTO;
 import com.judge.dredd.model.Category;
 import com.judge.dredd.model.Event;
 import com.judge.dredd.repository.CategoryRepository;
 import com.judge.dredd.repository.EventRepository;
-import com.judge.dredd.repository.TabulatorRepository;
 import com.judge.dredd.service.CategoryService;
 import com.judge.dredd.service.DtoService;
 
@@ -50,6 +50,14 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<CategoryDTO> getCategoriesByUser(long appUserId) {
 		List<CategoryDTO> response = new ArrayList<>();
 		List<Category> categories = categoryRepository.findCategoriesByUserId(appUserId);
+		categories.forEach(category -> response.add(dtoService.convertToDTO(category)));
+		return response;
+	}
+
+	@Override
+	public List<CategoryDTO> getAllCategories() {
+		List<CategoryDTO> response = new ArrayList<>();
+		List<Category> categories = Lists.newArrayList(categoryRepository.findAll());
 		categories.forEach(category -> response.add(dtoService.convertToDTO(category)));
 		return response;
 	}

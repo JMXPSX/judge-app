@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.Lists;
 import com.judge.dredd.dto.CriteriaDTO;
 import com.judge.dredd.model.Criteria;
-import com.judge.dredd.model.Entry;
 import com.judge.dredd.model.Event;
 import com.judge.dredd.repository.CriteriaRepository;
 import com.judge.dredd.repository.EventRepository;
@@ -77,6 +76,14 @@ public class CriteriaServiceImpl implements CriteriaService {
 			criteria.add(dtoService.convertToDTO(e));
 		});		
 		return criteria;
+	}
+
+	@Override
+	public List<CriteriaDTO> getAllCriteria() {
+		List<CriteriaDTO> response = new ArrayList<>();
+		List<Criteria> categories = Lists.newArrayList(criteriaRepository.findAll());
+		categories.forEach(category -> response.add(dtoService.convertToDTO(category)));
+		return response;
 	}
 
 	}

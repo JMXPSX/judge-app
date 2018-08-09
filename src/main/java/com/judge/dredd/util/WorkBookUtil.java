@@ -13,7 +13,6 @@ import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -42,7 +41,7 @@ public class WorkBookUtil {
 	public static final String CELL_CATEGORY_NAME ="CATEGORY_NAME";
 	public static final String CELL_CRITERIA_NAME ="CRITERIA_NAME";
 	
-	public static final String CELL_ENTRY_NAME="ENTRY_NAME";
+	public static final String CELL_ENTRY_ORDER="ENTRY_ORDER";
 		
 	DataFormatter dataFormatter = new DataFormatter();
 
@@ -114,7 +113,7 @@ public class WorkBookUtil {
 			Cell cell = row.getCell(row.getFirstCellNum());
 			String cellValue = dataFormatter.formatCellValue(cell);
 			System.out.println("CELL VALUE " + cellValue);
-			if(!CELL_ENTRY_NAME.equalsIgnoreCase(cellValue) && "" != cellValue){
+			if(!CELL_ENTRY_ORDER.equalsIgnoreCase(cellValue) && "" != cellValue){
 				populateEntryByCellRow(row, eventId);
 			}
 		}
@@ -126,6 +125,10 @@ public class WorkBookUtil {
 	
 	public int cellToInteger(Cell cell){
 		return Integer.parseInt(cellToString(cell));
+	}
+	
+	public Long cellToLong(Cell cell){
+		return Long.parseLong(cellToString(cell));
 	}
 	
 	public Date cellToDate(Cell cell){
@@ -194,7 +197,11 @@ public class WorkBookUtil {
 		
 		for(Cell cell : row){
 			String s = cellToString(cell);
-			if(null == entryDTO.getEntryName()){
+			if(null == entryDTO.getEntryOrder()){
+				entryDTO.setEntryOrder(cellToLong(cell));
+			}else if(null == entryDTO.getTeamName()){
+				entryDTO.setTeamName(s);
+			}else if(null == entryDTO.getEntryName()){
 				entryDTO.setEntryName(s);
 			}else if(null == entryDTO.getEntryDescription()){
 				entryDTO.setEntryDescription(s);
@@ -202,21 +209,23 @@ public class WorkBookUtil {
 				CategoryDTO cat = categoryDTOs.stream().filter(c -> c.getCategoryName().equalsIgnoreCase(s)).findFirst().orElseThrow(() -> new Exception("no category found: "+s));
 				entryDTO.setCategoryId(cat.getCategoryId());
 			}else{
-				if(null == firstName){
-					firstName = s;
-				}else if(null == lastName){
-					lastName = s;
-				}
-					
-				if(null != firstName && null != lastName){
-					MemberDTO m = new MemberDTO();
-					m.setFirstName(firstName);
-					m.setLastName(lastName);
-					m.setMemberType(memberType);
-					entryDTO.addMember(m);
-					memberType = "Team Member";
-					firstName = null;
-					lastName = null;
+				if(null != s && s.trim().length()>0){
+					if(null == firstName){
+						firstName = s;
+					}else if(null == lastName){
+						lastName = s;
+					}
+						
+					if(null != firstName && null != lastName){
+						MemberDTO m = new MemberDTO();
+						m.setFirstName(firstName);
+						m.setLastName(lastName);
+						m.setMemberType(memberType);
+						entryDTO.addMember(m);
+						memberType = "Team Member";
+						firstName = null;
+						lastName = null;
+					}
 				}
 			}
 		}		
@@ -261,10 +270,6 @@ public class WorkBookUtil {
 			throw e;
 		} finally {
 			workBook = null;
-			eventDTO = null;
-			categoryDTOs = null;
-			criteriaDTOs = null;
-			entryDTOs = null;
 		}
 	}
 	

@@ -6,7 +6,7 @@ import org.springframework.core.io.Resource;
 
 public interface ReportService {
 	
-	public String getReport(long eventId, long userType);
+	public String generateReport(long eventId, long userType);
 	
 	public List<String> getAllReportNames();
 	

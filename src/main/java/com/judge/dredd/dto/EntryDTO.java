@@ -12,7 +12,11 @@ public class EntryDTO {
 	private String entryName;
 	private String entryDescription;
 	
+	private String teamName;
+	
 	private boolean isDone;
+	
+	private Long entryOrder;
 	
 	List<MemberDTO> members;
 
@@ -72,11 +76,27 @@ public class EntryDTO {
 		this.isDone = isDone;
 	}
 	
+	public Long getEntryOrder() {
+		return entryOrder;
+	}
+
+	public void setEntryOrder(Long entryOrder) {
+		this.entryOrder = entryOrder;
+	}
+
 	public void addMember(MemberDTO m){
 		if(null == getMembers()){
 			setMembers(new ArrayList<>());
 		}
 		getMembers().add(m);
+	}	
+
+	public String getTeamName() {
+		return teamName;
+	}
+
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
 	}
 
 	@Override

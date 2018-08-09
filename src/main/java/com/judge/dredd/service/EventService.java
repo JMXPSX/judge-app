@@ -9,4 +9,6 @@ public interface EventService {
 	public List<EventDTO> getEventsByUser(long appUserId);
 	
 	public EventDTO addEvent(EventDTO eventDTO);
+	
+	public List<EventDTO> getAllEvents();
 }

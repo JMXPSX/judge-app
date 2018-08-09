@@ -9,6 +9,7 @@ import com.judge.dredd.dto.EventDTO;
 import com.judge.dredd.dto.MemberDTO;
 import com.judge.dredd.dto.RateDTO;
 import com.judge.dredd.dto.ScoreDTO;
+import com.judge.dredd.dto.SettingsDTO;
 import com.judge.dredd.dto.UserDTO;
 import com.judge.dredd.model.AppUser;
 import com.judge.dredd.model.Category;
@@ -18,6 +19,7 @@ import com.judge.dredd.model.Entry;
 import com.judge.dredd.model.Event;
 import com.judge.dredd.model.Member;
 import com.judge.dredd.model.Score;
+import com.judge.dredd.model.Settings;
 import com.judge.dredd.model.Tabulator;
 
 public interface DtoService {
@@ -58,4 +60,7 @@ public interface DtoService {
    
    public RateDTO convertToDTO(Tabulator tabulator);
    
+   public Settings convertToModel(SettingsDTO commentsDTO);
+   
+   public SettingsDTO convertToDTO(Settings comment);
 }
