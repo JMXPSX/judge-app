@@ -1,12 +1,25 @@
 package com.vote.service.impl;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.xml.bind.JAXBContext;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +31,7 @@ import com.vote.dto.BoothDTO;
 import com.vote.dto.ParticipantDTO;
 import com.vote.dto.VoteDTO;
 import com.vote.model.Booth;
+import com.vote.model.Chain;
 import com.vote.model.Participant;
 import com.vote.model.Vote;
 import com.vote.repository.BoothRepository;
@@ -195,5 +209,80 @@ public class VoteServiceImpl implements VoteService{
 
 		return voteDTO;
 	}
+
+	@Override
+	public String callChain(Chain chain) {
+		StringBuffer sb = new StringBuffer();
+		try {
+			String uri ="http://34.212.98.247/api/coupons/claim";
+			URL url = new URL(uri);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setDoOutput(true);
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Content-Type", "application/json");
+			
+			Date now = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String validityStart = sdf.format(now);
+			String validityEnd = sdf.format(now);
+			
+			if(null == chain){
+				chain = new Chain();
+				chain.setCouponId(String.valueOf(now.getTime()));
+				chain.setCouponName("Election name");
+				chain.setCompany("vote inc.");
+				chain.setClaimer("voter name");
+				chain.setCouponType("Blockchain Vote");
+				chain.setValidityStart(validityStart);
+				chain.setValidityEnd(validityEnd);
+			}
+			
+			
+			String s = new ObjectMapper().writeValueAsString(chain);
+			LOGGER.info("s::: "+s);
+				
+			OutputStream os = conn.getOutputStream();
+			os.write(s.getBytes());
+			os.flush();
+
+//			if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+//				throw new RuntimeException("Failed : HTTP error code : "
+//					+ conn.getResponseCode());
+//			}
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					(conn.getInputStream())));
+
+			String output;
+			LOGGER.info("Output from Server .... \n");
+			while ((output = br.readLine()) != null) {
+				LOGGER.info(output);
+				sb.append(output);
+			}
+
+			conn.disconnect();
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return sb.toString();
+	}
+	
+//	public static void main(String[] args) {
+//		VoteServiceImpl v = new VoteServiceImpl();
+//		v.callChain(null);
+//	}
 
 }

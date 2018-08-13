@@ -5,9 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vote.model.Chain;
 import com.vote.service.VoteService;
 
 @RestController
@@ -34,5 +36,14 @@ public class VoteController {
 		return new ResponseEntity<>(voteService.getResults(eventId), HttpStatus.OK);
 	}
 	
+	@GetMapping("/vote/callchain")
+	public ResponseEntity<?> callChain (){
+		return new ResponseEntity<>(voteService.callChain(null), HttpStatus.OK);
+	}
+	
+	@PostMapping("/vote/callchain")
+	public ResponseEntity<?> callChain (@RequestBody Chain chain){
+		return new ResponseEntity<>(voteService.callChain(chain), HttpStatus.OK);
+	}
 
 }
