@@ -9,5 +9,7 @@ public interface VoteService {
 	
 	public VoteDTO getResults(long eventId);
 	
+	public VoteDTO getResults(long eventId, Chain chain);
+	
 	public Chain callChain(Chain chain);
 }

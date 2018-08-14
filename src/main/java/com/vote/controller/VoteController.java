@@ -1,5 +1,8 @@
 package com.vote.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,35 @@ public class VoteController {
 		String msg = voteService.vote(eventId, participantId, boothIds);
 		if("done".equalsIgnoreCase(msg)){
 			voteService.getResults(eventId);
+			// add to chain
+			return new ResponseEntity<>(msg, HttpStatus.OK);
+		}else{
+			return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+				
+	}
+	
+	@PostMapping("/vote/event/{eventId}/id/{participantId}/region/{region}/entry/boothId={boothIds}")
+	public ResponseEntity<?> vote (@RequestParam long eventId, @RequestParam long participantId, @RequestParam String region, @RequestParam String boothIds){
+		String msg = voteService.vote(eventId, participantId, boothIds);
+		if("done".equalsIgnoreCase(msg)){
+			
+			Date now = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String validityStart = sdf.format(now);
+			String validityEnd = sdf.format(now);
+			
+			Chain chain = new Chain();
+			chain.setCouponId(String.valueOf(now.getTime()));
+			chain.setCouponName("Election name");
+			chain.setCompany(region);
+			chain.setClaimer("voter name");
+			chain.setCouponType("Blockchain Vote");
+			chain.setValidityStart(validityStart);
+			chain.setValidityEnd(validityEnd);
+			
+			voteService.getResults(eventId, chain);
 			// add to chain
 			return new ResponseEntity<>(msg, HttpStatus.OK);
 		}else{

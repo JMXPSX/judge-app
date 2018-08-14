@@ -133,7 +133,7 @@ public class VoteServiceImpl implements VoteService{
 			}
 		}
 		
-		if(models.size() == 3){
+		if(models.size() == cnt){
 			voteRepository.saveAll(models);
 		}else{
 			return "voting failed";
@@ -141,7 +141,58 @@ public class VoteServiceImpl implements VoteService{
 		
 		return "done";
 	}
-
+	
+	@Override
+	public VoteDTO getResults(long eventId, Chain chain) {
+		VoteDTO voteDTO = new VoteDTO();
+		
+		try{
+			List<Booth> booths = Lists.newArrayList(boothRepository.findAll());
+			for(Booth b : booths){
+				BoothDTO booth = new BoothDTO();
+				booth.setBoothName(b.getBoothName());
+				booth.setBoothTT(b.getBoothTt());
+				booth.setBoothIg(b.getBoothIg());
+				booth.setDescription(b.getBoothDesc());
+				booth.setBoothId(b.getBoothId());
+				booth.setOrder(b.getOrder());
+				voteDTO.add(booth);
+			}
+			
+			List<Vote> votes = voteRepository.findByEventId(eventId);
+			
+			for(Vote vote : votes){
+					BoothDTO booth = voteDTO.getTally().stream().filter( b -> b.getBoothId() == vote.getBooth().getBoothId()).findFirst().orElse(null);
+					if(null != booth){
+						booth.setTotal(booth.getTotal() + 1);
+						voteDTO.getTally().remove(booth);
+						voteDTO.add(booth);
+					}
+					
+					if(null == voteDTO.getDate() || voteDTO.getDate().before(vote.getDate())){
+						ParticipantDTO p = new ParticipantDTO();
+						p.setEid(vote.getParticipant().getEid());
+						p.setFirstName(vote.getParticipant().getFirstName());
+						p.setLastName(vote.getParticipant().getLastName());
+						p.setIg(vote.getParticipant().getIg());
+						p.setLevel(vote.getParticipant().getLevel());
+						p.setParticipantId(vote.getParticipant().getParticipantId());
+						voteDTO.setParticipant(p);
+						voteDTO.setDate(vote.getDate());
+					}
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+			voteDTO.setMessage(e.getMessage());
+		}
+		
+		VoteChainDTO vc = new VoteChainDTO();
+		vc.setChain(chain);
+		vc.setVoteDTO(voteDTO);
+		webSocket.convertAndSend("/vote/result", vc);
+		return voteDTO;
+	}
+	
 	@Override
 	public VoteDTO getResults(long eventId) {
 
