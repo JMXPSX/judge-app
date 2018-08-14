@@ -23,7 +23,8 @@ public class VoteController {
 		String msg = voteService.vote(eventId, participantId, boothIds);
 		if("done".equalsIgnoreCase(msg)){
 			voteService.getResults(eventId);
-			return new ResponseEntity<>(msg, HttpStatus.OK);
+			// add to chain
+			return new ResponseEntity<>(voteService.callChain(null), HttpStatus.OK);
 		}else{
 			return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

@@ -27,6 +27,9 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
+import com.judge.dredd.dto.SettingsDTO;
+import com.judge.dredd.model.Settings;
+import com.judge.dredd.service.SettingsService;
 import com.vote.dto.BoothDTO;
 import com.vote.dto.ParticipantDTO;
 import com.vote.dto.VoteDTO;
@@ -56,6 +59,9 @@ public class VoteServiceImpl implements VoteService{
 	@Inject
 	private SimpMessagingTemplate webSocket;
 	
+	@Inject
+	private SettingsService settingsService;
+	
 	@Override
 	public String vote(long eventId, long participantId, String boothIds) {
 		// validate event;
@@ -72,7 +78,17 @@ public class VoteServiceImpl implements VoteService{
 		//validate booth
 		String[] booths = boothIds.split(",");
 		
-		if(booths.length != 3){
+		List<SettingsDTO> settings = settingsService.getSettingsByEvent(eventId);
+		SettingsDTO voteCount = settings.stream().filter(s -> "VOTE_COUNT".equalsIgnoreCase(s.getKey())).findFirst().orElse(null);
+		int cnt = 3;
+		
+		try{
+			cnt = Integer.parseInt(voteCount.getValue());
+		}catch(Exception e){
+			e.printStackTrace();
+		}		
+		
+		if(booths.length != cnt){
 			return "invalid booths :"+boothIds;
 		}
 		
@@ -124,12 +140,6 @@ public class VoteServiceImpl implements VoteService{
 			return "voting failed";
 		}
 		
-		
-		
-		
-		
-		
-		
 		return "done";
 	}
 
@@ -138,7 +148,7 @@ public class VoteServiceImpl implements VoteService{
 
 		VoteDTO voteDTO = new VoteDTO();
 		
-		boolean isExec = false;
+//		boolean isExec = false;
 		
 		try{
 			List<Booth> booths = Lists.newArrayList(boothRepository.findAll());
@@ -158,20 +168,20 @@ public class VoteServiceImpl implements VoteService{
 			
 			
 			for(Vote vote : votes){
-				Participant p1 = vote.getParticipant(); 
+//				Participant p1 = vote.getParticipant(); 
 				
-				if("7".equalsIgnoreCase(p1.getLevel())
-						||"6".equalsIgnoreCase(p1.getLevel())
-						||"5".equalsIgnoreCase(p1.getLevel())
-						||"4".equalsIgnoreCase(p1.getLevel())
-						||"3".equalsIgnoreCase(p1.getLevel())
-						||"2".equalsIgnoreCase(p1.getLevel())
-						||"1".equalsIgnoreCase(p1.getLevel())
-						||"1".equalsIgnoreCase(p1.getLevel())
-						||"ACCENTURE LEADERSHIP".equals(p1.getLevel())
-						||"VIP Guest".equalsIgnoreCase(p1.getIg())){
-					
-					isExec = true;
+//				if("7".equalsIgnoreCase(p1.getLevel())
+//						||"6".equalsIgnoreCase(p1.getLevel())
+//						||"5".equalsIgnoreCase(p1.getLevel())
+//						||"4".equalsIgnoreCase(p1.getLevel())
+//						||"3".equalsIgnoreCase(p1.getLevel())
+//						||"2".equalsIgnoreCase(p1.getLevel())
+//						||"1".equalsIgnoreCase(p1.getLevel())
+//						||"1".equalsIgnoreCase(p1.getLevel())
+//						||"ACCENTURE LEADERSHIP".equals(p1.getLevel())
+//						||"VIP Guest".equalsIgnoreCase(p1.getIg())){
+//					
+//					isExec = true;
 				
 					BoothDTO booth = voteDTO.getTally().stream().filter( b -> b.getBoothId() == vote.getBooth().getBoothId()).findFirst().orElse(null);
 					if(null != booth){
@@ -192,9 +202,9 @@ public class VoteServiceImpl implements VoteService{
 						voteDTO.setDate(vote.getDate());
 					}
 					
-				}else{
-					isExec = false;
-				}
+//				}else{
+//					isExec = false;
+//				}
 											
 			}
 		} catch (Exception e){
@@ -202,9 +212,9 @@ public class VoteServiceImpl implements VoteService{
 			voteDTO.setMessage(e.getMessage());
 		}
 		
-		if(isExec){
+//		if(isExec){
 			webSocket.convertAndSend("/vote/result", voteDTO);
-		}
+//		}
 		
 
 		return voteDTO;
