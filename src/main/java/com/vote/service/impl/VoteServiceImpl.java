@@ -187,6 +187,7 @@ public class VoteServiceImpl implements VoteService{
 		}
 		
 		VoteChainDTO vc = new VoteChainDTO();
+		chain = callChain(chain);
 		vc.setChain(chain);
 		vc.setVoteDTO(voteDTO);
 		webSocket.convertAndSend("/vote/result", vc);
