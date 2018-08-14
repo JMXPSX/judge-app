@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.xml.bind.JAXBContext;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -28,10 +27,10 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.judge.dredd.dto.SettingsDTO;
-import com.judge.dredd.model.Settings;
 import com.judge.dredd.service.SettingsService;
 import com.vote.dto.BoothDTO;
 import com.vote.dto.ParticipantDTO;
+import com.vote.dto.VoteChainDTO;
 import com.vote.dto.VoteDTO;
 import com.vote.model.Booth;
 import com.vote.model.Chain;
@@ -213,7 +212,11 @@ public class VoteServiceImpl implements VoteService{
 		}
 		
 //		if(isExec){
-			webSocket.convertAndSend("/vote/result", voteDTO);
+		Chain chain = callChain(null);
+		VoteChainDTO vc = new VoteChainDTO();
+		vc.setChain(chain);
+		vc.setVoteDTO(voteDTO);
+			webSocket.convertAndSend("/vote/result", vc);
 //		}
 		
 
@@ -221,7 +224,7 @@ public class VoteServiceImpl implements VoteService{
 	}
 
 	@Override
-	public String callChain(Chain chain) {
+	public Chain callChain(Chain chain) {
 		StringBuffer sb = new StringBuffer();
 		try {
 			String uri ="http://34.212.98.247/api/coupons/claim";
@@ -269,6 +272,9 @@ public class VoteServiceImpl implements VoteService{
 				LOGGER.info(output);
 				sb.append(output);
 			}
+			
+			ObjectMapper m = new ObjectMapper();
+			chain = m.readValue(sb.toString(), Chain.class);
 
 			conn.disconnect();
 		} catch (JsonGenerationException e) {
@@ -287,7 +293,7 @@ public class VoteServiceImpl implements VoteService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return sb.toString();
+		return chain;
 	}
 	
 //	public static void main(String[] args) {
