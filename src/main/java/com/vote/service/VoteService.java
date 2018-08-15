@@ -12,4 +12,6 @@ public interface VoteService {
 	public VoteDTO getResults(long eventId, Chain chain);
 	
 	public Chain callChain(Chain chain);
+	
+	public String proxyVote(long eventId, long participantId, String boothIds);
 }

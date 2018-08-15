@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +32,12 @@ public class SettingsController {
 	@PostMapping("/dredd/api/settings/")
 	public ResponseEntity<?> addSettings (@RequestBody SettingsDTO settingsDTO){
 		SettingsDTO dto = settingsService.addSetting(settingsDTO);
+		return new ResponseEntity<>(dto, dto.getStatus());
+	}
+	
+	@PutMapping("/dredd/api/settings/{settingsId}")
+	public ResponseEntity<?> updateSettings (@PathVariable long settingsId, @RequestBody SettingsDTO settingsDTO){
+		SettingsDTO dto = settingsService.updateSetting(settingsId, settingsDTO);
 		return new ResponseEntity<>(dto, dto.getStatus());
 	}
 }

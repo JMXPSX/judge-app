@@ -326,12 +326,13 @@ public class EntryServiceImpl implements EntryService {
 
 	@Override
 	public String assignJudges(List<EntryJudgeDTO> params) {
+		StringBuffer sb = new StringBuffer();
 
 		params.forEach(dto -> {
-			assignJudges(dto.getEntryId(), dto.getJudges());
+			sb.append(assignJudges(dto.getEntryId(), dto.getJudges()));
 		});
 		
-		return "done";
+		return sb.toString();
 	}
 	
 	private boolean isAllDone (List<Score> scores) {

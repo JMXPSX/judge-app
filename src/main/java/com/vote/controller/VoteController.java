@@ -37,7 +37,7 @@ public class VoteController {
 	
 	@PostMapping("/vote/event/{eventId}/id/{participantId}/region/{region}/entry/boothId={boothIds}")
 	public ResponseEntity<?> vote (@RequestParam long eventId, @RequestParam long participantId, @RequestParam String region, @RequestParam String boothIds){
-		String msg = voteService.vote(eventId, participantId, boothIds);
+		String msg = voteService.proxyVote(eventId, participantId, boothIds);
 		if("done".equalsIgnoreCase(msg)){
 			
 			Date now = new Date();

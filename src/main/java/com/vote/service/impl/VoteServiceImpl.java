@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.judge.dredd.dto.SettingsDTO;
+import com.judge.dredd.repository.SettingsRepository;
 import com.judge.dredd.service.SettingsService;
 import com.vote.dto.BoothDTO;
 import com.vote.dto.ParticipantDTO;
@@ -35,9 +36,11 @@ import com.vote.dto.VoteDTO;
 import com.vote.model.Booth;
 import com.vote.model.Chain;
 import com.vote.model.Participant;
+import com.vote.model.ProxyVote;
 import com.vote.model.Vote;
 import com.vote.repository.BoothRepository;
 import com.vote.repository.ParticipantRepository;
+import com.vote.repository.ProxyVoteRepository;
 import com.vote.repository.VoteRepository;
 import com.vote.service.VoteService;
 
@@ -60,6 +63,99 @@ public class VoteServiceImpl implements VoteService{
 	
 	@Inject
 	private SettingsService settingsService;
+	
+	@Autowired
+	private ProxyVoteRepository proxyVoteRepoitory;
+	
+	public String proxyVote(long eventId, long participantId, String boothIds) {
+
+		// validate participant;
+		Participant participant = participantRepository.findById(participantId).orElse(null);
+		if (null == participant) {
+			participant = new Participant();
+			participant.setEid("eid");
+			participant.setFirstName("firstName");
+			participant.setIg("ig");
+			participant.setLastName("lastName");
+			participant.setLevel("level");
+			participant = participantRepository.save(participant);
+		}
+
+		// validate booth
+		String[] booths = boothIds.split(",");
+
+		List<SettingsDTO> settings = settingsService.getSettingsByEvent(eventId);
+		SettingsDTO voteCount = settings.stream().filter(s -> "VOTE_COUNT".equalsIgnoreCase(s.getKey())).findFirst()
+				.orElse(null);
+		int cnt = 3;
+
+		try {
+			cnt = Integer.parseInt(voteCount.getValue());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		LOGGER.info(">>>>>>>>>>>>>CNT: "+cnt);
+		
+		LOGGER.info(">>>>>>>>>>>>>booths: "+booths.length);
+
+		if (booths.length != cnt) {
+			return "invalid booths :" + boothIds;
+		}
+
+		List<Long> ids = new ArrayList<>();
+		try {
+			for (String s : booths) {
+				LOGGER.info(">>>>>>>>>>>>>String s: " + s);
+				ids.add(Long.parseLong(s));
+			}
+			LOGGER.info("participantId: " + participantId + " BOOTHS : " + Arrays.toString(ids.toArray()));
+		} catch (Exception e) {
+			return "unparsable boothIds: " + boothIds;
+		}
+
+		List<Vote> models = new ArrayList();
+		Date now = new Date();
+
+		for (long boothId : ids) {
+			Booth boothModel = boothRepository.findById(boothId).orElse(null);
+			if (null == boothModel) {
+				return "Booth: " + boothId + " not found";
+			}
+
+			// check votes
+//			List<Vote> votes = voteRepository.findByParticipant_participantId(participant.getParticipantId());
+//			LOGGER.info("votes size: " + votes.size());
+//			if (votes.size() != 0) { // put 0 to DB
+//				return "exceeded vote capacity";
+//
+//			} else if (null != votes.stream().filter(vote -> vote.getBooth().getBoothId() == boothId).findFirst()
+//					.orElse(null)) {
+//				return "participant " + participantId + " already voted for booth " + boothId;
+//			} else {
+				Vote model = new Vote();
+				model.setBooth(boothModel);
+				model.setParticipant(participant);
+				model.setEventId(eventId);
+				model.setDate(now);
+
+				if (null == models.stream().filter(m -> m.getBooth().getBoothId() == boothId).findFirst()
+						.orElse(null)) {
+					models.add(model);
+				} else {
+					return "duplicate booths";
+				}
+//			}
+		}
+
+		if (models.size() == cnt) {
+			voteRepository.saveAll(models);
+		} else {
+			return "voting failed";
+		}
+
+		return "done";
+	}
 	
 	@Override
 	public String vote(long eventId, long participantId, String boothIds) {
@@ -145,9 +241,23 @@ public class VoteServiceImpl implements VoteService{
 	@Override
 	public VoteDTO getResults(long eventId, Chain chain) {
 		VoteDTO voteDTO = new VoteDTO();
+		List<Long> voteEntryIds = new ArrayList();
+		
+		List<SettingsDTO> settings = settingsService.getSettingsByEvent(eventId);
+		SettingsDTO voteEntries = settings.stream().filter(s -> "VOTE_ENTRIES".equalsIgnoreCase(s.getKey())).findFirst().orElse(null);
+		if(null != voteEntries){
+			String[] arr = voteEntries.getValue().split(",");
+			for(String s : arr){
+				voteEntryIds.add(Long.parseLong(s));
+			}
+			
+		}else{
+			voteDTO.setMessage("no vote entry settings for event "+eventId);
+			return voteDTO;
+		}
 		
 		try{
-			List<Booth> booths = Lists.newArrayList(boothRepository.findAll());
+			List<Booth> booths = boothRepository.findByBoothIdIn(voteEntryIds);
 			for(Booth b : booths){
 				BoothDTO booth = new BoothDTO();
 				booth.setBoothName(b.getBoothName());

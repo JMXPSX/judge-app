@@ -5,7 +5,7 @@ public class SettingsDTO extends BaseDTO{
 	private long settingsId;
 	private String key;
 	private String value;
-	private long eventId;
+	private Long eventId;
 	private String dataType;
 	
 	public String getKey() {
@@ -20,10 +20,10 @@ public class SettingsDTO extends BaseDTO{
 	public void setValue(String value) {
 		this.value = value;
 	}
-	public long getEventId() {
+	public Long getEventId() {
 		return eventId;
 	}
-	public void setEventId(long eventId) {
+	public void setEventId(Long eventId) {
 		this.eventId = eventId;
 	}
 	public long getSettingsId() {

@@ -11,4 +11,6 @@ public interface SettingsService {
 	public List<SettingsDTO> getAllSettings();
 	
 	public SettingsDTO addSetting(SettingsDTO settingsDTO);
+	
+	public SettingsDTO updateSetting(long settingsId, SettingsDTO settingsDTO);
 }

@@ -62,4 +62,42 @@ public class SettingsServiceImpl implements SettingsService {
 		return response;
 	}
 
+	@Override
+	public SettingsDTO updateSetting(long settingsId, SettingsDTO settingsDTO) {
+
+		Settings setting = settingsRepository.findById(settingsId).orElse(null);
+		if(null != setting){
+			if(null != settingsDTO.getKey()){
+				setting.setKey(settingsDTO.getKey());
+			}
+			
+			if(null != settingsDTO.getValue()){
+				setting.setValue(settingsDTO.getValue());
+			}
+			
+			if(null != settingsDTO.getEventId()){
+				Event e = eventRepository.findById(settingsDTO.getEventId()).orElse(null);
+				if(e != null){
+					setting.setEvent(e);
+				}else{
+					settingsDTO.setMessage("event id "+settingsDTO.getEventId()+ " not found");
+					settingsDTO.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+					return settingsDTO;
+				}
+			}
+			
+			setting = settingsRepository.save(setting);
+			
+			settingsDTO = dtoService.convertToDTO(setting);
+			
+			settingsDTO.setMessage("done");
+			settingsDTO.setStatus(HttpStatus.OK);
+			return settingsDTO;
+		}else{
+			settingsDTO.setMessage("setting id "+settingsId+ " not found");
+			settingsDTO.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			return settingsDTO;
+		}
+	}
+
 }
