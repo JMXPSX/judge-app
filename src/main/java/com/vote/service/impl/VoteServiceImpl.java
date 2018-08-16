@@ -239,7 +239,7 @@ public class VoteServiceImpl implements VoteService{
 	}
 	
 	@Override
-	public VoteDTO getResults(long eventId, Chain chain) {
+	public VoteChainDTO getResults(long eventId, Chain chain) {
 		VoteDTO voteDTO = new VoteDTO();
 		List<Long> voteEntryIds = new ArrayList();
 		
@@ -301,7 +301,7 @@ public class VoteServiceImpl implements VoteService{
 		vc.setChain(chain);
 		vc.setVoteDTO(voteDTO);
 		webSocket.convertAndSend("/vote/result", vc);
-		return voteDTO;
+		return vc;
 	}
 	
 	@Override

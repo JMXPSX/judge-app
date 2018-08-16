@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vote.dto.VoteChainDTO;
 import com.vote.model.Chain;
 import com.vote.service.VoteService;
 
@@ -54,9 +55,8 @@ public class VoteController {
 			chain.setValidityStart(validityStart);
 			chain.setValidityEnd(validityEnd);
 			
-			voteService.getResults(eventId, chain);
-			// add to chain
-			return new ResponseEntity<>(msg, HttpStatus.OK);
+			VoteChainDTO vc = voteService.getResults(eventId, chain);
+			return new ResponseEntity<>(vc, HttpStatus.OK);
 		}else{
 			return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
