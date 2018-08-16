@@ -78,6 +78,7 @@ public class VoteServiceImpl implements VoteService{
 			participant.setIg("ig");
 			participant.setLastName("lastName");
 			participant.setLevel("level");
+			participant.setParticipantId(participantId);
 			participant = participantRepository.save(participant);
 		}
 
