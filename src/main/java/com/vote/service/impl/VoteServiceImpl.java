@@ -241,6 +241,7 @@ public class VoteServiceImpl implements VoteService{
 	
 	@Override
 	public VoteChainDTO getResults(long eventId, Chain chain) {
+		VoteChainDTO vc = new VoteChainDTO();
 		VoteDTO voteDTO = new VoteDTO();
 		List<Long> voteEntryIds = new ArrayList();
 		
@@ -254,7 +255,8 @@ public class VoteServiceImpl implements VoteService{
 			
 		}else{
 			voteDTO.setMessage("no vote entry settings for event "+eventId);
-			return voteDTO;
+			vc.setVoteDTO(voteDTO);
+			return vc;
 		}
 		
 		try{
@@ -297,7 +299,7 @@ public class VoteServiceImpl implements VoteService{
 			voteDTO.setMessage(e.getMessage());
 		}
 		
-		VoteChainDTO vc = new VoteChainDTO();
+		
 		chain = callChain(chain);
 		vc.setChain(chain);
 		vc.setVoteDTO(voteDTO);
